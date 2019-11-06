@@ -1,0 +1,1 @@
+{'1803': ['VCell', 'VCellMax', 'VCellMin'], '802': ['A', 'AChaMax', 'ADisChaMax', 'SoC', 'SoH', 'V'], '113': ['DCA', 'DCV', 'DCW', 'VAr', 'W']}

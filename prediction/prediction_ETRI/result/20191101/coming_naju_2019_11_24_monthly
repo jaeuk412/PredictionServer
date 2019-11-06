@@ -1,0 +1,3 @@
+year month house_pred houseCooking_pred houseJHeating_pred salesOne_pred salesTwo_pred bizHeating_pred bizCooling_pred industry_pred heatFacility_pred heatCombined_pred CNG_pred pred_sum
+2019 11 126383.6 47125.2 668174.6 257932.9 19429.7 152571.9 0.0 4001474.8 850979.0 228231.6 605857.8 6958161.1
+2019 12 252692.2 47749.1 1232515.3 314027.8 31330.5 262250.5 0.0 4236990.6 1455381.1 92671.8 668228.3 8593837.0

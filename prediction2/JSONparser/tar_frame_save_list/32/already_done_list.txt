@@ -1,0 +1,12 @@
+/home/uk/PredictionServer/prediction2/JSONparser/jsondatafile/32/2018/12/backup_2018-12-17
+/home/uk/PredictionServer/prediction2/JSONparser/jsondatafile/32/2018/12/backup_2018-12-18
+/home/uk/PredictionServer/prediction2/JSONparser/jsondatafile/32/2018/12/backup_2018-12-27
+/home/uk/PredictionServer/prediction2/JSONparser/jsondatafile/32/2018/12/backup_2018-12-28
+/home/uk/PredictionServer/prediction2/JSONparser/jsondatafile/32/2018/12/backup_2018-12-30
+/home/uk/PredictionServer/prediction2/JSONparser/jsondatafile/32/2018/12/backup_2018-12-31
+/home/uk/PredictionServer/prediction2/JSONparser/jsondatafile/32/2019/01/backup_2019-01-01
+/home/uk/PredictionServer/prediction2/JSONparser/jsondatafile/32/2019/01/backup_2019-01-02
+/home/uk/PredictionServer/prediction2/JSONparser/jsondatafile/32/2019/01/backup_2019-01-03
+/home/uk/PredictionServer/prediction2/JSONparser/jsondatafile/32/2019/02/backup_2019-02-01
+/home/uk/PredictionServer/prediction2/JSONparser/jsondatafile/32/2019/02/backup_2019-02-02
+/home/uk/PredictionServer/prediction2/JSONparser/jsondatafile/32/2019/02/backup_2019-02-03

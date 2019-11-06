@@ -1,0 +1,300 @@
+<!doctype html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>/api/files Testbed</title>
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #fff;
+            --react: orange;
+            --react-text: black;
+        }
+
+        body {
+            background-color: #666;
+
+        }
+
+        body, input, button, select {
+            font-family: 'Roboto Condensed', sans-serif;
+            color: #fff;
+        }
+
+        body > * {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            font-size: 3.6em;
+        }
+
+        h1 code {
+            font-family: "Times New Roman", serif;
+            font-style: italic;
+            letter-spacing: -0.01em;
+            font-size: 1.4em;
+            color: var(--react);
+        }
+
+        h1 sup {
+            margin-left: 0.315em;
+            font-weight: normal;
+        }
+
+        label > span,
+        input,
+        button {
+            height: 1.6em;
+        }
+
+        fieldset {
+            margin-top: 1.256em;
+            border: dashed 1px #999;
+            border-radius: 10px;
+        }
+
+        fieldset:hover {
+            background: rgba(0, 0, 0, 0.1);
+        }
+
+
+        legend {
+            font-size: 1.8em;
+        }
+
+        form label {
+            position: relative;
+            display: block;
+            margin-bottom: 0.625em;
+        }
+
+        form label span {
+            color: var(--react);
+            font-weight: bold;
+            font-size: 0.875em;
+            display: block;
+        }
+
+        form label input {
+            width: 100%;
+            border-width: 0 0 2px 0;
+            border-bottom-color: var(--primary);;
+            background-color: transparent;
+            font-size: 1.2em;
+        }
+
+        form label input:focus {
+            outline: none;
+            border-bottom-color: var(--react);
+        }
+
+        form div:last-child {
+            margin-top: 1.256em;
+        }
+
+        form div:last-child input,
+        form div:last-child button {
+            min-width: 120px;
+            border: none;
+            background-color: #000;
+            color: #fff;
+            cursor: pointer;
+            height: 36px;
+            line-height: 36px;
+            border-radius: 3px;
+        }
+
+        form div:last-child input:hover,
+        form div:last-child button:hover {
+            background-color: var(--react);
+            color: var(--react-text);
+        }
+
+        form p {
+            opacity: 0.64;
+        }
+    </style>
+</head>
+<body>
+<h1><code>/api/files</code> Testbed<sup>1.1.1</sup></h1>
+<form id="configure">
+    <fieldset>
+        <legend>Configure</legend>
+        <label>
+            <span>Server Host</span>
+            <input type="url" name="server" value="http://192.168.0.49:10300" required list="servers">
+            <datalist id="servers">
+                <option>http://localhost:8080</option>
+                <option>http://192.168.0.49:10300</option>
+            </datalist>
+        </label>
+        <label>
+            <span>Attach Path</span>
+            <input type="text" name="path-attach" value="/api/attach" readonly required list="path">
+        </label>
+        <label>
+            <span>Create Path</span>
+            <input type="text" name="path-create" value="/api/files" required list="path">
+        </label>
+
+        <datalist id="path">
+            <option>/api</option>
+        </datalist>
+
+        <p>
+            Double click to remove value.
+        </p>
+    </fieldset>
+</form>
+
+<form id="uploader">
+    <fieldset>
+        <legend>Uploader</legend>
+        <label>
+            <span>File</span>
+            <input type="file" name="file-key" required>
+        </label>
+        <div>
+            <input type="submit">
+        </div>
+    </fieldset>
+</form>
+
+<form id="creator">
+    <fieldset>
+        <legend>Creator</legend>
+        <label>
+            <span>File</span>
+            <input type="text" name="file-key" required>
+        </label>
+        <div>
+            <input type="submit">
+        </div>
+    </fieldset>
+</form>
+<script>
+    function byId(id) {
+        return document.getElementById(id);
+    }
+
+    const $configure = byId('configure');
+    const $server = $configure.elements['server'];
+    const $pathAttach = $configure.elements['path-attach'];
+    const $pathCreate = $configure.elements['path-create'];
+
+    [$server, $pathAttach, $pathCreate].forEach(input => input.ondblclick = dblclick);
+
+    const $uploader = byId('uploader');
+    const $file = $uploader.elements['file-key'];
+
+    const $creator = byId('creator');
+    const $file2 = $creator.elements['file-key'];
+
+    function dblclick(event) {
+        event.target.value = '';
+    }
+
+    function getServer() {
+        const value = $server.value.trim();
+        if (value) {
+            return value.indexOf('/') > -1 ?
+                value.substr(0, value.length) :
+                value;
+        }
+
+        $server.focus();
+        return false;
+    }
+
+    $uploader.onsubmit = function (event) {
+        event.preventDefault();
+        event.stopPropagation();
+
+        const server = getServer();
+        if (!server) {
+            return false;
+        }
+
+        const formData = new FormData($uploader);
+
+        fetch(server + $pathAttach.value, {
+            method: 'post',
+            body: formData
+        })
+            .then(response => {
+                return response.json()
+            })
+            .then(json => {
+                console.info('ATTACH RESPONSE');
+                let attachId = json['file-key'];
+
+                if (attachId) {
+                    console.info(`Response the Attach ID as ${attachId}`);
+                    if (typeof attachId !== 'string') {
+                        console.warn(`Attach ID is not a string type`);
+                        attaciId = String(attachId);
+                    }
+                    $file2.value = attachId;
+                } else {
+                    alert(`Cannot Response the Attach ID`)
+                }
+            })
+            .catch(error => {
+                console.info('ATTACH ERROR');
+                console.warn(error);
+            });
+
+        return false;
+    };
+
+    $creator.onsubmit = function (event) {
+        event.preventDefault();
+        event.stopPropagation();
+
+        const server = getServer();
+        if (!server) {
+            return false;
+        }
+
+        const file = $file2.value.trim();
+
+        if (!file) {
+            console.warn('Where is file id?');
+            return false;
+        }
+
+        const body = {
+            'file-key': file
+        };
+
+        console.info('CREATE BODY:', body);
+
+        fetch(server + $pathCreate.value, {
+            method: 'post',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(body)
+        })
+            .then(response => {
+                return response.json();
+            })
+            .then(json => {
+                console.info('CREATE RESPONSE');
+                console.log(json);
+            })
+            .catch(error => {
+                console.info('CREATE ERROR');
+                console.warn(error);
+            });
+
+        return false;
+    };
+</script>
+</body>
+</html>
