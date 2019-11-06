@@ -41,6 +41,8 @@ from API.api_helper.api_helper import post_request, response_json_list, response
 from API.api_helper.user_directory import folder_path
 from API.Predict.set_data_class import set_predic_data
 from API.Predict.get_data_class import get_predic_data, get_train_model
+from flask_sse import sse
+from socket import *
 ''' '''
 from flask_cors import CORS
 
@@ -48,12 +50,38 @@ predic_apis = Blueprint('predic_d_set_apis', __name__, url_prefix='/api')
 
 wtforms_json.init()
 
+## pos
+@predic_apis.route('/sse', methods=['GET','POST'])
+def ssssss():
+    req = request.get_json()
+    jsonString = json.dumps(req)
+    data = json.loads(jsonString)
+
+    print(data)
+    print(request.headers)
+
+    ## 밑에 3줄만 backtasks로 해서 웹으로 통신.
+    ## 웹 정보를 얻으려면, 처음 backtastk 실행 시켰던 정보(request.headers) ip를 받아서, connect해서 전송.
+    clientSock = socket(AF_INET, SOCK_DGRAM)
+    clientSock.connect(('127.0.0.1', 5000))
+
+    print('연결 확인 됐습니다.')
+    clientSock.send('I am a client'.encode('utf-8'))
+
+    print('메시지를 전송했습니다.')
+
+    return jsonify(True)
 
 ## ---------------------------------------------------------------------------------
 ## predic_daily set
 ## area, start_year, start_month, start_day
 ## executation
 ## 실행 2분.
+@predic_apis.route('/hello')
+def publish_hello():
+    sse.publish({"message": "Hello!"}, type='greeting')
+    return "Message sent!"
+
 @predic_apis.route('/infer/predict/daily', methods=['POST'])
 def api_predict_daily_set():
 

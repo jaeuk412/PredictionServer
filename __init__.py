@@ -5,11 +5,14 @@ import datetime
 import re
 
 # library
-from flask import Flask, send_from_directory
+from flask import Flask, send_from_directory, make_response
+from flask_sse import sse
 
 # directory
 from DB.DataBase.database import create_tables
 from API.api_helper.api_helper import crossdomain
+
+
 from API.api_helper.user_directory import ip_path
 # from flask_cors import CORS
 # from celery import Celery
@@ -42,6 +45,7 @@ app = Flask(__name__)
 #     CELERY_BROKER_URL='redis://localhost:6379',
 #     CELERY_RESULT_BACKEND='redis://localhost:6379'
 # )
+app.config["REDIS_URL"] = "redis://localhost"
 
 app.config['SESSION_TYPE'] = 'memcached'
 app.config['SECRET_KEY'] = 'super secret key'
@@ -93,8 +97,11 @@ def app_webapp_index():
     return static_file(webapp_index)
 
 
+
 @app.route('/<path:filename>')
 def app_webapp(filename):
     if re.match(r'\/?[^.]+\..*$', filename) is None:
         filename += '.html'
     return static_file(filename)
+
+

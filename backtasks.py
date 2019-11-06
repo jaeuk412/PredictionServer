@@ -6,6 +6,7 @@ from multiprocessing import current_process
 from celery import Celery
 from API.api_helper.user_directory import root_path
 from celery import task
+from flask_sse import sse
 
 celery = Celery('task', broker='pyamqp://uk:0000@localhost:5672')
 
