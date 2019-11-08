@@ -7,13 +7,13 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import warnings
-from API.api_helper.user_directory import folder_path
+from API.api_helper.user_directory import folder_path, root_path
 import os
 import itertools # parameter search 할 때 사용
 
 warnings.filterwarnings("ignore")
 
-def main(area,year,start_date):
+def main(area,year,start_date, detectkey):
     ### input ###
     # 이건 이후에 argment나 입력 변수로 받아야됨.
     # result_path = '/home/uk/PredictionServer/prediction/prediction_ETRI/result/yearly/'
@@ -264,6 +264,14 @@ def main(area,year,start_date):
     output_yearly.to_csv(
         result_path + 'coming_' + area + '_' + str(current_year) + '_to_' + str(current_year + 5) + '_yearly' + '.csv',
         mode='w', index=False, sep=' ')
+
+    filepath = root_path + '/detectkey/'
+
+    message = "yearly_" + str(detectkey)
+    if not os.path.isdir(filepath):
+        os.mkdir(filepath)
+    with open(filepath + message, 'w') as f:
+        f.write(message)
 
     # 최종 output: insu_coming_5years_monthly, output_yearly
 

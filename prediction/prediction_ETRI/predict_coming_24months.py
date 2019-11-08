@@ -1,7 +1,8 @@
 import pandas as pd
 import numpy as np
 import prediction.prediction_ETRI.predict_common as predict_common
-from API.api_helper.user_directory import folder_path
+from API.api_helper.user_directory import folder_path, root_path
+import os
 
 # # # # # # # # # # # # # # # # # # # # # # # #
 #              F u n c t i o n s              #
@@ -656,7 +657,7 @@ import math
 import datetime
 
 
-def conduct_prediction(area, start_year, start_month, month_range, start_date):
+def conduct_prediction(area, start_year, start_month, month_range, start_date, detectkey):
     '''
     This function conducts prediction for coming 24 months.
     Args:
@@ -666,6 +667,7 @@ def conduct_prediction(area, start_year, start_month, month_range, start_date):
         month_range: int, the number of months to be predicted (e.g., prediction target => FROM start_year.start_month TO start_year.start_month + month_range)
     '''
 
+    print("monthly2_start")
     if not os.path.isdir(folder_path + 'result/%d' % (start_date)):
         os.mkdir(folder_path + 'result/%d' % (start_date))
 
@@ -726,7 +728,7 @@ def conduct_prediction(area, start_year, start_month, month_range, start_date):
 
         output_data += "%.1f\n" % (monthly_pred_sum)
 
-        print(output_data, end='')
+        # print(output_data, end='')
 
         # write monthly prediction results into a file
         monthly_f.write(output_data)
@@ -742,6 +744,16 @@ def conduct_prediction(area, start_year, start_month, month_range, start_date):
                                      category)
 
     monthly_f.close()
+
+    filepath = root_path + '/detectkey/'
+
+    message = "monthly2_" + str(detectkey)
+    if not os.path.isdir(filepath):
+        os.mkdir(filepath)
+    with open(filepath + message, 'w') as f:
+        f.write(message)
+
+    print("predict_monthly2_Done")
 
 
 # /home/lee/PredictionServer/prediction/prediction_ETRI/result/coming_naju_2019_1_24_daily

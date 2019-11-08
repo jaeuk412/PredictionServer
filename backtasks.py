@@ -10,8 +10,8 @@ from flask_sse import sse
 
 celery = Celery('task', broker='pyamqp://uk:0000@localhost:5672')
 
-CELERY_TASK_PROTOCOL = 1
-celery.conf.task_protocol = 1
+CELERY_TASK_PROTOCOL = 5
+celery.conf.task_protocol = 5
 worker_max_memory_per_child = 3000000  # 3000MB
 broker_trainsport_options = {'visibility_timeout':18000}
 
@@ -40,13 +40,13 @@ def daily_exe(predicArea, start_year, start_month, start_day, date, detectkey):
     current_process()._config = {'semprefix': '/mp'}
     sys.path.insert(0, root_path)
     from prediction.prediction_ETRI.predict_daily import main
-    main(str(predicArea), int(start_year), int(start_month), int(start_day), int(date))
-    message="daily_" + str(detectkey)
-
-    if not os.path.isdir(filepath):
-        os.mkdir(filepath)
-    with open(filepath+message,'w') as f:
-        f.write(message)
+    main(str(predicArea), int(start_year), int(start_month), int(start_day), int(date),detectkey)
+    # message="daily_" + str(detectkey)
+    #
+    # if not os.path.isdir(filepath):
+    #     os.mkdir(filepath)
+    # with open(filepath+message,'w') as f:
+    #     f.write(message)
     return True
 
 ################################################################################
@@ -60,12 +60,12 @@ def monthly1_exe(predicArea,start_year, start_month, month_range, temp_mode, sub
     current_process()._config = {'semprefix': '/mp'}
     sys.path.insert(0, root_path)
     from prediction.prediction_ETRI.predict_past_12months import conduct_prediction
-    conduct_prediction(predicArea,start_year, start_month, month_range, temp_mode, sub_mode, start_date)
-    message = "monthly1_" + str(detectkey)
-    if not os.path.isdir(filepath):
-        os.mkdir(filepath)
-    with open(filepath + message, 'w') as f:
-        f.write(message)
+    conduct_prediction(predicArea,start_year, start_month, month_range, temp_mode, sub_mode, start_date,detectkey)
+    # message = "monthly1_" + str(detectkey)
+    # if not os.path.isdir(filepath):
+    #     os.mkdir(filepath)
+    # with open(filepath + message, 'w') as f:
+    #     f.write(message)
     return True
 
 ################################################################################
@@ -79,12 +79,12 @@ def monthly2_exe(predicArea, start_year, start_month, month_range, start_date, d
     current_process()._config = {'semprefix': '/mp'}
     sys.path.insert(0, root_path)
     from prediction.prediction_ETRI.predict_coming_24months import conduct_prediction
-    conduct_prediction(predicArea, start_year, start_month, month_range, start_date)
-    message = "monthly2_" + str(detectkey)
-    if not os.path.isdir(filepath):
-        os.mkdir(filepath)
-    with open(filepath + message, 'w') as f:
-        f.write(message)
+    conduct_prediction(predicArea, start_year, start_month, month_range, start_date,detectkey)
+    # message = "monthly2_" + str(detectkey)
+    # if not os.path.isdir(filepath):
+    #     os.mkdir(filepath)
+    # with open(filepath + message, 'w') as f:
+    #     f.write(message)
     return True
 
 ################################################################################
@@ -98,12 +98,12 @@ def yearly_exe(predicArea,start_year, date, detectkey):
     current_process()._config = {'semprefix': '/mp'}
     sys.path.insert(0, root_path)
     from prediction.prediction_ETRI.predict_coming_5years import main
-    main(predicArea,start_year, date)
-    message = "yearly_" + str(detectkey)
-    if not os.path.isdir(filepath):
-        os.mkdir(filepath)
-    with open(filepath + message, 'w') as f:
-        f.write(message)
+    main(predicArea,start_year, date,detectkey)
+    # message = "yearly_" + str(detectkey)
+    # if not os.path.isdir(filepath):
+    #     os.mkdir(filepath)
+    # with open(filepath + message, 'w') as f:
+    #     f.write(message)
     return True
 
 ################################################################################

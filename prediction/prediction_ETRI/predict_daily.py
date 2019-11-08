@@ -1,8 +1,9 @@
 import pandas as pd
 import numpy as np
+import os
 import sys
 sys.path.insert(0, '/home/uk/PredictionServer')
-from API.api_helper.user_directory import folder_path
+from API.api_helper.user_directory import folder_path, root_path
 import asyncio
 import datetime
 import random
@@ -284,7 +285,7 @@ def date_normalization(start_year, start_month, start_day):
 #                M a i n                      #
 # # # # # # # # # # # # # # # # # # # # # # # #
 
-def main(area, start_year, start_month, start_day, date):
+def main(area, start_year, start_month, start_day, date, detectkey):
     # print("aa")
 
     pred_model = prepare_a_model(area, start_year, start_month)
@@ -321,6 +322,16 @@ def main(area, start_year, start_month, start_day, date):
 
     daily_f.write(str(pred_all))
     daily_f.close()
+
+    filepath = root_path + '/detectkey/'
+
+    message="daily_" + str(detectkey)
+
+    if not os.path.isdir(filepath):
+        os.mkdir(filepath)
+    with open(filepath+message,'w') as f:
+        f.write(message)
+
     print("predict_daily_done")
 
 # main('naju',2019,10,5,20191007)

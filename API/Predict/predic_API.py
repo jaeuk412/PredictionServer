@@ -113,8 +113,8 @@ def api_predict_daily_set():
         set_class = set_predic_data()
         set_class.set_Daily_coming_30days(area, start_year, start_month, start_day, detectkey[0][0])
 
-
-        return jsonify(detectkey[0][0])
+        final_reuslt = {"id":detectkey[0][0]}
+        return jsonify(final_reuslt)
         # except:
         #     return jsonify(False)
 
@@ -280,8 +280,8 @@ def api_predict_monthly_past12_set():
             set_class = set_predic_data()
             set_class.set_Monthly_latest_12months(area, start_year - 1, start_month, 12, temp_mode, sub_mode,
                                                   start_date, detectkey[0][0])
-
-            return jsonify(detectkey[0][0])
+            final_result = {"id":detectkey[0][0]}
+            return jsonify(final_result)
         except:
             return jsonify(False)
 
@@ -399,7 +399,6 @@ def api_predict_monthly_coming24_set():
         ## DB에 키가 없을 경우. except로 넘어감.
         try:
 
-
             db_session.add(
                 MonthlyTable2(target_sort=sort, target_area=area, model_name=model, start_date=start_date,
                               month_range=24))
@@ -411,7 +410,9 @@ def api_predict_monthly_coming24_set():
             set_class = set_predic_data()
             set_class.set_Monthly_coming_24months(area, start_year, start_month, 24, start_date, detectkey[0][0])
 
-            return jsonify(detectkey[0][0])
+            final_result = {"id":detectkey[0][0]}
+
+            return jsonify(final_result)
         except:
             return jsonify(False)
 
@@ -531,7 +532,9 @@ def api_predict_yearly_coming5_set():
             set_class = set_predic_data()
             set_class.set_Yearly_coming_5years(area, start_year, start_date, detectkey[0][0])
 
-            return jsonify(detectkey[0][0])
+            final_result = {"id": detectkey[0][0]}
+
+            return jsonify(final_result)
         except:
             return jsonify(False)
 
@@ -655,56 +658,106 @@ def api_smart_energy_API():
     jsonString = json.dumps(req)
     data = json.loads(jsonString)
 
-    try:
+    # try:
 
-        period = data['period']
-        dataset = data['dataset']
+    period = data['period']
+    dataset = data['dataset']
 
-        period_value = get_period_value(period)
 
-        period_start_date = '%04d%02d%02d' % (period_value[0], period_value[1], period_value[2])
-        period_start_time = '%02d:%02d:%02d' % (period_value[3], period_value[4], period_value[5])
-        period_end_date = '%04d%02d%02d' % (period_value[6], period_value[7], period_value[8])
-        period_end_time = '%02d:%02d:%02d' % (period_value[9], period_value[10], period_value[11])
+    period_value = get_period_value(period)
+    print(period_value)
 
-        final_result = list()
-        for data_value in dataset:
+    period_start_date = '%04d%02d%02d' % (period_value[0], period_value[1], period_value[2])
+    period_start_time = '%02d:%02d:%02d' % (period_value[3], period_value[4], period_value[5])
+    period_end_date = '%04d%02d%02d' % (period_value[6], period_value[7], period_value[8])
+    period_end_time = '%02d:%02d:%02d' % (period_value[9], period_value[10], period_value[11])
 
+    final_result = list()
+    # dataset 안에 리스트 형태로
+    print("dataset: ",dataset)
+    for data_value in dataset:
+        filename = str()
+
+        try:
+            # trainedmodel은 필수. <스마트:'water+temp'>,<해양:'daily','monthly'..>
+            trained_model = data_value['trainedModel']
+            print("trained_model: ",trained_model)
+            # resource 나 location 값 받을때 상위.
+            argument = data_value['arguments']
+            print("argument: ",argument)
+
+            # -------- arguments 안에 있는 변수는 스마트, 해양 같을수도 아닐수도.
+
+            ## resource
+            # <스마트:'<numeric>ismart!ismart/0330102552/-/usage'>,<(machbase미구현)해양:'30001.1'>
             try:
-                trained_model = data_value['trainedModel']
-                argument = data_value['arguments']
                 resource = argument['resource']
+            except:
+                resource = None
 
+            ## location(area) (default = naju)
+            try:
+                area = argument['location']
+                ## 현재 area를 naju로 통일.
+                if area != 'naju':
+                    area = 'naju'
+            except:
+                area = 'naju'
 
-                # file_name_get_model = trained_model.split('+')
-                file_name_get_model = trained_model.replace('+','_')
+            ## sort (default = insu)
+            try:
+                sort = argument['sort']
+            except:
+                sort = 'insu'
 
+            ## temp_mode (default = 0)
+            try:
+                temp_mode = argument["temp_mode"]
+            except:
+                temp_mode = 0
+
+            ## sub_mode (default = 0)
+            try:
+                sub_mode = argument["sub_mode"]
+            except:
+                sub_mode = 0
+
+            # 현재 스마트경우 받은 모델이 없어서, 임시폴더로 이름 만들어서 임의 값 저장중. (filename)
+            if resource != None:
+                file_name_get_model = trained_model.replace('+', '_')
                 filename = '%s_%s' % (file_name_get_model, get_arguments_value(resource))
-
-            except Exception as e:
-                print(e)
-                return abort(400)
-
             else:
-                ## resource가 해양가스 일 때.
-                if resource.count('.') == 1:
-                    print("Hygas")
+                pass
 
-                    if trained_model == 'daily':
-                        area = argument['location']
+        except Exception as e:
+            print(e)
+            return abort(400)
 
+        else:
 
-                        get_class = get_predic_data()
-                        value = get_class.get_Daily_coming_30days_vaule(area, period_start_date)
+            ## resource가 해양가스 일 때.
 
-                        return jsonify(value)
+            print("Hygas")
+            # print(sort)
+            # print(area)
+            # print(trained_model)
+            # print(period_start_date)
 
-
-                    final_result = True
-
-                ## 스마트 에너지 일 때.
-                else:
-
+            if trained_model == 'daily':
+                result = predict_daily(sort,area,trained_model,int(period_start_date))
+                final_result.append(result)
+            elif trained_model == 'monthly1':
+                result = predict_monthly1(sort, area, trained_model, int(period_start_date), temp_mode, sub_mode)
+                final_result.append(result)
+            elif trained_model == 'monthly2':
+                result = predict_monthly2(sort, area, trained_model, int(period_start_date))
+                final_result.append(result)
+            elif trained_model == 'yearly':
+                result = predict_yearly(sort, area, trained_model, int(period_start_date))
+                final_result.append(result)
+            ## 스마트 에너지 일 때.
+            else:
+                if resource != None:
                     model = get_train_model(pkey)
                     model.train_model(filename, period_start_date, period_end_date, period_start_time, period_end_time)
                     value = model.train_model_result(filename)
@@ -712,12 +765,15 @@ def api_smart_energy_API():
                     ## 최종 적으로 각 모델들의 결과 값들을 합해서 json 형태로 출력 or
                     ## 출력이 long term 이면 결과 파일을 따로 읽는 API 새로 작성.
                     final_result.append(value)
+                else:
+                    final_result.append(' ')
 
-        # return jsonify(True)
-        return jsonify(final_result)
-    except Exception as e:
-        print(e)
-        abort(400)
+    # return jsonify(True)
+    return jsonify(final_result)
+    # except Exception as e:
+    #     print('----------742----------')
+    #     print(e)
+    #     abort(400)
 
 def get_arguments_value(argument):
     # argument = arguments.split('/')
@@ -743,7 +799,12 @@ def get_arguments_value(argument):
     return value
 
 def get_period_value(period):
+    print(period)
     period = period.split('~')
+
+    if len(period) != 2:
+        # 기간이 앞에만 있을 경우.
+        period = [period[0],period[0]]
 
     value = list()
     for period_v in period:
@@ -777,6 +838,14 @@ def get_period_value(period):
                 value.append(int(each_value))
                 valuecheck.append(int(each_value))
 
+        ## 날짜 개수가 부족하거나 0값일 경우 400
+        if len(valuecheck) != 3:
+            return abort(400)
+
+        for i in valuecheck:
+            if i == 0:
+                abort(400)
+
         ## 년/월/일/시/분/초 6개가 나와야함.
         if len(valuecheck) != 6:
             ## 부족한 개수만큼 추가.
@@ -785,3 +854,154 @@ def get_period_value(period):
                 value.append(int(0))
                 aa += 1
     return value
+
+'''
+{
+  "sort":"insu",
+  "area":"naju",
+  "model":"boosting light",
+  "start_date":20191005
+}
+'''
+def predict_daily(sort,area,model,start_date):
+    # print("start_date: ",start_date)
+
+    dt = datetime.datetime.now()
+
+    if not start_date:
+        start_date, start_year, start_month, start_day = date_time(dt)
+        # 오전 7시에 예보데이터 나옴.
+        if dt.hour <= 7:
+            start_day = start_day - 1
+    else:
+        start_year, start_month, start_day = devide_date(start_date)
+
+    try:
+        db_session.add(DailyTable(target_sort=sort, target_area=area, model_name=model, start_date=start_date))
+        db_session.commit()
+
+        detectkey = db_session.query(DailyTable.pkey).order_by(DailyTable.pkey.desc())
+        print(detectkey[0][0])
+
+        set_class = set_predic_data()
+        set_class.set_Daily_coming_30days(area, start_year, start_month, start_day, detectkey[0][0])
+
+        final_reuslt = {"dataset": 'daily_'+str(detectkey[0][0])}
+        return final_reuslt
+    except:
+        final_reuslt = {"dataset": None}
+        return final_reuslt
+
+'''
+
+        sort = data['sort']
+        area = data['area']
+        model = data['model']
+        start_date = data['start_date']
+        temp_mode = data['temp_option']
+        sub_mode = data['sub_option']
+'''
+def predict_monthly1(sort, area, model, start_date, temp_mode, sub_mode):
+
+    if not start_date:
+        dt = datetime.datetime.now()
+        start_date, start_year, start_month, start_day = date_time(dt)
+    else:
+        start_year, start_month, start_day = devide_date(start_date)
+
+    try:
+
+        ''' 
+        1. 요청날짜가 data/sub,insu(~2019.9보유중),temp(~2019.12보유중)데이터보다 이전 날짜를 만족해야 실행 됨.
+        2. 요청한 날짜의 앞뒤로 1년 데이터로 뭐 하는거 같음
+        3. 20190701로 하니까 20191001, 20191101 데이터(없는데이터)를 가져오려해서 Error 발생.
+        3-2. past12는 과거 1년 날짜로 시작하는게 아닌가 하는 생각이 듬.
+        3-3 20181005 날짜로 실행, (2018-10-01 ~ 2019-09-01) 데이터. okay. result/20191005/past~~ 저장.
+        '''
+        db_session.add(
+            MonthlyTable1(target_sort=sort, target_area=area, model_name=model, start_date=start_date,
+                          month_range=12, temp_option=temp_mode, sub_option=sub_mode))
+        db_session.commit()
+
+        detectkey = db_session.query(MonthlyTable1.pkey).order_by(MonthlyTable1.pkey.desc())
+        print(detectkey[0][0])
+
+        set_class = set_predic_data()
+        set_class.set_Monthly_latest_12months(area, start_year - 1, start_month, 12, temp_mode, sub_mode,
+                                              start_date, detectkey[0][0])
+        final_result = {"dataset":'monthly1_'+str(detectkey[0][0])}
+        return final_result
+    except:
+        final_result = {"dataset": None}
+        return final_result
+
+'''
+        sort = data['sort']
+        area = data['area']
+        model = data['model'] # DB 저장용.
+        start_date = data['start_date']
+'''
+def predict_monthly2(sort,area,model,start_date):
+
+    dt = datetime.datetime.now()
+
+    if not start_date:
+        start_date, start_year, start_month, start_day = date_time(dt)
+    else:
+        start_year, start_month, start_day = devide_date(start_date)
+
+    ## DB에 키가 없을 경우. except로 넘어감.
+    try:
+
+        db_session.add(
+            MonthlyTable2(target_sort=sort, target_area=area, model_name=model, start_date=start_date,
+                          month_range=24))
+        db_session.commit()
+
+        detectkey = db_session.query(MonthlyTable2.pkey).order_by(MonthlyTable2.pkey.desc())
+        print(detectkey[0][0])
+
+        set_class = set_predic_data()
+        set_class.set_Monthly_coming_24months(area, start_year, start_month, 24, start_date, detectkey[0][0])
+
+        final_result = {"dataset":'monthly2_'+str(detectkey[0][0])}
+        return jsonify(final_result)
+    except:
+        final_result = {"dataset": None}
+        return final_result
+
+'''
+        sort = data['sort']
+        area = data['area']
+        model = data['model'] # DB 저장용.
+        start_date = data['start_date']
+
+'''
+def predict_yearly(sort,area,model,start_date):
+    dt = datetime.datetime.now()
+
+    if not start_date:
+        start_date, start_year, start_month, start_day = date_time(dt)
+    else:
+        start_year, start_month, start_day = devide_date(start_date)
+
+    ## DB에 키가 없을 경우. except로 넘어감.
+    try:
+
+
+        db_session.add(
+            YearlyTable(target_sort=sort, target_area=area, model_name=model, start_date=start_date))
+        db_session.commit()
+
+        detectkey = db_session.query(YearlyTable.pkey).order_by(YearlyTable.pkey.desc())
+        print(detectkey[0][0])
+
+        set_class = set_predic_data()
+        set_class.set_Yearly_coming_5years(area, start_year, start_date, detectkey[0][0])
+
+        final_result = {"dataset": 'yearly_'+str(detectkey[0][0])}
+        return jsonify(final_result)
+
+    except:
+        final_result = {"dataset": None}
+        return final_result

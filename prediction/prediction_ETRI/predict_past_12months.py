@@ -1,7 +1,8 @@
 import pandas as pd
 import numpy as np
 import prediction.prediction_ETRI.predict_common as predict_common
-from API.api_helper.user_directory import folder_path
+from API.api_helper.user_directory import folder_path, root_path
+import os
 
 # # # # # # # # # # # # # # # # # # # # # # # #
 #              F u n c t i o n s              #
@@ -624,7 +625,7 @@ def estimate_insu_per_cat(area, cat, target_year, target_month, temp_mode, sub_m
 
 import math
 import datetime
-def conduct_prediction(area, start_year, start_month, month_range, temp_mode, sub_mode, start_date):
+def conduct_prediction(area, start_year, start_month, month_range, temp_mode, sub_mode, start_date,detectkey):
 	'''
 	This function conducts prediction for the latest 12 months for the purpose of analysis.
 	Args:
@@ -635,6 +636,8 @@ def conduct_prediction(area, start_year, start_month, month_range, temp_mode, su
 		temp_mode: int, whether to use the predicted temp (0) or the true temp (1) data
 		sub_mode: int, whether to use the predicted number of subscribers (0) or the true number of subscribers (1) data
 	'''
+
+	print("monthly1_start")
 
 	# step 1: prepare the required things
 	# - a list of categories relevant to target area
@@ -698,7 +701,7 @@ def conduct_prediction(area, start_year, start_month, month_range, temp_mode, su
 
 			output_data += "%.1f %.1f %.1f "%(np.sum(est_insu), np.sum(true_insu), monthly_mape)
 
-		print ("%.1f %.1f %.2f"%(monthly_pred_sum, monthly_true_sum, abs(monthly_true_sum-monthly_pred_sum)*100/monthly_true_sum)) 
+		print ("%.1f %.1f %.2f"%(monthly_pred_sum, monthly_true_sum, abs(monthly_true_sum-monthly_pred_sum)*100/monthly_true_sum))
 		output_data += "%.1f %.1f %.2f\n"%(monthly_pred_sum, monthly_true_sum, abs(monthly_true_sum-monthly_pred_sum)*100/monthly_true_sum)
 
 		# write monthly prediction results into a file
@@ -708,6 +711,16 @@ def conduct_prediction(area, start_year, start_month, month_range, temp_mode, su
 		write_prediction_to_file(daily_output_file, current.year, current.month, daily_pred_insu_list, daily_true_insu_list, category)
 
 	monthly_f.close()
+
+	filepath = root_path + '/detectkey/'
+
+	message = "monthly1_" + str(detectkey)
+
+	if not os.path.isdir(filepath):
+		os.mkdir(filepath)
+	with open(filepath + message, 'w') as f:
+		f.write(message)
+	print("predict_monthly1_done")
 
 
 # conduct_prediction('naju', 2018, 1, 12, 1, 1)
