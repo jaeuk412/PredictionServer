@@ -28,7 +28,7 @@ class set_predic_data(object):
 
 
     ## 블러올 때, class 한번 선언후 각 함수(지역,값,값) 형태로
-    def set_Daily_coming_30days(self, predicArea, start_year, start_month, start_day):
+    def set_Daily_coming_30days(self, predicArea, start_year, start_month, start_day, detectkey):
         # set_Daily_coming_30day_short_trem_save, set_Daily_coming_30day_mid_trem_save 로 단기3일, 중기 8일 예측 저장하고
         # set_Daily_coming_30day 함수로 모델링 하는거 까지. (결과 불러오는 거는 중간에 계속 불러올 수 있으니 따로 함수)
 
@@ -113,7 +113,7 @@ class set_predic_data(object):
         print("start backtask of api")
 
         from backtasks import daily
-        daily.delay(predicArea, start_year, start_month, start_day, date)
+        daily.delay(predicArea, start_year, start_month, start_day, date, detectkey)
 
         # from prediction.prediction_ETRI.predict_daily import main
         # main(predicArea, start_year, start_month, start_day, date)
@@ -147,7 +147,7 @@ class set_predic_data(object):
 
         return
 
-    def set_Monthly_latest_12months(self, predicArea, start_year, start_month, month_range, temp_mode, sub_mode, start_date):
+    def set_Monthly_latest_12months(self, predicArea, start_year, start_month, month_range, temp_mode, sub_mode, start_date, detectkey):
         ## -4년 부터 계산 -> /data/temperature/naju가 현재 2014~2018년 까지 없음 그래서 2018년을 시작날짜로 잡아야 test 가능.
         ## 무조건 현재에서 1년 뒤꺼 가져와야함 최근 12개월 이니까.
         # main(area,오늘년도,오늘월(원하는 월),12(고정),1(옵션),1(옵션))
@@ -156,24 +156,24 @@ class set_predic_data(object):
         # conduct_prediction(predicArea,start_year, start_month, month_range, temp_mode, sub_mode, start_date)
 
         from backtasks import monthly1
-        monthly1.delay(predicArea,start_year, start_month, month_range, temp_mode, sub_mode, start_date)
+        monthly1.delay(predicArea,start_year, start_month, month_range, temp_mode, sub_mode, start_date, detectkey)
         return
 
-    def set_Monthly_coming_24months(self, predicArea, start_year, start_month, month_range, start_date):
+    def set_Monthly_coming_24months(self, predicArea, start_year, start_month, month_range, start_date, detectkey):
         # from prediction.prediction_ETRI.predict_coming_24months import conduct_prediction
         # conduct_prediction(predicArea, start_year, start_month, month_range, start_date)
 
         from backtasks import monthly2
-        monthly2.delay(predicArea, start_year, start_month, month_range, start_date)
+        monthly2.delay(predicArea, start_year, start_month, month_range, start_date, detectkey)
 
         return
 
-    def set_Yearly_coming_5years(self, predicArea, start_year, date):
+    def set_Yearly_coming_5years(self, predicArea, start_year, date, detectkey):
         # from prediction.prediction_ETRI.predict_coming_5years import main
         # main(predicArea,start_year, date)
 
         from backtasks import yearly
-        yearly.delay(predicArea,start_year, date)
+        yearly.delay(predicArea,start_year, date, detectkey)
 
         return
 

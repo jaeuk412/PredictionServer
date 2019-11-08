@@ -237,7 +237,7 @@ def predict_avg_insu_by_temp_regression(area, cat, target_year, target_mon):
     Returns:
         pred_avg_insu: np.array, the predicted daily average insu per subscriber
     '''
-    print("target_mon: ", target_mon)
+    # print("target_mon: ", target_mon)
 
     # group three months that typically show similar weather for better curve fitting
     if target_mon in [12, 1, 2]:
@@ -703,8 +703,8 @@ def conduct_prediction(area, start_year, start_month, month_range, start_date):
     for ridx in range(1, month_range + 1):
         current = current + datetime.timedelta(days=monthrange(current.year, current.month)[1])
 
-        print("curent", current)
-        print("current.yaer: ", current.year)
+        # print("curent", current)
+        # print("current.yaer: ", current.year)
 
         output_data = "%d %d " % (current.year, current.month)
         monthly_pred_sum = 0

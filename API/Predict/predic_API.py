@@ -43,6 +43,7 @@ from API.Predict.set_data_class import set_predic_data
 from API.Predict.get_data_class import get_predic_data, get_train_model
 from flask_sse import sse
 from socket import *
+import websockets
 ''' '''
 from flask_cors import CORS
 
@@ -50,33 +51,16 @@ predic_apis = Blueprint('predic_d_set_apis', __name__, url_prefix='/api')
 
 wtforms_json.init()
 
-## pos
-@predic_apis.route('/sse', methods=['GET','POST'])
-def ssssss():
-    req = request.get_json()
-    jsonString = json.dumps(req)
-    data = json.loads(jsonString)
 
-    print(data)
-    print(request.headers)
-
-    ## 밑에 3줄만 backtasks로 해서 웹으로 통신.
-    ## 웹 정보를 얻으려면, 처음 backtastk 실행 시켰던 정보(request.headers) ip를 받아서, connect해서 전송.
-    clientSock = socket(AF_INET, SOCK_DGRAM)
-    clientSock.connect(('127.0.0.1', 5000))
-
-    print('연결 확인 됐습니다.')
-    clientSock.send('I am a client'.encode('utf-8'))
-
-    print('메시지를 전송했습니다.')
-
-    return jsonify(True)
 
 ## ---------------------------------------------------------------------------------
 ## predic_daily set
 ## area, start_year, start_month, start_day
 ## executation
 ## 실행 2분.
+
+## 밑에 3줄만 backtasks로 해서 웹으로 통신.
+    ## 웹 정보를 얻으려면, 처음 backtastk 실행 시켰던 정보(request.headers) ip를 받아서, connect해서 전송.
 @predic_apis.route('/hello')
 def publish_hello():
     sse.publish({"message": "Hello!"}, type='greeting')
@@ -118,14 +102,19 @@ def api_predict_daily_set():
 
             #     return jsonify("already exist")
             # else:
-        set_class = set_predic_data()
-        set_class.set_Daily_coming_30days(area, start_year, start_month, start_day)
+
 
         db_session.add(DailyTable(target_sort=sort, target_area=area, model_name=model, start_date=start_date))
         db_session.commit()
 
+        detectkey = db_session.query(DailyTable.pkey).order_by(DailyTable.pkey.desc())
+        print(detectkey[0][0])
 
-        return jsonify(True)
+        set_class = set_predic_data()
+        set_class.set_Daily_coming_30days(area, start_year, start_month, start_day, detectkey[0][0])
+
+
+        return jsonify(detectkey[0][0])
         # except:
         #     return jsonify(False)
 
@@ -185,6 +174,8 @@ def api_predict_daily_set():
 def api_predict_daily_get_list():
 
     query = db_session.query(DailyTable).order_by(DailyTable.pkey.desc())
+
+
     result = db_session.execute(query)
 
     return response_json_list(result)
@@ -277,16 +268,20 @@ def api_predict_monthly_past12_set():
             3-3 20181005 날짜로 실행, (2018-10-01 ~ 2019-09-01) 데이터. okay. result/20191005/past~~ 저장.
             '''
 
-            set_class = set_predic_data()
-            set_class.set_Monthly_latest_12months(area, start_year - 1, start_month, 12, temp_mode, sub_mode,
-                                                  start_date)
 
             db_session.add(
                 MonthlyTable1(target_sort=sort, target_area=area, model_name=model, start_date=start_date,
                               month_range=12, temp_option=temp_mode, sub_option=sub_mode))
             db_session.commit()
 
-            return jsonify(True)
+            detectkey = db_session.query(MonthlyTable1.pkey).order_by(MonthlyTable1.pkey.desc())
+            print(detectkey[0][0])
+
+            set_class = set_predic_data()
+            set_class.set_Monthly_latest_12months(area, start_year - 1, start_month, 12, temp_mode, sub_mode,
+                                                  start_date, detectkey[0][0])
+
+            return jsonify(detectkey[0][0])
         except:
             return jsonify(False)
 
@@ -404,15 +399,19 @@ def api_predict_monthly_coming24_set():
         ## DB에 키가 없을 경우. except로 넘어감.
         try:
 
-            set_class = set_predic_data()
-            set_class.set_Monthly_coming_24months(area, start_year, start_month, 24, start_date)
 
             db_session.add(
                 MonthlyTable2(target_sort=sort, target_area=area, model_name=model, start_date=start_date,
                               month_range=24))
             db_session.commit()
 
-            return jsonify(True)
+            detectkey = db_session.query(MonthlyTable2.pkey).order_by(MonthlyTable2.pkey.desc())
+            print(detectkey[0][0])
+
+            set_class = set_predic_data()
+            set_class.set_Monthly_coming_24months(area, start_year, start_month, 24, start_date, detectkey[0][0])
+
+            return jsonify(detectkey[0][0])
         except:
             return jsonify(False)
 
@@ -521,14 +520,18 @@ def api_predict_yearly_coming5_set():
         ## DB에 키가 없을 경우. except로 넘어감.
         try:
 
-            set_class = set_predic_data()
-            set_class.set_Yearly_coming_5years(area, start_year, start_date)
 
             db_session.add(
                 YearlyTable(target_sort=sort, target_area=area, model_name=model, start_date=start_date))
             db_session.commit()
 
-            return jsonify(True)
+            detectkey = db_session.query(YearlyTable.pkey).order_by(YearlyTable.pkey.desc())
+            print(detectkey[0][0])
+
+            set_class = set_predic_data()
+            set_class.set_Yearly_coming_5years(area, start_year, start_date, detectkey[0][0])
+
+            return jsonify(detectkey[0][0])
         except:
             return jsonify(False)
 

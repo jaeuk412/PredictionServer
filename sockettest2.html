@@ -1,0 +1,32 @@
+<html>
+<head>
+    <script type="text/javascript">
+    var wsUri = "ws://localhost:8888";
+    var websocket = new WebSocket(wsUri);
+    var output;
+
+    websocket.onopen = function(evt) {
+        websocket.send("Java-aaaaaaaaaaaaadata");
+    }
+
+    websocket.onmessage = function(msg){
+        var output = document.getElementById("output");
+
+        var pre = document.createElement("p");
+        pre.style.wordWrap = "break-down";
+
+        pre.innerHTML = "<button><font color='red'>" + msg.data + "</font></button><br>"
+
+        output.appendChild(pre);
+    }
+
+    </script>
+
+</head>
+
+<body>
+    <h2>WebSocket Test</h2>
+    <div id="output">
+        </div>
+</body>
+</html>
