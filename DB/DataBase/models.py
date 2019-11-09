@@ -14,6 +14,7 @@ Base = declarative_base()
 class Login(Base):
     __tablename__ = 'login'
     pkey = Column(Integer, primary_key=True, autoincrement=True)
+    inserted = Column(DateTime, default=datetime.datetime.now())
     id = Column(String(100), unique=True, nullable=False)
     pw = Column(String(100), nullable=False)
     level = Column(Integer, default=1)
@@ -28,41 +29,51 @@ class DailyTable(Base):
     __tablename__ = 'daily'
     pkey = Column(Integer, primary_key=True, autoincrement=True)
     inserted = Column(DateTime, default=datetime.datetime.now())
-    target_sort = Column(String(30), nullable=False)
-    target_area = Column(String(30), nullable=False)
-    start_date = Column(Integer, nullable=False)
+    resource = Column(String(30), nullable=False)
+    location = Column(String(30), nullable=False)
+    start_date = Column(Integer, nullable=True)
+    # end_date = Column(Integer, nullable=True)
     model_name = Column(String(50), nullable=False)
+    save_daily = Column(String(100), nullable=True)
 
 class MonthlyTable1(Base):
     __tablename__ = 'monthly1'
     pkey = Column(Integer, primary_key=True, autoincrement=True)
     inserted = Column(DateTime, default=datetime.datetime.now())
-    target_sort = Column(String(30), nullable=False)
-    target_area = Column(String(100), nullable=False)
-    start_date = Column(Integer, nullable=False)
+    resource = Column(String(30), nullable=False)
+    location = Column(String(100), nullable=False)
+    start_date = Column(Integer, nullable=True)
+    # end_date = Column(Integer, nullable=True)
     model_name = Column(String(50), nullable=False)
-    month_range = Column(Integer, nullable=False)
     temp_option = Column(Integer, nullable=False)
     sub_option = Column(Integer, nullable=False)
+    save_daily = Column(String(100), nullable=True)
+    save_monthly = Column(String(100), nullable=True)
+
 
 class MonthlyTable2(Base):
     __tablename__ = 'monthly2'
     pkey = Column(Integer, primary_key=True, autoincrement=True)
     inserted = Column(DateTime, default=datetime.datetime.now())
-    target_sort = Column(String(30), nullable=False)
-    target_area = Column(String(100), nullable=False)
-    start_date = Column(Integer, nullable=False)
+    resource = Column(String(30), nullable=False)
+    location = Column(String(100), nullable=False)
+    start_date = Column(Integer, nullable=True)
+    # end_date = Column(Integer, nullable=True)
     model_name = Column(String(50), nullable=False)
-    month_range = Column(Integer, nullable=False)
+    save_daily = Column(String(100), nullable=True)
+    save_monthly = Column(String(100), nullable=True)
 
 class YearlyTable(Base):
     __tablename__ = 'yearly'
     pkey = Column(Integer, primary_key=True, autoincrement=True)
     inserted = Column(DateTime, default=datetime.datetime.now())
-    target_sort = Column(String(30), nullable=False)
-    target_area = Column(String(100), nullable=False)
-    start_date = Column(Integer, nullable=False)
+    resource = Column(String(30), nullable=False)
+    location = Column(String(100), nullable=False)
+    start_date = Column(Integer, nullable=True)
+    # end_date = Column(Integer, nullable=True)
     model_name = Column(String(50), nullable=False)
+    save_monthly = Column(String(100), nullable=True)
+    save_yearly = Column(String(100), nullable=True)
     # year_range = Column(Integer, nullable=False)
 
 # class Testjeju(Base):

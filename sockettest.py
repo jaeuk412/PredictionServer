@@ -1,30 +1,27 @@
-import random
-import asyncio
-import websockets
+import socket
+from datetime import datetime
 
-from time import sleep
+server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
-async def SendMsg(websocket, path, done_message):
-    # for x in range(0,10):
-    #     rand_number = random.randint(1, 1000)
-    #     sleep(0.5)
-    #     await websocket.send(str(rand_number))
-    await websocket.send(str(done_message))
+server_socket.bind(('localhost', 12345))
+server_socket.listen(0)
+
+client_socket, addr = server_socket.accept()
+data = client_socket.recv(65535)
+
+request_data = data.decode().split()
+request_method = request_data[0]
+request_version = request_data[2]
+
+server_name = "Python Light-Weight Server"
+
+if request_method == "GET":
+    response_data = "{0} 200 OK\nServer: {1}\nDate: {2}\n".format(request_version, server_name,
+    datetime.now().strftime('%a, %d %b %Y %H:%M:%S KST'))
+else:
+    response_data = "{0} 405 Method Not Allowed\nServer: {1}\nDate: {2}\n".format(request_version, server_name,
+    datetime.now().strftime('%a, %d %b %Y %H:%M:%S KST'))
 
 
-async def main(websocket, path):
-    print(websocket)
-    print(path)
-    name = await websocket.recv()
-    print(name)
-    Send_ = asyncio.ensure_future((SendMsg(websocket,path, {"data":2})))
-    print("Main Asyncio Start")
-    asyncio.as_completed(Send_)
+client_socket.send(response_data.encode())
 
-
-start_server = websockets.serve(main, "localhost", 8765)
-loop = asyncio.get_event_loop()
-loop.run_until_complete(start_server)
-loop.run_forever()
-
-# ssocket_start()

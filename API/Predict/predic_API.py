@@ -36,7 +36,7 @@ from DB.DataBase.database import db_session
 from DB.DataBase.models import DailyTable, MonthlyTable1, MonthlyTable2, YearlyTable, Login
 from DB.DataBase.database import dbsearch
 ## api helper
-from API.api_helper.api_helper import crossdomain, get_query_string, get_query_key, file_remove, devide_date
+from API.api_helper.api_helper import crossdomain, get_query_string, get_query_key, file_remove, devide_date, get_user_pkey
 from API.api_helper.api_helper import post_request, response_json_list, response_json_value, date_time
 from API.api_helper.user_directory import folder_path
 from API.Predict.set_data_class import set_predic_data
@@ -68,6 +68,7 @@ def publish_hello():
 
 @predic_apis.route('/infer/predict/daily', methods=['POST'])
 def api_predict_daily_set():
+    pkey = get_user_pkey
 
     try:
         req = request.get_json()
@@ -103,8 +104,9 @@ def api_predict_daily_set():
             #     return jsonify("already exist")
             # else:
 
+        daily_output_file = folder_path + 'result/%s/predict_%s_%d_%d_%d_daily' % (pkey, area, start_year, start_month, start_day)
 
-        db_session.add(DailyTable(target_sort=sort, target_area=area, model_name=model, start_date=start_date))
+        db_session.add(DailyTable(resource=sort, location=area, model_name=model, start_date=start_date, end_date=start_date, save_path=daily_output_file))
         db_session.commit()
 
         detectkey = db_session.query(DailyTable.pkey).order_by(DailyTable.pkey.desc())
@@ -173,10 +175,20 @@ def api_predict_daily_set():
 @predic_apis.route('/infer/predict/daily', methods=['GET'])
 def api_predict_daily_get_list():
 
-    query = db_session.query(DailyTable).order_by(DailyTable.pkey.desc())
-
-
+    # query = db_session.query(DailyTable.pkey.label('ddawd')).order_by(DailyTable.pkey.desc())
+    query = "select * from daily ORDER BY pkey desc"
     result = db_session.execute(query)
+
+    # rows = result.fetchall()
+    # print(rows)  # 전체 rows
+
+    # for i in result:
+    #     for x,y in i.items():
+    #         print(x,y)
+
+    # for i in result:
+    #     print(i)
+    #     print(i.keys())
 
     return response_json_list(result)
 
@@ -184,7 +196,8 @@ def api_predict_daily_get_list():
 @predic_apis.route('/infer/predict/daily/<int:pkey>', methods=['GET'])
 def api_predict_daily_get_item(pkey):
 
-    query = db_session.query(DailyTable).filter(DailyTable.pkey == pkey).order_by(DailyTable.pkey.desc())
+    # query = db_session.query(DailyTable).filter(DailyTable.pkey == pkey).order_by(DailyTable.pkey.desc())
+    query = "select * from daily where pkey=%s"%(pkey)
     result = db_session.execute(query)
 
     return response_json_value(result)
@@ -236,7 +249,7 @@ def api_predict_daily_get_value(pkey):
 ## predic_monthly past12 set
 ## area, start_year, start_month, month_range, temp_mode, sub_mode
 ## 실행 20분 내외.
-@predic_apis.route('/infer/predict/monthly/past12', methods=['POST'])
+@predic_apis.route('/infer/predict/monthly1', methods=['POST'])
 def api_predict_monthly_past12_set():
     try:
         req = request.get_json()
@@ -287,24 +300,26 @@ def api_predict_monthly_past12_set():
 
 
 ## predic_monthly past12 get
-@predic_apis.route('/infer/predict/monthly/past12', methods=['GET'])
+@predic_apis.route('/infer/predict/monthly1', methods=['GET'])
 def api_predict_monthly_past12_get_all():
-    query = db_session.query(MonthlyTable1).order_by(MonthlyTable1.pkey.desc())
+    # query = db_session.query(MonthlyTable1).order_by(MonthlyTable1.pkey.desc())
+    query = "select * from monthly1 ORDER BY pkey desc"
     result = db_session.execute(query)
 
     return response_json_list(result)
 
 
 ## predic_monthly past12 get
-@predic_apis.route('/infer/predict/monthly/past12/<int:pkey>', methods=['GET'])
+@predic_apis.route('/infer/predict/monthly1/<int:pkey>', methods=['GET'])
 def api_predict_monthly_past12_get(pkey):
-    query = db_session.query(MonthlyTable1).filter(MonthlyTable1.pkey == pkey).order_by(MonthlyTable1.pkey.desc())
+    # query = db_session.query(MonthlyTable1).filter(MonthlyTable1.pkey == pkey).order_by(MonthlyTable1.pkey.desc())
+    query = "select * from monthly1 where pkey=%s"%(pkey)
     result = db_session.execute(query)
 
     return response_json_value(result)
 
 ## predic_daily delete
-@predic_apis.route('/infer/predict/monthly/past12/<int:pkey>', methods=['DELETE'])
+@predic_apis.route('/infer/predict/monthly1/<int:pkey>', methods=['DELETE'])
 def api_predict_monthly1_delete(pkey):
     db = db_session.query(MonthlyTable1).get(pkey)
 
@@ -335,8 +350,8 @@ def api_predict_monthly1_delete(pkey):
     return jsonify(True)
 
 ## predic_daily get
-@predic_apis.route('/infer/predict/monthly/past12/<int:pkey>/values/<string:value_option>', methods=['GET'])
-def api_predict_monthly1_get_value(pkey, value_option):
+@predic_apis.route('/infer/predict/monthly1/<int:pkey>/values', methods=['GET'])
+def api_predict_monthly1_get_value(pkey):
 
     # TODO: 디비 정보로 area,yaer,month,day
 
@@ -352,19 +367,20 @@ def api_predict_monthly1_get_value(pkey, value_option):
 
     get_class = get_predic_data()
 
-    result = dict()
-    # print("monthly1_daily_value: ",value1)
-    # print("monthly1_monthly_value: ",value2)
-
-    if value_option == 'daily':
-        result = get_class.get_Monthly_latest_12months_daily_value(area, start_year - 1, start_month, temp_mode,
-                                                                   sub_mode, start_date)
-
-
-    elif value_option == 'monthly':
-        result = get_class.get_Monthly_latest_12months_monthly_value(area, start_year - 1, start_month, temp_mode,
+    # result = dict()
+    # # print("monthly1_daily_value: ",value1)
+    # # print("monthly1_monthly_value: ",value2)
+    #
+    # if value_option == 'daily':
+    #     result = get_class.get_Monthly_latest_12months_daily_value(area, start_year - 1, start_month, temp_mode,
+    #                                                                sub_mode, start_date)
+    #
+    #
+    # elif value_option == 'monthly':
+    #     result = get_class.get_Monthly_latest_12months_monthly_value(area, start_year - 1, start_month, temp_mode,
+    #                                                                  sub_mode, start_date)
+    result = get_class.get_Monthly_latest_12months_monthly_value(area, start_year - 1, start_month, temp_mode,
                                                                      sub_mode, start_date)
-
     return jsonify(result)
 ##############################################################################################
 ########################  Monthly-coming12  ##################################################
@@ -373,7 +389,7 @@ def api_predict_monthly1_get_value(pkey, value_option):
 ## predic_monthly coming24 set
 ## area, start_year, start_month, month_range
 ## 실행 32분
-@predic_apis.route('/infer/predict/monthly/coming24', methods=['POST'])
+@predic_apis.route('/infer/predict/monthly2', methods=['POST'])
 def api_predict_monthly_coming24_set():
     try:
         req = request.get_json()
@@ -418,24 +434,26 @@ def api_predict_monthly_coming24_set():
 
 
 ## predic_monthly coming get
-@predic_apis.route('/infer/predict/monthly/coming24', methods=['GET'])
+@predic_apis.route('/infer/predict/monthly2', methods=['GET'])
 def api_predict_monthly_coming24_get_all():
-    query = db_session.query(MonthlyTable2).order_by(MonthlyTable2.pkey.desc())
+    # query = db_session.query(MonthlyTable2).order_by(MonthlyTable2.pkey.desc())
+    query = "select * from monthly2 ORDER BY pkey desc"
     result = db_session.execute(query)
 
     return response_json_list(result)
 
 
 ## predic_monthly past12 get
-@predic_apis.route('/infer/predict/monthly/coming24/<int:pkey>', methods=['GET'])
+@predic_apis.route('/infer/predict/monthly2/<int:pkey>', methods=['GET'])
 def api_predict_monthly_coming24_get(pkey):
-    query = db_session.query(MonthlyTable2).filter(MonthlyTable2.pkey == pkey).order_by(MonthlyTable2.pkey.desc())
+    # query = db_session.query(MonthlyTable2).filter(MonthlyTable2.pkey == pkey).order_by(MonthlyTable2.pkey.desc())
+    query = "select * from monthly2 where pkey=%s"%(pkey)
     result = db_session.execute(query)
 
     return response_json_value(result)
 
 ## predic_daily delete
-@predic_apis.route('/infer/predict/monthly/coming24/<int:pkey>', methods=['DELETE'])
+@predic_apis.route('/infer/predict/monthly2/<int:pkey>', methods=['DELETE'])
 def api_predict_monthly2_delete(pkey):
     db = db_session.query(MonthlyTable2).get(pkey)
 
@@ -464,8 +482,8 @@ def api_predict_monthly2_delete(pkey):
     return jsonify(True)
 
 ## predic_daily get
-@predic_apis.route('/infer/predict/monthly/coming24/<int:pkey>/values/<string:value_option>', methods=['GET'])
-def api_predict_monthly2_get_value(pkey,value_option):
+@predic_apis.route('/infer/predict/monthly2/<int:pkey>/values', methods=['GET'])
+def api_predict_monthly2_get_value(pkey):
 
     # TODO: 디비 정보로 area,yaer,month,day
 
@@ -480,11 +498,12 @@ def api_predict_monthly2_get_value(pkey,value_option):
 
     get_class = get_predic_data()
 
-    result = dict()
-    if value_option == 'daily':
-        result = get_class.get_Monthly_coming_24months_daily_value(area,start_year,start_month,start_date)
-    elif value_option == 'monthly':
-        result = get_class.get_Monthly_coming_24months_monthly_value(area, start_year, start_month,start_date)
+    # result = dict()
+    # if value_option == 'daily':
+    #     result = get_class.get_Monthly_coming_24months_daily_value(area,start_year,start_month,start_date)
+    # elif value_option == 'monthly':
+    #     result = get_class.get_Monthly_coming_24months_monthly_value(area, start_year, start_month,start_date)
+    result = get_class.get_Monthly_coming_24months_monthly_value(area, start_year, start_month, start_date)
 
     return jsonify(result)
 
@@ -542,7 +561,8 @@ def api_predict_yearly_coming5_set():
 ## predic_yearly coming get
 @predic_apis.route('/infer/predict/yearly', methods=['GET'])
 def api_predict_yearly_get_all():
-    query = db_session.query(YearlyTable).order_by(YearlyTable.pkey.desc())
+    # query = db_session.query(YearlyTable).order_by(YearlyTable.pkey.desc())
+    query = "select * from yearly ORDER BY pkey desc"
     result = db_session.execute(query)
 
     return response_json_list(result)
@@ -551,7 +571,8 @@ def api_predict_yearly_get_all():
 ## predic_yearly get
 @predic_apis.route('/infer/predict/yearly/<int:pkey>', methods=['GET'])
 def api_predict_yearly_get(pkey):
-    query = db_session.query(YearlyTable).filter(YearlyTable.pkey == pkey).order_by(YearlyTable.pkey.desc())
+    # query = db_session.query(YearlyTable).filter(YearlyTable.pkey == pkey).order_by(YearlyTable.pkey.desc())
+    query = "select * from monthly2 where pkey=%s"%(pkey)
     result = db_session.execute(query)
 
     return response_json_value(result)
@@ -585,8 +606,8 @@ def api_predict_yearly_delete(pkey):
     return jsonify(True)
 
 ## predic_daily get
-@predic_apis.route('/infer/predict/yearly/<int:pkey>/values/<string:value_option>', methods=['GET'])
-def api_predict_yearly_get_value(pkey, value_option):
+@predic_apis.route('/infer/predict/yearly/<int:pkey>/values', methods=['GET'])
+def api_predict_yearly_get_value(pkey):
 
     # TODO: 디비 정보로 area,yaer,month,day
 
@@ -600,12 +621,12 @@ def api_predict_yearly_get_value(pkey, value_option):
     get_class = get_predic_data()
 
 
-    result = dict()
-    if value_option == 'monthly':
-        result = get_class.get_Yearly_coming_5years_month(area,start_year, start_date)
-    elif value_option == 'yearly':
-        result = get_class.get_Yearly_coming_5years_year(area, start_year, start_date)
-
+    # result = dict()
+    # if value_option == 'monthly':
+    #     result = get_class.get_Yearly_coming_5years_month(area,start_year, start_date)
+    # elif value_option == 'yearly':
+    #     result = get_class.get_Yearly_coming_5years_year(area, start_year, start_date)
+    result = get_class.get_Yearly_coming_5years_year(area, start_year, start_date)
     return jsonify(result)
 
 
@@ -627,7 +648,7 @@ def api_predict_yearly_get_value(pkey, value_option):
 HYGAS.NAJU_C_HOUSE.30001.1 - 나주_하우스_가스인수량.
 HYGAS.NAJU_C_HOUSE.30001.2 - 나주_하우스_가스검침량.
 {
-        "period": "2019-11-01 10:23:45~2019-11-30 23:59:59",
+        "period": "2019-10-03 10:23:45",
         "dataset": [
                 {
                         "trainedModel": "daily",
@@ -641,17 +662,16 @@ HYGAS.NAJU_C_HOUSE.30001.2 - 나주_하우스_가스검침량.
 '''
 @predic_apis.route('/infer/predict', methods=['POST'])
 @crossdomain(origin='*')
-def api_smart_energy_API():
-
-    try:
-        key = session['logger']
-        pkey = db_session.query(Login.pkey).filter(Login.id == str(key))
-        login = db_session.query(Login).get(pkey)
-    except:
-        pkey = 0
-    else:
-        pkey = login.pkey
-
+def api_infer_predict_API():
+    # try:
+    #     key = session['logger']
+    #     pkey = db_session.query(Login.pkey).filter(Login.id == str(key))
+    #     login = db_session.query(Login).get(pkey)
+    # except:
+    #     pkey = 0
+    # else:
+    #     pkey = login.pkey
+    user_pkey = get_user_pkey()
     # print(pkey)
 
     req = request.get_json()
@@ -662,7 +682,6 @@ def api_smart_energy_API():
 
     period = data['period']
     dataset = data['dataset']
-
 
     period_value = get_period_value(period)
     print(period_value)
@@ -677,6 +696,7 @@ def api_smart_energy_API():
     print("dataset: ",dataset)
     for data_value in dataset:
         filename = str()
+        print('--------------2---------------')
 
         try:
             # trainedmodel은 필수. <스마트:'water+temp'>,<해양:'daily','monthly'..>
@@ -686,15 +706,11 @@ def api_smart_energy_API():
             argument = data_value['arguments']
             print("argument: ",argument)
 
-            # -------- arguments 안에 있는 변수는 스마트, 해양 같을수도 아닐수도.
-
             ## resource
-            # <스마트:'<numeric>ismart!ismart/0330102552/-/usage'>,<(machbase미구현)해양:'30001.1'>
-            try:
-                resource = argument['resource']
-            except:
-                resource = None
+            # <스마트:'<numeric>ismart!ismart/0330102552/-/usage'>,<해양:'30001.1-인수','30001.2'-검침>
+            resource = str(argument['resource'])
 
+            # -------- arguments 안에 있는 변수는 스마트, 해양 같을수도 아닐수도.
             ## location(area) (default = naju)
             try:
                 area = argument['location']
@@ -704,11 +720,11 @@ def api_smart_energy_API():
             except:
                 area = 'naju'
 
-            ## sort (default = insu)
-            try:
-                sort = argument['sort']
-            except:
-                sort = 'insu'
+            # ## sort (default = insu)
+            # try:
+            #     sort = argument['sort']
+            # except:
+            #     sort = 'insu'
 
             ## temp_mode (default = 0)
             try:
@@ -723,14 +739,14 @@ def api_smart_energy_API():
                 sub_mode = 0
 
             # 현재 스마트경우 받은 모델이 없어서, 임시폴더로 이름 만들어서 임의 값 저장중. (filename)
-            if resource != None:
-                file_name_get_model = trained_model.replace('+', '_')
-                filename = '%s_%s' % (file_name_get_model, get_arguments_value(resource))
-            else:
-                pass
+
+            file_name_get_model = trained_model.replace('+', '_')
+            filename = '%s_%s' % (file_name_get_model, get_arguments_value(resource))
+
 
         except Exception as e:
             print(e)
+            print('-------11-')
             return abort(400)
 
         else:
@@ -744,29 +760,37 @@ def api_smart_energy_API():
             # print(period_start_date)
 
             if trained_model == 'daily':
-                result = predict_daily(sort,area,trained_model,int(period_start_date))
+                if int(period_start_date) > 20191005:
+                    abort(400)
+                result = predict_daily(resource,area,trained_model,int(period_start_date), user_pkey)
                 final_result.append(result)
             elif trained_model == 'monthly1':
-                result = predict_monthly1(sort, area, trained_model, int(period_start_date), temp_mode, sub_mode)
+                if int(period_start_date) > 20191005 or int(period_start_date) < 20150101:
+                    abort(400)
+                result = predict_monthly1(resource, area, trained_model, int(period_start_date), temp_mode, sub_mode, user_pkey)
                 final_result.append(result)
             elif trained_model == 'monthly2':
-                result = predict_monthly2(sort, area, trained_model, int(period_start_date))
+                if int(period_start_date) > 20191005 or int(period_start_date) < 20170101:
+                    abort(400)
+                result = predict_monthly2(resource, area, trained_model, int(period_start_date), user_pkey)
                 final_result.append(result)
             elif trained_model == 'yearly':
-                result = predict_yearly(sort, area, trained_model, int(period_start_date))
+                if int(period_start_date) > 20191005 or int(period_start_date) < 20190101:
+                    abort(400)
+                result = predict_yearly(resource, area, trained_model, int(period_start_date), user_pkey)
                 final_result.append(result)
             ## 스마트 에너지 일 때.
             else:
-                if resource != None:
-                    model = get_train_model(pkey)
+                if resource.count('.') == 1:
+                    abort(400)
+                else:
+                    model = get_train_model(user_pkey)
                     model.train_model(filename, period_start_date, period_end_date, period_start_time, period_end_time)
                     value = model.train_model_result(filename)
 
                     ## 최종 적으로 각 모델들의 결과 값들을 합해서 json 형태로 출력 or
                     ## 출력이 long term 이면 결과 파일을 따로 읽는 API 새로 작성.
                     final_result.append(value)
-                else:
-                    final_result.append(' ')
 
     # return jsonify(True)
     return jsonify(final_result)
@@ -774,6 +798,38 @@ def api_smart_energy_API():
     #     print('----------742----------')
     #     print(e)
     #     abort(400)
+
+@predic_apis.route('/infer/predicted', methods=['GET'])
+@crossdomain(origin='*')
+def api_infer_predicted_API():
+    daily = "select * from daily ORDER BY pkey desc"
+    daily = db_session.execute(daily)
+
+    for d1 in daily:
+        print(d1)
+
+    monthly1 = "select * from monthly1 ORDER BY pkey desc"
+    monthly1 = db_session.execute(monthly1)
+
+    for m1 in monthly1:
+        print(m1)
+
+    monthly2 = "select * from monthly2 ORDER BY pkey desc"
+    monthly2 = db_session.execute(monthly2)
+
+    for m2 in monthly2:
+        print(m2)
+
+    yearly = "select * from yearly ORDER BY pkey desc"
+    yearly = db_session.execute(yearly)
+
+    for y1 in yearly:
+        print(y1)
+
+
+
+    return jsonify(True)
+
 
 def get_arguments_value(argument):
     # argument = arguments.split('/')
@@ -785,22 +841,19 @@ def get_arguments_value(argument):
     while(a<len(argument)):
         if argument[a].isalpha() or argument[a].isdigit():
             value_str += argument[a]
-
         else:
             if value_str:
                 value+='%s_'%(value_str)
                 value_str = ''
-
         if a == len(argument)-1:
             value += '%s' % (value_str)
-
         a += 1
-
     return value
 
 def get_period_value(period):
     print(period)
     period = period.split('~')
+    print('-------------1----------------')
 
     if len(period) != 2:
         # 기간이 앞에만 있을 경우.
@@ -839,7 +892,7 @@ def get_period_value(period):
                 valuecheck.append(int(each_value))
 
         ## 날짜 개수가 부족하거나 0값일 경우 400
-        if len(valuecheck) != 3:
+        if len(valuecheck) < 3:
             return abort(400)
 
         for i in valuecheck:
@@ -863,7 +916,7 @@ def get_period_value(period):
   "start_date":20191005
 }
 '''
-def predict_daily(sort,area,model,start_date):
+def predict_daily(sort,area,model,start_date,user_pkey):
     # print("start_date: ",start_date)
 
     dt = datetime.datetime.now()
@@ -876,8 +929,10 @@ def predict_daily(sort,area,model,start_date):
     else:
         start_year, start_month, start_day = devide_date(start_date)
 
+    daily_output_file = folder_path + 'result/%s/predict_%s_%d_%d_%d_daily' % (user_pkey, area, start_year, start_month, start_day)
+
     try:
-        db_session.add(DailyTable(target_sort=sort, target_area=area, model_name=model, start_date=start_date))
+        db_session.add(DailyTable(resource=sort, location=area, model_name=model, start_date=start_date, save_daily=daily_output_file))
         db_session.commit()
 
         detectkey = db_session.query(DailyTable.pkey).order_by(DailyTable.pkey.desc())
@@ -893,7 +948,6 @@ def predict_daily(sort,area,model,start_date):
         return final_reuslt
 
 '''
-
         sort = data['sort']
         area = data['area']
         model = data['model']
@@ -901,7 +955,7 @@ def predict_daily(sort,area,model,start_date):
         temp_mode = data['temp_option']
         sub_mode = data['sub_option']
 '''
-def predict_monthly1(sort, area, model, start_date, temp_mode, sub_mode):
+def predict_monthly1(sort, area, model, start_date, temp_mode, sub_mode, user_pkey):
 
     if not start_date:
         dt = datetime.datetime.now()
@@ -918,9 +972,12 @@ def predict_monthly1(sort, area, model, start_date, temp_mode, sub_mode):
         3-2. past12는 과거 1년 날짜로 시작하는게 아닌가 하는 생각이 듬.
         3-3 20181005 날짜로 실행, (2018-10-01 ~ 2019-09-01) 데이터. okay. result/20191005/past~~ 저장.
         '''
+        daily_output_file = folder_path + 'result/%d/past_%s_%d_%d_%d_T%d_S%d_daily' % (user_pkey, area, start_year, start_month, 12, temp_mode, sub_mode)
+        monthly_output_file = folder_path + 'result/%d/past_%s_%d_%d_%d_T%d_S%d_monthly' % (user_pkey, area, start_year, start_month, 12, temp_mode, sub_mode)
+
         db_session.add(
-            MonthlyTable1(target_sort=sort, target_area=area, model_name=model, start_date=start_date,
-                          month_range=12, temp_option=temp_mode, sub_option=sub_mode))
+            MonthlyTable1(resource=sort, location=area, model_name=model, start_date=start_date,
+                          temp_option=temp_mode, sub_option=sub_mode, save_daily=daily_output_file, save_monthly=monthly_output_file))
         db_session.commit()
 
         detectkey = db_session.query(MonthlyTable1.pkey).order_by(MonthlyTable1.pkey.desc())
@@ -941,7 +998,7 @@ def predict_monthly1(sort, area, model, start_date, temp_mode, sub_mode):
         model = data['model'] # DB 저장용.
         start_date = data['start_date']
 '''
-def predict_monthly2(sort,area,model,start_date):
+def predict_monthly2(sort,area,model,start_date,user_pkey):
 
     dt = datetime.datetime.now()
 
@@ -953,9 +1010,11 @@ def predict_monthly2(sort,area,model,start_date):
     ## DB에 키가 없을 경우. except로 넘어감.
     try:
 
+        daily_output_file = folder_path + 'result/%d/coming_%s_%d_%d_%d_daily' % (user_pkey, area, start_year, start_month, 24)
+        monthly_output_file = folder_path + 'result/%d/coming_%s_%d_%d_%d_monthly' % (user_pkey, area, start_year, start_month, 24)
+
         db_session.add(
-            MonthlyTable2(target_sort=sort, target_area=area, model_name=model, start_date=start_date,
-                          month_range=24))
+            MonthlyTable2(resource=sort, location=area, model_name=model, start_date=start_date))
         db_session.commit()
 
         detectkey = db_session.query(MonthlyTable2.pkey).order_by(MonthlyTable2.pkey.desc())
@@ -977,7 +1036,7 @@ def predict_monthly2(sort,area,model,start_date):
         start_date = data['start_date']
 
 '''
-def predict_yearly(sort,area,model,start_date):
+def predict_yearly(sort,area,model,start_date,user_pkey):
     dt = datetime.datetime.now()
 
     if not start_date:
@@ -987,10 +1046,12 @@ def predict_yearly(sort,area,model,start_date):
 
     ## DB에 키가 없을 경우. except로 넘어감.
     try:
-
+        result_path = folder_path + 'result/%d/yearly/' % (start_date)
+        monthly_save = result_path + 'coming_' + area + '_' + str(start_year) + '_to_' + str(start_year + 5) + '_monthly' + '.csv'
+        yearly_save = result_path + 'coming_' + area + '_' + str(start_year) + '_to_' + str(start_year + 5) + '_yearly' + '.csv'
 
         db_session.add(
-            YearlyTable(target_sort=sort, target_area=area, model_name=model, start_date=start_date))
+            YearlyTable(resource=sort, location=area, model_name=model, start_date=start_date, save_monthly=monthly_save, save_yearly=yearly_save))
         db_session.commit()
 
         detectkey = db_session.query(YearlyTable.pkey).order_by(YearlyTable.pkey.desc())

@@ -7,6 +7,7 @@ import json
 ## flask(REST-API)
 from flask import Blueprint, jsonify, send_from_directory, abort, session, send_file
 from flask import make_response, request, current_app, Response
+from sqlalchemy import func
 ##  check format of data
 import wtforms_json
 from wtforms import Form, StringField, IntegerField
@@ -187,10 +188,20 @@ def api_auth_restore():
 @crossdomain(origin='*')
 def api_users():
     # print session
-    query = db_session.query(Login).order_by(Login.id.asc())
+    # query = db_session.query(Login).order_by(Login.id.asc())
+    query = "select * from login ORDER BY pkey"
     records = db_session.execute(query)
 
-    return response_json_list(records)
+    count = db_session.query(func.count('*')).select_from(Login).scalar()
+    print(count)
+
+
+    result=[]
+    for i in records:
+        result.append(dict(i))
+
+    fresult = {"user":result,"tatal":count}
+    return jsonify(fresult)
 
 
 @user_apis.route('/users/<int:userid>', methods=['GET'])
@@ -214,20 +225,20 @@ def api_usersid(userid):
 def api_userAdd():
     form = LoginForm.from_json(request.json)
 
-    try:
-        if form.validate():
-            db_session.add(Login(id=form.id.data, pw=form.pw.data))
-            db_session.commit()
 
-            return jsonify(True)
+    if form.validate():
+        db_session.add(Login(id=form.id.data, pw=form.pw.data))
+        db_session.commit()
 
-        else:
-            return jsonify(False)
+        return jsonify(True)
 
-    except Exception as e:
+    else:
+        return jsonify(False)
+
+
         # print(e)
         # db_session.rollback()
-        return jsonify(False)
+
 
 
 @user_apis.route('/users/<int:userid>', methods=['PUT'])

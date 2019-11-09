@@ -5,6 +5,7 @@ folder_path = root_path + '/prediction/prediction_ETRI/'
 folder_path2 = root_path +'/prediction2/'
 folder_path3 = root_path +'/API/DataSet/uploadfiles/'
 
+
 ## 개인 ProjectEn 경로 ##
 own_path='/home/imr-ai/psycho_2_7/ProjectEn/'
 # own_path='/home/etri/AI-Web/ProjectEn/'

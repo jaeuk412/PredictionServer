@@ -23,7 +23,7 @@ def connect(user, password, db, host, port):
 
     return engine  # , meta
 
-dbsearch = connect('ServerAdmin','0000','PredictionServer','localhost','5432')
+dbsearch = connect('ServerAdmin','0000','PredictionServer','0.0.0.0','5432')
 
 dbsearch1 = connect('postgres','sp597886', 'smart-city', '220.90.81.106', '19415')
 

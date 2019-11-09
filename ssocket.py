@@ -16,8 +16,6 @@ async def SendMsg1(websocket, path, name):
 
     while True:
 
-        print(websocket.recv())
-
         try:
             files = os.listdir(root_path+'/detectkey')
 
@@ -26,7 +24,7 @@ async def SendMsg1(websocket, path, name):
                 for i in files:
                     # print(i)
                     # ivalue = i.split('_')
-                    result = {"id":i,}
+                    result = {"id":i}
                     await websocket.send(i)
                     try:
                         os.remove(root_path + '/detectkey/' + i)

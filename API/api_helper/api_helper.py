@@ -9,6 +9,7 @@ from flask import make_response, request, current_app, Response
 from datetime import timedelta, datetime
 from functools import update_wrapper
 from DB.DataBase.database import db_session
+from DB.DataBase.models import Login
 from six import string_types
 
 
@@ -68,6 +69,17 @@ def devide_date(date):
     start_day = int(start_date[6:8])
     return start_year, start_month, start_day
 
+def get_user_pkey():
+    try:
+        key = session['logger']
+        pkey = db_session.query(Login.pkey).filter(Login.id == str(key))
+        login = db_session.query(Login).get(pkey)
+    except:
+        pkey = 0
+    else:
+        pkey = login.pkey
+
+    return pkey
 
 ## 3.5에 맞게 수정.
 def crossdomain(origin=None, methods=None, headers=None,
