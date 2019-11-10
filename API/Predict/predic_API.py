@@ -761,23 +761,29 @@ def api_infer_predict_API():
 
             if trained_model == 'daily':
                 if int(period_start_date) > 20191005:
-                    abort(400)
+                    period_start_date = 20191005
+                    # abort(400)
+
                 result = predict_daily(resource,area,trained_model,int(period_start_date), user_pkey)
                 final_result.append(result)
             elif trained_model == 'monthly1':
                 if int(period_start_date) > 20191005 or int(period_start_date) < 20150101:
-                    abort(400)
+                    period_start_date = 20191005
+                    # abort(400)
                 result = predict_monthly1(resource, area, trained_model, int(period_start_date), temp_mode, sub_mode, user_pkey)
                 final_result.append(result)
             elif trained_model == 'monthly2':
                 if int(period_start_date) > 20191005 or int(period_start_date) < 20170101:
-                    abort(400)
+                    period_start_date = 20191005
+                    # abort(400)
                 result = predict_monthly2(resource, area, trained_model, int(period_start_date), user_pkey)
                 final_result.append(result)
             elif trained_model == 'yearly':
                 if int(period_start_date) > 20191005 or int(period_start_date) < 20190101:
-                    abort(400)
+                    period_start_date = 20191005
+                    # abort(400)
                 result = predict_yearly(resource, area, trained_model, int(period_start_date), user_pkey)
+                print(result)
                 final_result.append(result)
             ## 스마트 에너지 일 때.
             else:
@@ -802,33 +808,85 @@ def api_infer_predict_API():
 @predic_apis.route('/infer/predicted', methods=['GET'])
 @crossdomain(origin='*')
 def api_infer_predicted_API():
-    daily = "select * from daily ORDER BY pkey desc"
+    result = []
+    dict_result = {}
+    daily = "select pkey as id, resource, start_date as period from daily ORDER BY pkey desc"
     daily = db_session.execute(daily)
 
-    for d1 in daily:
-        print(d1)
 
-    monthly1 = "select * from monthly1 ORDER BY pkey desc"
+    ## [('id', 1), ('resource', '30001.1'), ('start_date', 20191001)]
+    for d1 in daily:
+        dailydict = {}
+        for x,y in d1.items():
+            if 'id' in x:
+                print(x,y)
+                dailydict.update({x:'daily_'+str(y)})
+            elif 'period' in x:
+                dailydict.update({x:datecount(y,'daily')+' ~ '+datecount(y+29,'daily')})
+            else:
+                dailydict.update({x:y})
+
+
+        result.append(dailydict)
+
+
+
+    monthly1 = "select pkey as id, resource, start_date as period from monthly1 ORDER BY pkey desc"
     monthly1 = db_session.execute(monthly1)
 
-    for m1 in monthly1:
-        print(m1)
 
-    monthly2 = "select * from monthly2 ORDER BY pkey desc"
+    for m1 in monthly1:
+        count = 0
+        monthlydict1 = {}
+        for x, y in m1.items():
+            if 'id' in x:
+                monthlydict1.update({x: 'monthly1_' + str(y)})
+            elif 'period' in x:
+                monthlydict1.update({x:datecount(y-10000,'monthly1')+' ~ '+datecount(y,'monthly1')})
+            else:
+                monthlydict1.update({x: y})
+            count += 1
+
+        result.append(monthlydict1)
+
+    monthly2 = "select pkey as id, resource, start_date as period from monthly2 ORDER BY pkey desc"
     monthly2 = db_session.execute(monthly2)
 
     for m2 in monthly2:
-        print(m2)
+        count = 0
+        monthlydict2 = {}
+        for x, y in m2.items():
+            if 'id' in x:
+                monthlydict2.update({x: 'monthly2_' + str(y)})
+            elif 'period' in x:
+                monthlydict2.update({x:datecount(y,'monthly2')+' ~ '+datecount(y+20000,'monthly2')})
+            else:
+                monthlydict2.update({x: y})
+            count += 1
 
-    yearly = "select * from yearly ORDER BY pkey desc"
+        result.append(monthlydict2)
+
+    yearly = "select pkey as id, resource, start_date as period from yearly ORDER BY pkey desc"
     yearly = db_session.execute(yearly)
 
     for y1 in yearly:
-        print(y1)
+        count = 0
+        yearlydict = {}
+        for x, y in y1.items():
+            if 'id' in x:
+                yearlydict.update({x: 'yearly_' + str(y)})
+            elif 'period' in x:
+                yearlydict.update({x:datecount(y,'yearly')+' ~ '+datecount(y+50000,'yearly')})
+            else:
+                yearlydict.update({x: y})
+            count += 1
+
+        result.append(yearlydict)
 
 
+    # print(result)
 
-    return jsonify(True)
+    return response_json_list(result)
 
 
 def get_arguments_value(argument):
@@ -1024,7 +1082,7 @@ def predict_monthly2(sort,area,model,start_date,user_pkey):
         set_class.set_Monthly_coming_24months(area, start_year, start_month, 24, start_date, detectkey[0][0])
 
         final_result = {"dataset":'monthly2_'+str(detectkey[0][0])}
-        return jsonify(final_result)
+        return final_result
     except:
         final_result = {"dataset": None}
         return final_result
@@ -1046,13 +1104,16 @@ def predict_yearly(sort,area,model,start_date,user_pkey):
 
     ## DB에 키가 없을 경우. except로 넘어감.
     try:
-        result_path = folder_path + 'result/%d/yearly/' % (start_date)
+        result_path = folder_path + 'result/%d/yearly/' % (user_pkey)
         monthly_save = result_path + 'coming_' + area + '_' + str(start_year) + '_to_' + str(start_year + 5) + '_monthly' + '.csv'
         yearly_save = result_path + 'coming_' + area + '_' + str(start_year) + '_to_' + str(start_year + 5) + '_yearly' + '.csv'
+        print(monthly_save)
+        print(yearly_save)
 
         db_session.add(
             YearlyTable(resource=sort, location=area, model_name=model, start_date=start_date, save_monthly=monthly_save, save_yearly=yearly_save))
         db_session.commit()
+        print('--------------------------------2-----------------')
 
         detectkey = db_session.query(YearlyTable.pkey).order_by(YearlyTable.pkey.desc())
         print(detectkey[0][0])
@@ -1061,8 +1122,42 @@ def predict_yearly(sort,area,model,start_date,user_pkey):
         set_class.set_Yearly_coming_5years(area, start_year, start_date, detectkey[0][0])
 
         final_result = {"dataset": 'yearly_'+str(detectkey[0][0])}
-        return jsonify(final_result)
+        return final_result
 
     except:
         final_result = {"dataset": None}
         return final_result
+
+
+def datecount(value, sort):
+    syear, smonth, sday = devide_date(value)
+
+    if sday > 28:
+        if smonth == 2:
+            if sday - 28 > 0:
+                sday = sday - 28
+                smonth += 1
+
+        elif smonth == 4 or 6 or 9 or 11:
+            if sday - 30 > 0:
+                sday = sday - 30
+                smonth += 1
+
+        elif smonth == 1 or 3 or 5 or 7 or 8 or 10 or 12:
+            if sday - 31 > 0:
+                sday = sday - 31
+                smonth += 1
+
+    if smonth > 12:
+        scount = int(smonth / 12)
+        smonth = smonth - (12 * scount)
+        syear += scount
+
+    if sort == 'daily':
+        result = '%02d-%02d-%02d' % (syear, smonth, sday)
+    elif sort == 'monthly1' or sort == 'monthly2':
+        result = '%02d-%02d-01' % (syear, smonth)
+    elif sort == 'yearly':
+        result = '%02d-01-01' % (syear)
+
+    return result

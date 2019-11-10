@@ -16,7 +16,7 @@ class Login(Base):
     pkey = Column(Integer, primary_key=True, autoincrement=True)
     inserted = Column(DateTime, default=datetime.datetime.now())
     id = Column(String(100), unique=True, nullable=False)
-    pw = Column(String(100), nullable=False)
+    password = Column(String(100), nullable=False)
     level = Column(Integer, default=1)
 #
 # class TestTable(Base):
@@ -72,8 +72,8 @@ class YearlyTable(Base):
     start_date = Column(Integer, nullable=True)
     # end_date = Column(Integer, nullable=True)
     model_name = Column(String(50), nullable=False)
-    save_monthly = Column(String(100), nullable=True)
-    save_yearly = Column(String(100), nullable=True)
+    save_monthly = Column(String(200), nullable=True)
+    save_yearly = Column(String(200), nullable=True)
     # year_range = Column(Integer, nullable=False)
 
 # class Testjeju(Base):

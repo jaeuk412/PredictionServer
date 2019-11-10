@@ -163,15 +163,12 @@ def api_data_search_all():
         print(period_value)
         # datestart = '%04d-%02d-%02d' % (period_value[0], period_value[1], period_value[2])
         dateend = int('%04d' % (period_value[6]))
-        print(dateend)
         datestart = int('%04d' % (period_value[0]))
-        print(datestart)
+
         datelist = []
         for i in range(dateend - datestart + 1):
+            datestart += i
             datelist.append(datestart)
-            datestart += 1
-
-        print("w-dw-d",datelist)
 
     except:
         period = None
@@ -182,13 +179,12 @@ def api_data_search_all():
         print('212: ',e)
         abort(400)
 
-    final_result_dict = dict()
-    final_result_list = list()
+    final_result2 = dict()
     meta_get = {}
     # print(dataset)
     for data in dataset:
 
-        print("data: ",data)
+        # print("data: ",data)
 
         try:
             argument = data['arguments']
@@ -202,17 +198,14 @@ def api_data_search_all():
         except Exception as e:
             print(e)
             return abort(400)
-            # todo: csv 파일로 가져왔을때, 문제가 있는거 같다. 같은 값인데, 에러가 난다.
+# todo: csv 파일로 가져왔을때, 문제가 있는거 같다. 같은 값인데, 에러가 난다.
         else:
             dataname = str()
             # print(resource.count('.'))
             if resource.count('.') == 1:
                 final_value_list=[]
-                print("datelist: ",datelist)
                 for ddstart in datelist:
-
-                    print("ddstart: ",ddstart)
-
+                    final_result = dict()
                     path = folder_path + 'data/insu/%s_insu_%d' % (area.lower(), ddstart)
                     print(path)
                     dataname = 'insu_sum'
@@ -224,59 +217,55 @@ def api_data_search_all():
                         dataname_get = f.readlines()
 
                     data_t = []
-                    count = 0
-                    data_name = []
-                    data_t_month_check=1
-                    data_t_value = 0
                     for ii in dataname_get:
-                        # data_t.append(ii[:-1].replace('\t',' '))
-                        if count == 0:
-                            ## 년월일 뺴고 나머지.
-                            # data_name = ii[:-1].replace('\t',' ').split(' ')[3:]
-                            ##리스트 마지막.
-                            data_name = ii[:-1].replace('\t', ' ').split(' ')[-1]
-                        else:
-                            data_t_month = int(ii[:-1].replace('\t', ' ').split(' ')[1])
-                            # print(data_t_month)
-                            if data_t_month == data_t_month_check:
-                                data_t_value += int(ii[:-1].replace('\t', ' ').split(' ')[-1])
+                        data_t.append(ii[:-1].replace('\t',' '))
+
+                    dataname_get = dataname_get[0].replace('\t', ' ')
+                    dataname_get = dataname_get.split(" ")[3:]
+
+                    print('0000290')
+                    print(data_t[0])
+
+                    print(dataname_get)
+
+                    for k in dataname_get:
+                        if k.split('_')[1].upper() in resource.split('_'):
+                            dataname = [k]
+
+                    print(dataname)
+
+                    pddata = pd.read_csv(path, delim_whitespace=True)
+                    data1 = "year month date"
+                    total_value = 0
+                    value_list = []
+                    monthcheck = 1
+                    for index, row in sorted(pddata.iterrows()):
+
+                        yearmonthday = []
+                        # datavalue1_str = str()
+
+                        ## 각 날짜에 대한 년,월,일 값 가져옴.
+                        for i in data1.split(" "):
+                            yearmonthday.append(row[i])
+
+                        yearmonthday_str = '%04d-%02d-%02d' % (yearmonthday[0], yearmonthday[1], yearmonthday[2])
+
+                        file_datavalue = {}
+
+                        for i in dataname:
+                            if yearmonthday[1] == monthcheck:
+                                total_value += row[i]
                             else:
-                                data_t.append({data_t_month_check:data_t_value})
-                                data_t_value = 0
-                                data_t_month_check += 1
-                        ## 받아온 값의 마지막 꺼 체크해서 나머지 append
-                        if count == len(dataname_get)-1:
-                            data_t.append({data_t_month_check: data_t_value})
+                                value_list.append({monthcheck:total_value})
+                                monthcheck = yearmonthday[1]
+                                total_value = 0
+                            # file_datavalue.update({i: row[i]})
 
-                        count += 1
-                    # data_name = data_t[0].split(' ')[3:]
-                    # print(data_t)
+                    print(value_list)
+                    final_value_list.append({ddstart:value_list})
 
-                    # tqq = []
-                    #
-                    #
-                    #
-                    # meta_get.update(
-                    #     {str(area).upper() + '.' + str(resource): {"beginData": tqq[0], "endDate": tqq[-1]}})
-                    # meta = {}
-                    # meta["meta"] = meta_get
-                    # final_result2.update(meta)
-                    final_value_list.append({ddstart:data_t})
-
-                    meta_get.update({str(resource): {"beginDate": datelist[0], "endDate": datelist[-1]}})
-
-            meta={}
-                    # print(final_result2)
-            meta["meta"] = meta_get
-
-
-        final_result_list.append({str(resource):final_value_list})
-    final_result_list.append({"meta":meta_get})
-                # final_value_list.append(meta)
-
-
-
-    return jsonify(final_result_list)
+                print(final_value_list)
+                return jsonify(final_value_list)
 
 
                     # print(final_result)

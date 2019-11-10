@@ -28,8 +28,12 @@ wtforms_json.init()
 
 @user_apis.route('/users/<int:userid>/level', methods=['POST'])
 def api_login(userid):
-    login_level = AuthLevelForm.from_json(request.json)
+    # login_level = AuthLevelForm.from_json(request.json)
+    req = request.get_json()
+    jsonString = json.dumps(req)
+    data = json.loads(jsonString)
 
+    login_level = data['level']
     user = db_session.query(Login).get(str(userid))
     user.level = login_level.level.data
     db_session.commit()
@@ -42,19 +46,31 @@ def user_check():
     # print session
     return jsonify(dict(session))
 
-
+'''
+{
+  "id":"admin",
+  "password":"iot2019"
+}
+'''
 @user_apis.route('/auth/login', methods=['POST'])
 @crossdomain(origin='*')
 def api_auth_login():
+    # print("---------0------------")
     # userName = request.args.get('name', type=str)
     # userPw = request.args.get('pw', type=str)
 
-    form = LoginForm.from_json(request.json)
+    # form = LoginForm.from_json(request.json)
+    req = request.get_json()
+    jsonString = json.dumps(req)
+    data = json.loads(jsonString)
 
-    userId = form.id.data
-    userPw = form.pw.data
+    userId = data['id']
+    userPw = data['password']
+    # print(userId)
+    # print(userPw)
 
     if userId:
+        # print("userid: ",userId)
 
         try:
             pkey = db_session.query(Login.pkey).filter(Login.id == str(userId))
@@ -68,20 +84,29 @@ def api_auth_login():
 
             if userpkey:
                 # print(userPw)
+                # print(userpkey)
+                # print(type(userpkey))
 
-                query = db_session.execute(db_session.query(Login).filter(Login.pkey == userpkey))
+                query = "select * from login where pkey=%d"%(userpkey)
+                query = db_session.execute(query)
+
+                ## db_session.query(Login).filter(Login.pkey == userpkey)
+
                 records = []
                 for row in query:
                     records.append(dict(row))
                 # print("======================")
-
+                # print("records: ",records)
+                # print(login.password)
+                # print(userPw)
                 if userPw:
-                    if login.pw == userPw:
+                    if login.password == userPw:
                         session['logger'] = userId
                         return response_json_value(records)
                     else:
                         return jsonify(False)
                 else:
+
                     abort(400)
 
             else:
@@ -89,8 +114,10 @@ def api_auth_login():
                     return jsonify(False)
 
                 else:
+                    # print('--------1------------')
                     return abort(400)
     else:
+        # print('--------2------------')
         abort(400)
 
 
@@ -98,9 +125,16 @@ def api_auth_login():
 @user_apis.route('/auth/logout', methods=['GET', 'POST'])
 @crossdomain(origin='*')
 def api_auth_logout():
-    form = LoginForm.from_json(request.json)
+    # form = LoginForm.from_json(request.json)
 
-    userName = form.id.data
+    req = request.get_json()
+    jsonString = json.dumps(req)
+    data = json.loads(jsonString)
+
+    try:
+        userName = data['id']
+    except:
+        abort(400)
 
     if userName:
 
@@ -127,17 +161,26 @@ def api_auth_logout():
             return jsonify(False)
 
     else:
-        abort(400)
+        for i in session:
+            session.pop(i)
 
-
+'''
+{
+  "id":"admin",
+}
+'''
 @user_apis.route('/auth/restore', methods=['POST'])
 @crossdomain(origin='*')
 def api_auth_restore():
     # restore_key = session['logger']
 
-    form = LoginForm.from_json(request.json)
+    # form = LoginForm.from_json(request.json)
 
-    userName = form.id.data
+    req = request.get_json()
+    jsonString = json.dumps(req)
+    data = json.loads(jsonString)
+
+    userName = data['id']
     # print(userName)
     # print(session)
 
@@ -155,8 +198,9 @@ def api_auth_restore():
                 userno = userno[0]
                 userno = userno[0]
 
-                query = db_session.execute(db_session.query(Login).filter(Login.pkey == userno))
-
+                query = "select * from login where pkey=%s"%(userno)
+                query = db_session.execute(query)
+                ##db_session.query(Login).filter(Login.pkey == userno)
                 records = []
                 for row in query:
                     records.append(dict(row))
@@ -200,14 +244,15 @@ def api_users():
     for i in records:
         result.append(dict(i))
 
-    fresult = {"user":result,"tatal":count}
+    fresult = {"data":result,"total":count}
     return jsonify(fresult)
 
 
 @user_apis.route('/users/<int:userid>', methods=['GET'])
 @crossdomain(origin='*')
 def api_usersid(userid):
-    query = db_session.query(Login).filter(Login.id == str(userid))
+    # query = db_session.query(Login).filter(Login.id == str(userid))
+    query = "select * from login where id=%s"%(userid)
     result = db_session.execute(query)
 
     rect = []
@@ -223,17 +268,24 @@ def api_usersid(userid):
 @user_apis.route('/users', methods=['POST'])
 @crossdomain(origin='*')
 def api_userAdd():
-    form = LoginForm.from_json(request.json)
+    # form = LoginForm.from_json(request.json)
 
+    req = request.get_json()
+    jsonString = json.dumps(req)
+    data = json.loads(jsonString)
 
-    if form.validate():
-        db_session.add(Login(id=form.id.data, pw=form.pw.data))
+    try:
+        id = data['id']
+        pw = data['password']
+
+        db_session.add(Login(id=id, password=pw))
         db_session.commit()
 
         return jsonify(True)
+    except:
+        abort(400)
 
-    else:
-        return jsonify(False)
+
 
 
         # print(e)
@@ -244,27 +296,29 @@ def api_userAdd():
 @user_apis.route('/users/<int:userid>', methods=['PUT'])
 @crossdomain(origin='*')
 def api_useredit(userid):
+    req = request.get_json()
+    jsonString = json.dumps(req)
+    data = json.loads(jsonString)
 
     try:
-        form = LoginForm.from_json(request.json)
+        # form = LoginForm.from_json(request.json)
+
+        id = data['id']
+        pw = data['password']
+
 
         pkey = db_session.query(Login.pkey).filter(Login.id == str(userid))
         login = db_session.query(Login).get(pkey)
 
+        login.id = id
+        login.password = pw
+        db_session.commit()
+
+        return jsonify(True)
+
     except Exception as e:
         print(e)
         abort(400)
-
-    else:
-        if form.validate():
-            login.id = form.id.data
-            login.pw = form.pw.data
-            db_session.commit()
-
-            return jsonify(True)
-
-        else:
-            abort(400)
 
 
 @user_apis.route('/users/<int:userid>/exists', methods=['GET'])
@@ -308,10 +362,10 @@ def api_userDel(userid):
 
 
 
-class AuthLevelForm(Form):
-    level = IntegerField('level', [InputRequired])
-
-
-class LoginForm(Form):
-    id = StringField('id', [InputRequired()])
-    pw = StringField('pw', [InputRequired()])
+# class AuthLevelForm(Form):
+#     level = IntegerField('level', [InputRequired])
+#
+#
+# class LoginForm(Form):
+#     id = StringField('id', [InputRequired()])
+#     pw = StringField('password', [InputRequired()])
