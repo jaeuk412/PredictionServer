@@ -32,7 +32,7 @@ class get_predic_data(object):
     #     # self._predicArea = predicArea  ## 선택한 지역들(s).
 
 
-    def get_Daily_coming_30days_vaule(self, predicArea, start_date):
+    def get_Daily_coming_30days_vaule(self, predicArea, start_date, user_pkey):
 
         start_year, start_month, start_day = devide_date(start_date)
         # start_date = str(start_date)
@@ -40,8 +40,9 @@ class get_predic_data(object):
         # start_month = int(start_date[4:6])
         # start_day = int(start_date[6:8])
 
-        path = folder_path + 'result/%s/predict_%s_%s_%s_%s_daily' % (start_date, predicArea, start_year, start_month, start_day)
+        path = folder_path + 'result/%d/predict_%s_%s_%s_%s_daily' % (user_pkey, predicArea, start_year, start_month, start_day)
         # file = '/home/uk/PredictionServer/prediction/prediction_ETRI/result/predict_naju_2019_1_1_daily'
+        print(path)
         if not os.path.isfile(path):
             return False
 
@@ -56,13 +57,14 @@ class get_predic_data(object):
                 final_result.append(float(i))
 
         final_result_date = list()
+        syear, smonth, sday = devide_date(start_date)
 
         for a in range(30):
-
-            syear, smonth, sday = devide_date(start_date)
+            # print(syear, smonth, sday )
 
             start_date_str = '%04d-%02d-%02d' % (syear, smonth, sday)
             final_result_date.append(start_date_str)
+
 
             if sday >= 28:
                 if smonth == 1 or 3 or 5 or 7 or 8 or 10 or 12:
@@ -85,11 +87,22 @@ class get_predic_data(object):
                         smonth += 1
 
             sday += 1
+
+
+        result_vv = []
+        for i in range(30):
+            kk = [final_result_date[i], final_result[i]]
+            result_vv.append(kk)
+
+        result_vv.insert(0, ["date","value"])
+        # print(result_vv)
             # start_date = '%04d%02d%02d' % (syear, smonth, sday)
+        # print(final_result)
+        # print(final_result_date)
+        # result = dict(zip(final_result_date, final_result))
+        # print(result)
 
-        result = dict(zip(final_result_date, final_result))
-
-        return result
+        return result_vv
 
     #####################################################################
 
@@ -97,8 +110,8 @@ class get_predic_data(object):
 
     ## set에서 실행 시킨후 get에서 value 얻으면 됨.
 
-    def get_Monthly_latest_12months_daily_value(self, predicArea, start_year, start_month, temp_mode, sub_mode, start_date):
-        path = folder_path+'result/%d/past_%s_%d_%d_%d_T%d_S%d_daily'%(start_date, predicArea, start_year, start_month, 12, temp_mode, sub_mode)
+    def get_Monthly_latest_12months_daily_value(self, predicArea, start_year, start_month, temp_mode, sub_mode, user_pkey):
+        path = folder_path+'result/%d/past_%s_%d_%d_%d_T%d_S%d_daily'%(user_pkey, predicArea, start_year, start_month, 12, temp_mode, sub_mode)
         # file = '/home/uk/PredictionServer/prediction/prediction_ETRI/result/predict_naju_2019_1_1_daily'
         print(path)
         if not os.path.isfile(path):
@@ -143,10 +156,11 @@ class get_predic_data(object):
         return final_result
 
 
-    def get_Monthly_latest_12months_monthly_value(self, predicArea, start_year, start_month, temp_mode, sub_mode,start_date):
-        path = folder_path+'result/%d/past_%s_%d_%d_%d_T%d_S%d_monthly'%(start_date, predicArea, start_year, start_month, 12, temp_mode, sub_mode)
+    def get_Monthly_latest_12months_monthly_value(self, predicArea, start_year, start_month, temp_mode, sub_mode, user_pkey):
+        path = folder_path+'result/%d/past_%s_%d_%d_%d_T%d_S%d_monthly'%(user_pkey, predicArea, start_year, start_month, 12, temp_mode, sub_mode)
         # file = '/home/uk/PredictionServer/prediction/prediction_ETRI/result/predict_naju_2019_1_1_daily'
-        print(path)
+        # print("=========================123====================================")
+        # print(path)
         if not os.path.isfile(path):
             return False
 
@@ -155,17 +169,18 @@ class get_predic_data(object):
             pddata2 = pddata2.split(" ")[2:]
 
         ## 파일로 값의 이름을 읽어서 찾아냄.
-        print(pddata2)
+        # print(pddata2)
 
         final_result = dict()
+        value_list = []
 
         pddata = pd.read_csv(path, delim_whitespace=True)
         # print(short_term_data)
         # print("short_term_data: ",short_term_data)
-        import prediction.prediction_ETRI.predict_common as predict_common
-
-        category = predict_common.get_category(predicArea)
-
+        # import prediction.prediction_ETRI.predict_common as predict_common
+        #
+        # category = predict_common.get_category(predicArea)
+        # print(pddata)
         data1 = "year month"
         # data2 = str()
         # for tidx in range(len(category)):
@@ -175,28 +190,49 @@ class get_predic_data(object):
         # data2 = data2.strip()
         # print("pddata: ",pddata)
         # print("dataname: ",data2)
+        # print('------------------1-----------------------')
 
         for index, row in sorted(pddata.iterrows()):
+            # print(index)
             datavalue1 = []
             # datavalue1_str = str()
             for i in data1.split(" "):
                 datavalue1.append(row[i])
+                # print(datavalue1)
 
             datavalue1_str = '%04d-%02d' % (datavalue1[0], datavalue1[1])
 
+
             datavalue2 = []
-            for i in pddata2:
-                datavalue2.append(row[i])
+            for j in pddata2:
+
+                datavalue2.append(row[j])
             # print(datavalue2)
             # temp_list = [date]
 
-            M = dict(zip(pddata2, datavalue2))
-            L = {datavalue1_str: M}
-            final_result.update(L)
+            # print("datav2",datavalue2)
+
+            datavalue2.insert(0, datavalue1_str)
+            value_list.append(datavalue2)
+            # M = dict(zip(pddata2, datavalue2))
+            # L = {datavalue1_str: M}
+            # final_result.update(L)
+
+        # print('---------------------2--------------------')
+
+        pddata2.insert(0, "date")
+        # print(value_list)
+
 
             # print(final_result)
+        # print(pddata2)
+        # print('==================')
+        # print(datavalue2)
+        value_list.insert(0,pddata2)
 
-        return final_result
+        # print(datavalue1_str)
+        # print(datavalue2)
+        return value_list
 
 
     #####################################################################
@@ -204,9 +240,9 @@ class get_predic_data(object):
     # 다가오는 24개월 이기 때문에 month_range=24 고정.
 
     ## set 실행 후, get으로 value 얻음.
-    def get_Monthly_coming_24months_daily_value(self, predicArea, start_year, start_month,start_date):
+    def get_Monthly_coming_24months_daily_value(self, predicArea, start_year, start_month, user_pkey):
         path = folder_path + 'result/%d/coming_%s_%d_%d_%d_daily' % (
-        start_date, predicArea, start_year, start_month, 24)
+            user_pkey, predicArea, start_year, start_month, 24)
         # file = '/home/uk/PredictionServer/prediction/prediction_ETRI/result/predict_naju_2019_1_1_daily'
         print(path)
         if not os.path.isfile(path):
@@ -283,7 +319,7 @@ class get_predic_data(object):
         # data2 = data2.strip()
         # print("pddata: ",pddata)
         # print("dataname: ",data2)
-
+        value_list = []
         for index, row in sorted(pddata.iterrows()):
             datavalue1 = []
             # datavalue1_str = str()
@@ -298,13 +334,22 @@ class get_predic_data(object):
             # print(datavalue2)
             # temp_list = [date]
 
-            M = dict(zip(pddata2, datavalue2))
-            L = {datavalue1_str: M}
-            final_result.update(L)
+            datavalue2.insert(0, datavalue1_str)
 
-            print(final_result)
+            value_list.append(datavalue2)
+            # M = dict(zip(pddata2, datavalue2))
+            # L = {datavalue1_str: M}
+            # final_result.update(L)
+        pddata2.insert(0, "date")
 
-        return final_result
+        # print(final_result)
+        # print(pddata2)
+        # print('==================')
+        # print(datavalue2)
+        value_list.insert(0, pddata2)
+        # print(datavalue1_str)
+        # print(datavalue2)
+        return value_list
 
     #####################################################################
     def get_Yearly_coming_5years_month(self, predicArea, start_year, start_date):
@@ -326,7 +371,7 @@ class get_predic_data(object):
 
         data1 = "year month"
 
-
+        value_list = []
         for index, row in sorted(pddata.iterrows()):
             datavalue1 = []
             # datavalue1_str = str()
@@ -341,20 +386,31 @@ class get_predic_data(object):
             # print(datavalue2)
             # temp_list = [date]
 
-            M = dict(zip(pddata2, datavalue2))
-            L = {datavalue1_str: M}
-            final_result.update(L)
+            datavalue2.insert(0, datavalue1_str)
 
-            print(final_result)
+            value_list.append(datavalue2)
+            # M = dict(zip(pddata2, datavalue2))
+            # L = {datavalue1_str: M}
+            # final_result.update(L)
+        pddata2.insert(0, "date")
 
-        return final_result
+        # print(final_result)
+        # print(pddata2)
+        # print('==================')
+        # print(datavalue2)
+        value_list.insert(0, pddata2)
+        # print(datavalue1_str)
+        # print(datavalue2)
+        return value_list
+
+
 
 
     def get_Yearly_coming_5years_year(self, predicArea, start_year, start_date):
         path = folder_path + 'result/%d/yearly/coming_%s_%d_to_%d_yearly.csv' % (
             start_date, predicArea, start_year, start_year + 5)
         # file = '/home/uk/PredictionServer/prediction/prediction_ETRI/result/predict_naju_2019_1_1_daily'
-        print(path)
+        # print(path)
         if not os.path.isfile(path):
             return False
 
@@ -385,7 +441,7 @@ class get_predic_data(object):
             L = {datavalue1_str: M}
             final_result.update(L)
 
-            print(final_result)
+            # print(final_result)
 
         return final_result
 
@@ -635,11 +691,12 @@ def model_create(filename, period_start, period_end, period_start_time, period_e
 
 
 
-# aa = get_predic_data()
+aa = get_predic_data()
 #
-# print(aa.get_Daily_coming_30days_vaule('naju',20191007))
+# print(aa.get_Daily_coming_30days_vaule('naju',20191001))
 # print(aa.get_Daily_coming_30days_vaule('naju',2019,1,1))
-# print(aa.get_Monthly_latest_12months_daily_value('naju',2018,1,1,1))
-# print(aa.get_Monthly_latest_12months_monthly_value('naju',2018,1,1,1))
+# print(aa.get_Monthly_latest_12months_daily_value('naju',2018,10,0,0,20191001))
+# print(aa.get_Monthly_latest_12months_monthly_value('naju',2018,10,0,0,20191001))
 # print(aa.get_Monthly_coming_24months_daily_value('naju',2019,1))
-# print(aa.get_Monthly_coming_24months_monthly_value('naju',2019,1))
+# print(aa.get_Monthly_coming_24months_monthly_value('naju',2019,10,20191003))
+# print(aa.get_Yearly_coming_5years_month('naju',2019,20191003))

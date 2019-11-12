@@ -28,7 +28,7 @@ class set_predic_data(object):
 
 
     ## 블러올 때, class 한번 선언후 각 함수(지역,값,값) 형태로
-    def set_Daily_coming_30days(self, predicArea, start_year, start_month, start_day, detectkey):
+    def set_Daily_coming_30days(self, predicArea, start_year, start_month, start_day, user_pkey, detectkey):
         # set_Daily_coming_30day_short_trem_save, set_Daily_coming_30day_mid_trem_save 로 단기3일, 중기 8일 예측 저장하고
         # set_Daily_coming_30day 함수로 모델링 하는거 까지. (결과 불러오는 거는 중간에 계속 불러올 수 있으니 따로 함수)
 
@@ -48,11 +48,12 @@ class set_predic_data(object):
         weather = set_weather_data(predicArea)
         json_data = weather.set_predict_short_mid_term(date)
 
-        print("json_data", json_data)
+        # print("json_data", json_data)
         # 데이터 저장.
         ## 받아온 json 값에서 short/mid로 나눈다.
 
         short_mid_folder = folder_path + 'data/forecast/%s/' % (date)
+        print("shomid_folder: ",short_mid_folder)
 
         result_value = dict()
         max_dict= dict()
@@ -84,7 +85,7 @@ class set_predic_data(object):
 
             if i == 2:
                 short_value = pd.DataFrame(result_value)
-                print(short_value)
+                # print(short_value)
                 if not os.path.isdir(short_mid_folder):
                     os.makedirs(short_mid_folder)
                 with open(folder_path + 'data/forecast/%s/%s_short_term' % (date, predicArea), 'w') as s:
@@ -100,7 +101,7 @@ class set_predic_data(object):
 
         mid_value = pd.DataFrame(result_value)
 
-        print(mid_value)
+        # print(mid_value)
         if not os.path.isdir(short_mid_folder):
             os.makedirs(short_mid_folder)
         with open(folder_path + 'data/forecast/%s/%s_mid_term' % (date, predicArea), 'w') as s:
@@ -110,10 +111,10 @@ class set_predic_data(object):
         #
         # ## /data/weather, insu, sub에 오늘보다 이전 데이터가 있어야함.
 
-        print("start backtask of api")
+        # print("start backtask of api")
 
         from backtasks import daily
-        daily.delay(predicArea, start_year, start_month, start_day, date, detectkey)
+        daily.delay(predicArea, start_year, start_month, start_day, date, user_pkey, detectkey)
 
         # from prediction.prediction_ETRI.predict_daily import main
         # main(predicArea, start_year, start_month, start_day, date)
@@ -124,6 +125,7 @@ class set_predic_data(object):
     def set_Daily_coming_30day_short_trem_save(self, predicArea, date):
         # 해당 날짜 or 시간을 기입해 파일생성. 하루 이기 떄문에 시간은 0000, 2400 고정
         short_term_path = folder_path + 'data/forecast/%s/%s_short_term' % (date, predicArea)
+        print("short_path: ", short_term_path)
         get_weather = set_weather_data(predicArea)
         get_list = ["t3h","tmn","tmx"]
         # save_value = get_weather.set_predict_short_term_filter('20190924', '0000', '20190924', '1000', get_list)
@@ -137,6 +139,7 @@ class set_predic_data(object):
     ## mid_term save
     def set_Daily_coming_30day_mid_trem_save(self, predicArea, date):
         mid_term_path = folder_path + 'data/forecast/%s/%s_mid_term' % (date, predicArea)
+        print("mid_path: ",mid_term_path)
         get_weather = set_weather_data(predicArea)
         get_list = ["maxTemp","minTemp","avgTemp"]
 
@@ -147,7 +150,7 @@ class set_predic_data(object):
 
         return
 
-    def set_Monthly_latest_12months(self, predicArea, start_year, start_month, month_range, temp_mode, sub_mode, start_date, detectkey):
+    def set_Monthly_latest_12months(self, predicArea, start_year, start_month, month_range, temp_mode, sub_mode, start_date, user_pkey, detectkey):
         ## -4년 부터 계산 -> /data/temperature/naju가 현재 2014~2018년 까지 없음 그래서 2018년을 시작날짜로 잡아야 test 가능.
         ## 무조건 현재에서 1년 뒤꺼 가져와야함 최근 12개월 이니까.
         # main(area,오늘년도,오늘월(원하는 월),12(고정),1(옵션),1(옵션))
@@ -156,24 +159,24 @@ class set_predic_data(object):
         # conduct_prediction(predicArea,start_year, start_month, month_range, temp_mode, sub_mode, start_date)
 
         from backtasks import monthly1
-        monthly1.delay(predicArea,start_year, start_month, month_range, temp_mode, sub_mode, start_date, detectkey)
+        monthly1.delay(predicArea,start_year, start_month, month_range, temp_mode, sub_mode, start_date, user_pkey, detectkey)
         return
 
-    def set_Monthly_coming_24months(self, predicArea, start_year, start_month, month_range, start_date, detectkey):
+    def set_Monthly_coming_24months(self, predicArea, start_year, start_month, month_range, start_date, user_pkey, detectkey):
         # from prediction.prediction_ETRI.predict_coming_24months import conduct_prediction
         # conduct_prediction(predicArea, start_year, start_month, month_range, start_date)
-
+        # 과거 -3년 있어야
         from backtasks import monthly2
-        monthly2.delay(predicArea, start_year, start_month, month_range, start_date, detectkey)
+        monthly2.delay(predicArea, start_year, start_month, month_range, start_date, user_pkey, detectkey)
 
         return
 
-    def set_Yearly_coming_5years(self, predicArea, start_year, date, detectkey):
+    def set_Yearly_coming_5years(self, predicArea, start_year, date, user_pkey, detectkey):
         # from prediction.prediction_ETRI.predict_coming_5years import main
         # main(predicArea,start_year, date)
 
         from backtasks import yearly
-        yearly.delay(predicArea,start_year, date, detectkey)
+        yearly.delay(predicArea,start_year, date, user_pkey, detectkey)
 
         return
 
@@ -223,7 +226,7 @@ class set_weather_data(object):
         ## ex) query='http://192.168.0.139:19480/api/weather/58,74/amWeather/hour?startDate=20190901&startTime=0000&endDate=20190901&endTime=0200'
         r = requests.get(query).text
         json_data = pd.read_json(r)
-        print(json_data)
+        # print(json_data)
         return json_data
 
     ## &filter=maxTemp,minTemp,avgTemp
@@ -233,7 +236,7 @@ class set_weather_data(object):
         query = self.set_filter_helper(query,filter)
         r = requests.get(query).text
         json_data = pd.read_json(r)
-        print(json_data)
+        # print(json_data)
         return json_data
 
     ## 과거측정데이터 - 일별 측정 데이터(그날 평균)
@@ -243,7 +246,7 @@ class set_weather_data(object):
         self._area_code, startDate, startTime, endDate, endTime)
         r = requests.get(query).text
         json_data = pd.read_json(r)
-        print(json_data)
+        # print(json_data)
         return json_data
 
     def set_past_data_by_day_filter(self, startDate, startTime, endDate, endTime, filter):
@@ -253,7 +256,7 @@ class set_weather_data(object):
 
         r = requests.get(query).text
         json_data = pd.read_json(r)
-        print(json_data)
+        # print(json_data)
         return json_data
 
     ## prediction_data
@@ -265,7 +268,7 @@ class set_weather_data(object):
         self._area_grid, startDate, startTime, endDate, endTime)
         r = requests.get(query).text
         json_data = pd.read_json(r)
-        print(json_data)
+        # print(json_data)
         return json_data
 
     # 값 얻는 부분.
@@ -348,7 +351,7 @@ class set_weather_data(object):
 
 # # ## 스마트E
 # aa = set_weather_data('naju')
-# aa.set_predict_short_mid_term(20191007)
+# print(aa.set_predict_short_mid_term(20191112))
 # filter=["maxTemp","minTemp","avgTemp"]
 # aa.past_data_by_time('20190901', '0000', '20190901', '0200')
 # aa.past_data_by_time_filter('20190901', '0000', '20190901', '0200', filter)

@@ -26,6 +26,8 @@ user_apis = Blueprint('user_apis', __name__, url_prefix='/api')
 
 wtforms_json.init()
 
+
+
 @user_apis.route('/users/<int:userid>/level', methods=['POST'])
 def api_login(userid):
     # login_level = AuthLevelForm.from_json(request.json)
@@ -248,11 +250,11 @@ def api_users():
     return jsonify(fresult)
 
 
-@user_apis.route('/users/<int:userid>', methods=['GET'])
+@user_apis.route('/users/<string:userid>', methods=['GET'])
 @crossdomain(origin='*')
 def api_usersid(userid):
     # query = db_session.query(Login).filter(Login.id == str(userid))
-    query = "select * from login where id=%s"%(userid)
+    query = "select * from login where id='%s'"%(str(userid))
     result = db_session.execute(query)
 
     rect = []
@@ -274,26 +276,21 @@ def api_userAdd():
     jsonString = json.dumps(req)
     data = json.loads(jsonString)
 
+    print(data)
+
     try:
-        id = data['id']
+        ids = data['id']
         pw = data['password']
 
-        db_session.add(Login(id=id, password=pw))
+        db_session.add(Login(id=ids, password=pw))
         db_session.commit()
 
         return jsonify(True)
     except:
-        abort(400)
+        return jsonify(False)
 
 
-
-
-        # print(e)
-        # db_session.rollback()
-
-
-
-@user_apis.route('/users/<int:userid>', methods=['PUT'])
+@user_apis.route('/users/<string:userid>', methods=['PUT'])
 @crossdomain(origin='*')
 def api_useredit(userid):
     req = request.get_json()
@@ -306,9 +303,12 @@ def api_useredit(userid):
         id = data['id']
         pw = data['password']
 
-
+        #2019-11-11 16:57:49.54101
         pkey = db_session.query(Login.pkey).filter(Login.id == str(userid))
+        print(pkey)
         login = db_session.query(Login).get(pkey)
+        print('==========')
+        print(login)
 
         login.id = id
         login.password = pw
@@ -366,6 +366,6 @@ def api_userDel(userid):
 #     level = IntegerField('level', [InputRequired])
 #
 #
-# class LoginForm(Form):
-#     id = StringField('id', [InputRequired()])
-#     pw = StringField('password', [InputRequired()])
+class LoginForm(Form):
+    id = StringField('id', [InputRequired()])
+    pw = StringField('password', [InputRequired()])

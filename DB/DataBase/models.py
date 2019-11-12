@@ -18,12 +18,27 @@ class Login(Base):
     id = Column(String(100), unique=True, nullable=False)
     password = Column(String(100), nullable=False)
     level = Column(Integer, default=1)
-#
-# class TestTable(Base):
-#     __tablename__ = 'testtable'
-#     pkey = Column(Integer, primary_key=True, autoincrement=True)
-#     inserted = Column(DateTime, default=datetime.datetime.now())
-#     name = Column(String(100), nullable=False)
+
+
+class ResultTable(Base):
+    __tablename__ = 'result_save'
+    ## 고유 식별
+    pkey = Column(Integer, primary_key=True, autoincrement=True)
+    ## finished-inserted로 test 시간 측정.
+    inserted = Column(DateTime, default=datetime.datetime.now())
+    finished = Column(DateTime, nullable=True)
+    ## 인수/검침, 나주/../광주, 시작날짜, 옵션(0,1), 모델이름, 저장경로2.
+    resource = Column(String(100), nullable=False)
+    location = Column(String(30), nullable=False)
+    start_date = Column(Integer, nullable=True)
+    temp_option = Column(Integer, nullable=True)
+    sub_option = Column(Integer, nullable=True)
+    model_name = Column(String(100), nullable=False)
+    save_file1 = Column(String(300), nullable=True)
+    save_file2 = Column(String(300), nullable=True)
+
+    user_pkey = Column(Integer, nullable=True)
+
 
 class DailyTable(Base):
     __tablename__ = 'daily'

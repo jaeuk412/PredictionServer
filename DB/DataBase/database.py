@@ -17,7 +17,7 @@ def connect(user, password, db, host, port):
     url = 'postgresql://{}:{}@{}:{}/{}'
     url = url.format(user, password, host, port, db)
 
-    engine = create_engine(url, pool_size=500, max_overflow=830, client_encoding='utf8')
+    engine = create_engine(url, pool_size=800, max_overflow=800, client_encoding='utf8')
 
     # meta = sqlalchemy.MetaData(bind=con, reflect=True)
 
@@ -32,7 +32,7 @@ dbsearch1 = connect('postgres','sp597886', 'smart-city', '220.90.81.106', '19415
 basedir = os.path.abspath(os.path.dirname(__file__))
 
 # engine = create_engine(postgresql+psycopg2://username:password@host/database)
-engine = create_engine('postgresql+psycopg2://ServerAdmin:0000@localhost/PredictionServer',pool_size=500, max_overflow=830)
+engine = create_engine('postgresql+psycopg2://ServerAdmin:0000@localhost/PredictionServer',pool_size=800, max_overflow=800)
 
 metadata = MetaData()
 db_session = scoped_session(sessionmaker(autocommit=False,

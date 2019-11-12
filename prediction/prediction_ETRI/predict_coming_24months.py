@@ -657,7 +657,7 @@ import math
 import datetime
 
 
-def conduct_prediction(area, start_year, start_month, month_range, start_date, detectkey):
+def conduct_prediction(area, start_year, start_month, month_range, start_date, user_pkey, detectkey):
     '''
     This function conducts prediction for coming 24 months.
     Args:
@@ -668,8 +668,8 @@ def conduct_prediction(area, start_year, start_month, month_range, start_date, d
     '''
 
     print("monthly2_start")
-    if not os.path.isdir(folder_path + 'result/%d' % (start_date)):
-        os.mkdir(folder_path + 'result/%d' % (start_date))
+    if not os.path.isdir(folder_path + 'result/%d' % (user_pkey)):
+        os.mkdir(folder_path + 'result/%d' % (user_pkey))
 
     # step 1: prepare the required things
     # - a list of categories relevant to target area
@@ -677,7 +677,7 @@ def conduct_prediction(area, start_year, start_month, month_range, start_date, d
 
     # - prepare the output file for daily prediction
     daily_output_file = folder_path + 'result/%d/coming_%s_%d_%d_%d_daily' % (
-    start_date, area, start_year, start_month, month_range)
+        user_pkey, area, start_year, start_month, month_range)
     # daily_f = open(daily_output_file, 'a+')
     daily_f = open(daily_output_file, 'w')
     data = "year month date "
@@ -689,7 +689,7 @@ def conduct_prediction(area, start_year, start_month, month_range, start_date, d
 
     # - prepare the output file for monthly prediction
     monthly_output_file = folder_path + 'result/%d/coming_%s_%d_%d_%d_monthly' % (
-    start_date, area, start_year, start_month, month_range)
+        user_pkey, area, start_year, start_month, month_range)
     # monthly_f = open(monthly_output_file, 'a+')
     monthly_f = open(monthly_output_file, 'w')
     data = "year month "

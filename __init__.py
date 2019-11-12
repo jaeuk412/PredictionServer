@@ -53,48 +53,35 @@ app.config['SESSION_COOKIE_AGE'] = 1500
 app.config['MAX_CONTENT_LENGTH'] = 20000000
 app.permanent_session_lifetime = datetime.timedelta(days=1)
 
+# print(app)
+# CSRF_ENABLED = True
+# CSRF_SESSION_KEY = "secret"
+# SECRET_KEY = "secret"
 # celery = make_celery(app)
+webapp_path = 'static'
+webapp_index = 'index.html'
 
-create_tables()
 
-# @celery.task()
-# def add_together(a, b):
-#     print(a+b)
-#     return a + b
-#
-#
-# result = add_together.delay(23, 42)
-# result.wait()
-# #################################################
-# # Socket
-#
-# @socketio.on('connect')
-# def connect():
-#     emit("response",{'data':'datavalue'})
-
-##################################################
-# global headers for CORS
-
+## 웹페이지 시작.
 @app.after_request
 ## origin=ip_path는 해당 컴터
 @crossdomain(origin='*', headers='content-type')
 def app_global_headers(response):
     return response
 
-
+@app.route('/')
+def app_webapp_index():
+    return static_file(webapp_index)
+    # return static_file(webapp_index)
 ##################################################
 # routing static files
-webapp_path = 'webapp'
-webapp_index = 'index.html'
 
 
 def static_file(filename):
     return send_from_directory(webapp_path, filename)
 
 
-@app.route('/')
-def app_webapp_index():
-    return static_file(webapp_index)
+
 
 
 
@@ -105,3 +92,4 @@ def app_webapp(filename):
     return static_file(filename)
 
 
+create_tables()

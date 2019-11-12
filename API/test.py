@@ -1,12 +1,6 @@
-datestart = 2015
-dateend = 2019
+from API.api_helper.user_directory import root_path
 
-datelist = []
-datarange = dateend-datestart
-print(range(datarange))
-for i in range(datarange):
-    print(i)
-    datestart += 1
-    datelist.append(datestart)
+path = root_path + '/detectkey/'+"tetst.txt"
 
-print(datelist)
+with open(path,'w') as f:
+    f.write("123")

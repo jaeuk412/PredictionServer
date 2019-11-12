@@ -2,7 +2,7 @@ import pandas as pd
 import numpy as np
 import os
 import sys
-sys.path.insert(0, '/home/uk/PredictionServer')
+# sys.path.insert(0, '/home/uk/PredictionServer')
 from API.api_helper.user_directory import folder_path, root_path
 import asyncio
 import datetime
@@ -13,6 +13,7 @@ import multiprocessing
 # # # # # # # # # # # # # # # # # # # # # # # #
 #              F u n c t i o n s              #
 # # # # # # # # # # # # # # # # # # # # # # # #
+import time
 
 import lightgbm as lgb
 from sklearn.model_selection import RandomizedSearchCV
@@ -194,9 +195,12 @@ def get_train_data(area, start_year, start_month):
                 sub_same_date_data = sub_same_date.filter(regex=("sub.*"))
 
                 insu_same_year = insu_data[insu_data['year'] == tyear]
+                # print("insu_same_year: ", insu_same_year)
                 insu_same_month = insu_same_year[insu_same_year['month'] == tmon]
                 insu_same_date = insu_same_month[insu_same_month['date'] == tday]
+                print("insu_same_date: ",insu_same_date)
                 insu_daily = insu_same_date['insu_sum'].values[0]
+                print("insu_daily: ", insu_daily)
 
                 temp_list = np.array([avgTemp, minTemp, maxTemp])
                 train_tmp = np.concatenate((temp_list, sub_same_date_data.values[0]))
@@ -204,7 +208,6 @@ def get_train_data(area, start_year, start_month):
                 trainY.append(insu_daily)
 
     return trainX, trainY
-
 
 def prepare_a_model(area, start_year, start_month):
     '''
@@ -285,11 +288,11 @@ def date_normalization(start_year, start_month, start_day):
 #                M a i n                      #
 # # # # # # # # # # # # # # # # # # # # # # # #
 
-def main(area, start_year, start_month, start_day, date, detectkey):
+def main(area, start_year, start_month, start_day, date, user_pkey, detectkey):
     # print("aa")
-
-    pred_model = prepare_a_model(area, start_year, start_month)
     print("predict_daily_start")
+    pred_model = prepare_a_model(area, start_year, start_month)
+
     print("----- ing -----")
     # print("pred_model: ", pred_model)
 
@@ -311,13 +314,13 @@ def main(area, start_year, start_month, start_day, date, detectkey):
 
     print(pred_all[5])
 
-    folder = folder_path + 'result/%s' % (date)
+    folder = folder_path + 'result/%d' % (user_pkey)
     if not os.path.isdir(folder):
         os.makedirs(folder)
 
     # print("main_start_day: ", start_day)
 
-    daily_output_file = folder_path + 'result/%s/predict_%s_%d_%d_%d_daily' % (date, area, start_year, start_month, start_day)
+    daily_output_file = folder_path + 'result/%d/predict_%s_%d_%d_%d_daily' % (user_pkey, area, start_year, start_month, start_day)
     daily_f = open(daily_output_file, 'w')
 
     daily_f.write(str(pred_all))
@@ -325,7 +328,8 @@ def main(area, start_year, start_month, start_day, date, detectkey):
 
     filepath = root_path + '/detectkey/'
 
-    message="daily_" + str(detectkey)
+    message=str(detectkey)
+    print(detectkey)
 
     if not os.path.isdir(filepath):
         os.mkdir(filepath)
@@ -334,7 +338,7 @@ def main(area, start_year, start_month, start_day, date, detectkey):
 
     print("predict_daily_done")
 
-# main('naju',2019,10,5,20191007)
+main('naju',2018,10,30,20191112,1,1)
 # if  __name__ == '__main__' :
 #     t = multiprocessing.Process(target=main, args=("Process-1",180))
 #     t.start()

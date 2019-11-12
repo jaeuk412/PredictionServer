@@ -13,17 +13,18 @@ import itertools # parameter search 할 때 사용
 
 warnings.filterwarnings("ignore")
 
-def main(area,year,start_date, detectkey):
+def main(area,year,start_date, user_pkey, detectkey):
     ### input ###
+    print("----yearly_start----")
     # 이건 이후에 argment나 입력 변수로 받아야됨.
     # result_path = '/home/uk/PredictionServer/prediction/prediction_ETRI/result/yearly/'
-    if not os.path.isdir(folder_path + 'result/%d' % (start_date)):
-        os.mkdir(folder_path + 'result/%d' % (start_date))
+    if not os.path.isdir(folder_path + 'result/%d' % (user_pkey)):
+        os.mkdir(folder_path + 'result/%d' % (user_pkey))
 
-    if not os.path.isdir(folder_path + 'result/%d/yearly' % (start_date)):
-        os.mkdir(folder_path + 'result/%d/yearly' % (start_date))
+    if not os.path.isdir(folder_path + 'result/%d/yearly' % (user_pkey)):
+        os.mkdir(folder_path + 'result/%d/yearly' % (user_pkey))
 
-    result_path = folder_path + 'result/%d/yearly/' % (start_date)
+    result_path = folder_path + 'result/%d/yearly/' % (user_pkey)
     print(result_path)
     # area = 'naju'
     # current_year = 2019
@@ -262,7 +263,7 @@ def main(area,year,start_date, detectkey):
     print(output_yearly)
     print(output_yearly.shape)
     output_yearly.to_csv(
-        result_path + 'coming_' + area + '_' + str(current_year) + '_to_' + str(current_year + 5) + '_yearly' + '.csv',
+        # result_path + 'coming_' + area + '_' + str(current_year) + '_to_' + str(current_year + 5) + '_yearly' + '.csv',
         mode='w', index=False, sep=' ')
 
     filepath = root_path + '/detectkey/'
@@ -272,7 +273,8 @@ def main(area,year,start_date, detectkey):
         os.mkdir(filepath)
     with open(filepath + message, 'w') as f:
         f.write(message)
+    print("----yearly_done----")
 
     # 최종 output: insu_coming_5years_monthly, output_yearly
 
-# main('naju',2019,20191023)
+# main('naju',2019,20191023,1)

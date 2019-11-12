@@ -9,7 +9,7 @@ import json
 '''directory'''
 ## database
 from DB.DataBase.database import db_session
-from DB.DataBase.models import Login, TestTable
+from DB.DataBase.models import Login
 from DB.DataBase.database import dbsearch
 
 class Data_get_from_db(object):

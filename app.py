@@ -1,7 +1,3 @@
-'''general'''
-'''library'''
-'''directory'''
-''' '''
 from . import app
 # from API.main_api import apis
 from API.Login.login_API import user_apis
@@ -12,9 +8,7 @@ app.register_blueprint(user_apis)
 app.register_blueprint(predic_apis)
 app.register_blueprint(data_apis)
 
-
 if __name__ == '__main__':
-    print("app.run")
     app.run(host='0.0.0.0', port=10300, debug=False)
 
 
