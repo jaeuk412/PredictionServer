@@ -20,7 +20,6 @@ from API.api_helper.api_helper import devide_date
 class get_predic_data(object):
 
     # _predicArea = str  ## 선택한 지역들(s).
-
     # ## 처음에 지역들 선택하고 날짜는 일별예측(30일), 월별예측1(past12개월), 월별예측2(coming24개월), 년별(5년) 동일.
     # ## 나주, 광주 등 각 지역마다 값을 처리할떄는 각 함수에 지역 이름 넣어서 처리. X
     # ## 최근 12개월은 시작 날짜가 -1년부터 시작 하기 때문에 일치하지가 않았다ㅠ
@@ -691,7 +690,7 @@ def model_create(filename, period_start, period_end, period_start_time, period_e
 
 
 
-aa = get_predic_data()
+# aa = get_predic_data()
 #
 # print(aa.get_Daily_coming_30days_vaule('naju',20191001))
 # print(aa.get_Daily_coming_30days_vaule('naju',2019,1,1))

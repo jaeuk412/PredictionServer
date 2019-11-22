@@ -1,14 +1,11 @@
 import pandas as pd
 import numpy as np
-import os
-import sys
+import resource
+
 # sys.path.insert(0, '/home/uk/PredictionServer')
 from API.api_helper.user_directory import folder_path, root_path
-import asyncio
-import datetime
-import random
-import asyncio
-import multiprocessing
+from functools import wraps
+
 
 # # # # # # # # # # # # # # # # # # # # # # # #
 #              F u n c t i o n s              #
@@ -18,6 +15,39 @@ import time
 import lightgbm as lgb
 from sklearn.model_selection import RandomizedSearchCV
 
+_, hard = resource.getrlimit(resource.RLIMIT_DATA)
+resource.setrlimit(resource.RLIMIT_DATA, (12000, hard))
+# resource.setrlimit(resource.RLIMIT_NPROC, (1,1))
+# resource.setrlimit(resource.RLIMIT_CPU, (1,2))
+# param = {
+#         'num_leaves': 7,
+#         'max_bin': 119,
+#         'min_data_in_leaf': 6,
+#         'learning_rate': 0.03,
+#         'min_sum_hessian_in_leaf': 0.00245,
+#         'bagging_fraction': 1.0,
+#         'bagging_freq': 5,
+#         'feature_fraction': 0.05,
+#         'lambda_l1': 4.972,
+#         'lambda_l2': 2.276,
+#         'min_gain_to_split': 0.65,
+#         # 'max_depth': 14,
+#         'save_binary': True,
+#         'seed': 1337,
+#         'feature_fraction_seed': 1337,
+#         'bagging_seed': 1337,
+#         'drop_seed': 1337,
+#         'data_random_seed': 1337,
+#         'objective': 'binary',
+#         'boosting_type': 'gbdt',
+#         'verbose': 1,
+#         'metric': 'auc',
+#         'is_unbalance': True,
+#         'boost_from_average': False,
+#         'device': 'gpu',
+#         'gpu_platform_id': 0,
+#         'gpu_device_id': 0
+#     }
 
 def train_boosting_model(trainX, trainY):
     '''
@@ -35,7 +65,10 @@ def train_boosting_model(trainX, trainY):
         'learning_rate': [0.01, 0.05, 0.1, 0.15, 0.2, 0.25, 0.3],
         'n_estimators': [10, 50, 100, 200, 300, 400, 500],
         'num_leaves': [10, 20, 30, 40],
-        'min_child_weight': [0.01, 0.02, 0.03, 0.04, 0.05]
+        'min_child_weight': [0.01, 0.02, 0.03, 0.04, 0.05],
+        'device': 'gpu',
+        'gpu_platform_id': 0,
+        'gpu_device_id': 0
     }
     # define a lightgbm model
     lgb_model = lgb.LGBMRegressor(boosting_type='gbdt')
@@ -198,9 +231,9 @@ def get_train_data(area, start_year, start_month):
                 # print("insu_same_year: ", insu_same_year)
                 insu_same_month = insu_same_year[insu_same_year['month'] == tmon]
                 insu_same_date = insu_same_month[insu_same_month['date'] == tday]
-                print("insu_same_date: ",insu_same_date)
+                # print("insu_same_date: ",insu_same_date)
                 insu_daily = insu_same_date['insu_sum'].values[0]
-                print("insu_daily: ", insu_daily)
+                # print("insu_daily: ", insu_daily)
 
                 temp_list = np.array([avgTemp, minTemp, maxTemp])
                 train_tmp = np.concatenate((temp_list, sub_same_date_data.values[0]))
@@ -312,7 +345,11 @@ def main(area, start_year, start_month, start_day, date, user_pkey, detectkey):
     # print("pred_all: ", pred_all)
     # - prepare the output file for monthly prediction
 
-    print(pred_all[5])
+    # print(pred_all[5])
+    # print("pred_all: ",pred_all)
+    # kwda=list(pred_all)
+    # print(kwda)
+    # print(type(kwda))
 
     folder = folder_path + 'result/%d' % (user_pkey)
     if not os.path.isdir(folder):
@@ -338,7 +375,7 @@ def main(area, start_year, start_month, start_day, date, user_pkey, detectkey):
 
     print("predict_daily_done")
 
-main('naju',2018,10,30,20191112,1,1)
+main('naju',2019,10,30,20191112,1,1)
 # if  __name__ == '__main__' :
 #     t = multiprocessing.Process(target=main, args=("Process-1",180))
 #     t.start()

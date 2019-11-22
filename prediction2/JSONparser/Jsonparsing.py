@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# json 입력 받아서, Null 값은 None 입력.
+
 '''
 1. 입력값 json 형태
 2. 저장소(이어하기) 옵션: reset=True(저장소 내용 지우고 초기화), reset=False(기존 csv 내용 이어서 진행((저장위치:tar_frame_save_list/[해당 folder_name])))
@@ -7,8 +7,8 @@
 
 # 추가.
 4. 데이터는 "jsondatafile/" 폴더에 꼭 넣어야함.
-5. parsing 저장 위치: "tar_frame_save_list/tar_frame.csv"
-
+5. parsing된 csv 파일 저장 위치: "tar_frame_save_list/tar_frame.csv"
+6. 입력 값을 기준으로 parsing.
 
 - 개발 진행된 라이브러리.
 pandas = 0.22.0
@@ -34,24 +34,32 @@ from sklearn.preprocessing import MinMaxScaler
 
 # backup 폴더 선택.
 folder_name = '/' # /:None, /30 폴더명
-
 if not folder_name:
     folder_name = '/'
 folder_path = os.getcwd() + '/jsondatafile' + folder_name
 
 
+def save_folder_name(folder_name):
+    value_name = str()
+    folder_name = folder_name.replace("/","")
+    if not folder_name:
+        folder_name = 'root'
+    value_name += folder_name
+    return value_name
+
 # for save
+# reset = False # True=처음부터, False=이어하기
 reset = True # True=처음부터, False=이어하기
-tar_frame_save_folder = os.getcwd() + '/tar_frame_save_list' + folder_name  ## 이어하기 옵션(reset) 저장 폴더.
+tar_frame_save_folder = os.getcwd() + '/tar_frame_save_list/' + save_folder_name(folder_name)  ## 이어하기 옵션(reset) 저장 폴더.
 tar_frame_done_txt = '/already_done_list.txt'  ## 중간 결과 진행 리스트
 tar_frame_done_csv = '/tar_frame.csv'  ## 중간 결과 .csv로 저장.
 tar_frame_variable_txt = '/variable.txt'  ## variable(변수) 정보를 저장.
 font_size = 20
 
-input_value1 = {
-        'bms': {'802': ['A', 'AChaMax', 'ADisChaMax', 'SoC', 'SoH', 'V'],
-                '1803': ['VCell', 'VCellMax', 'VCellMin']},
-        'pcs--ess': {'113': ['DCA', 'DCV', 'DCW', 'VAr', 'W']}}
+# input_value = {
+#     'bms': {'802': ['A', 'AChaMax', 'ADisChaMax', 'SoC', 'SoH', 'V'],
+#             '1803': ['VCell', 'VCellMax', 'VCellMin']},
+#     'pcs--ess': {'113': ['DCA', 'DCV', 'DCW', 'VAr', 'W']}}
 
 input_value = {
     "bms": {
@@ -130,184 +138,259 @@ input_value = {
             "WphB",
             "WphC"
         ]
-    },
-    "meter--grid": {
-        "214": [
-            "AphA",
-            "AphB",
-            "AphC",
-            "Hz",
-            "PF",
-            "PPVphAB",
-            "PPVphBC",
-            "PPVphCA",
-            "PhVphA",
-            "PhVphB",
-            "PhVphC",
-            "TotVAhImp",
-            "TotWhExp",
-            "TotWhImp",
-            "VAR",
-            "W"
-        ]
-    },
-    "meter--load": {},
-    "meter--pv": {
-        "214": [
-            "A",
-            "AphA",
-            "AphB",
-            "AphC",
-            "Hz",
-            "PF",
-            "PPVphAB",
-            "PPVphBC",
-            "PPVphCA",
-            "PhV",
-            "PhVphA",
-            "PhVphB",
-            "PhVphC",
-            "TotVAhImp",
-            "TotWhExp",
-            "TotWhImp",
-            "VA",
-            "VAR",
-            "VARphA",
-            "VARphB",
-            "VARphC",
-            "VAphA",
-            "VAphB",
-            "VAphC",
-            "W",
-            "WphA",
-            "WphB",
-            "WphC"
-        ]
-    },
-    "pcs--ess": {
-        "113": [
-            "AphA",
-            "AphB",
-            "AphC",
-            "DCA",
-            "DCV",
-            "DCW",
-            "Hz",
-            "PF",
-            "PPVphAB",
-            "PPVphBC",
-            "PPVphCA",
-            "TmpCab",
-            "TmpSnk",
-            "VAr",
-            "W"
-        ],
-        "123": [
-            "Conn"
-        ],
-        "1113": [
-            "AphA",
-            "AphB",
-            "AphC",
-            "DCV",
-            "Hz",
-            "PPVphAB",
-            "PPVphBC",
-            "PPVphCA",
-            "WHCha",
-            "WHDisCha"
-        ],
-        "1123": [
-            "VarRem",
-            "WRem"
-        ],
-        "001": {
-            "Vr": [
-                "param",
-                "sw"
-            ]
-        }
-    },
-    "pcs--pv": {},
-    "pms": {
-        "1020": {
-        }
-    },
-    "racks": {
-        "0": {
-            "802": [
-                "A",
-                "AChaMax",
-                "ADisChaMax",
-                "EvtVnd1",
-                "EvtVnd3",
-                "SoC",
-                "SoH",
-                "V",
-                "W",
-                "WChaMax",
-                "WDisChaMax"
-            ],
-            "1803": [
-                "Tmp",
-                "TmpMax",
-                "TmpMin",
-                {"TmpMinMaxLoc": [
-                    "max",
-                    "min"
-                ]},
-                "VCell",
-                "VCellMax",
-                "VCellMin",
-                {"VCellMinMaxLoc": [
-                    "max",
-                    "min"
-                ]}
-            ],
-            "1805": [
-                "NModOn"
-            ]
-        },
-        "1": {
-            "802": [
-                "A",
-                "AChaMax",
-                "ADisChaMax",
-                "EvtVnd1",
-                "EvtVnd3",
-                "SoC",
-                "V",
-                "W",
-                "WChaMax",
-                "WDisChaMax"
-            ],
-            "1803": [
-                "Tmp",
-                "TmpMax",
-                "TmpMin",
-                {"TmpMinMaxLoc": [
-                    "max",
-                    "min"
-                ]},
-                "VCell",
-                "VCellMax",
-                "VCellMin",
-                {"VCellMinMaxLoc": [
-                    "max",
-                    "min"
-                ]}
-            ],
-            "1805": [
-                "NModOn"
-            ]
-        }
     }
 }
 
-
-# plot_title = '_'.join(target_device) + '_' + '_'.join([key for key in target_id])
-
-## bms_pcs--ess_802_1803_113
+# input_value = {
+#     "bms": {
+#         "802": [
+#             "A",
+#             "AChaMax",
+#             "ADisChaMax",
+#             "SoC",
+#             "SoH",
+#             "V",
+#             "WChaMax",
+#             "WDisChaMax"
+#         ],
+#         "1803": [
+#             "Tmp",
+#             "TmpMax",
+#             "TmpMin",
+#             {"TmpMinMaxLoc": [
+#                 "max",
+#                 "min"
+#             ]},
+#             "VCell",
+#             "VCellMax",
+#             "VCellMin",
+#             {"VCellMinMaxLoc": [
+#                 "max",
+#                 "min"
+#             ]}
+#         ],
+#         "1805": [
+#             "Hb",
+#             "NRack",
+#             "NRackCellBal",
+#             "NRackDsOn",
+#             "NRackFanOn",
+#             "NRackFault",
+#             "NRackOn",
+#             "NRackWarn"
+#         ],
+#         "1823": [
+#             "Bsc",
+#             "Hb",
+#             "ManMode",
+#             "Sleep",
+#         ],
+#         "1825": {}
+#     },
+#     "meter--ess": {
+#         "214": [
+#             "A",
+#             "AphA",
+#             "AphB",
+#             "AphC",
+#             "Hz",
+#             "PF",
+#             "PPVphAB",
+#             "PPVphBC",
+#             "PPVphCA",
+#             "PhV",
+#             "PhVphA",
+#             "PhVphB",
+#             "PhVphC",
+#             "TotVAhImp",
+#             "TotWhExp",
+#             "TotWhImp",
+#             "VA",
+#             "VAR",
+#             "VARphA",
+#             "VARphB",
+#             "VARphC",
+#             "VAphA",
+#             "VAphB",
+#             "VAphC",
+#             "W",
+#             "WphA",
+#             "WphB",
+#             "WphC"
+#         ]
+#     },
+#     "meter--grid": {
+#         "214": [
+#             "AphA",
+#             "AphB",
+#             "AphC",
+#             "Hz",
+#             "PF",
+#             "PPVphAB",
+#             "PPVphBC",
+#             "PPVphCA",
+#             "PhVphA",
+#             "PhVphB",
+#             "PhVphC",
+#             "TotVAhImp",
+#             "TotWhExp",
+#             "TotWhImp",
+#             "VAR",
+#             "W"
+#         ]
+#     },
+#     "meter--load": {},
+#     "meter--pv": {
+#         "214": [
+#             "A",
+#             "AphA",
+#             "AphB",
+#             "AphC",
+#             "Hz",
+#             "PF",
+#             "PPVphAB",
+#             "PPVphBC",
+#             "PPVphCA",
+#             "PhV",
+#             "PhVphA",
+#             "PhVphB",
+#             "PhVphC",
+#             "TotVAhImp",
+#             "TotWhExp",
+#             "TotWhImp",
+#             "VA",
+#             "VAR",
+#             "VARphA",
+#             "VARphB",
+#             "VARphC",
+#             "VAphA",
+#             "VAphB",
+#             "VAphC",
+#             "W",
+#             "WphA",
+#             "WphB",
+#             "WphC"
+#         ]
+#     },
+#     "pcs--ess": {
+#         "113": [
+#             "AphA",
+#             "AphB",
+#             "AphC",
+#             "DCA",
+#             "DCV",
+#             "DCW",
+#             "Hz",
+#             "PF",
+#             "PPVphAB",
+#             "PPVphBC",
+#             "PPVphCA",
+#             "TmpCab",
+#             "TmpSnk",
+#             "VAr",
+#             "W"
+#         ],
+#         "123": [
+#             "Conn"
+#         ],
+#         "1113": [
+#             "AphA",
+#             "AphB",
+#             "AphC",
+#             "DCV",
+#             "Hz",
+#             "PPVphAB",
+#             "PPVphBC",
+#             "PPVphCA",
+#             "WHCha",
+#             "WHDisCha"
+#         ],
+#         "1123": [
+#             "VarRem",
+#             "WRem"
+#         ],
+#         "001": {
+#             "Vr": [
+#                 "param",
+#                 "sw"
+#             ]
+#         }
+#     },
+#     "pcs--pv": {},
+#     "pms": {
+#         "1020": {
+#         }
+#     },
+#     "racks": {
+#         "0": {
+#             "802": [
+#                 "A",
+#                 "AChaMax",
+#                 "ADisChaMax",
+#                 "EvtVnd1",
+#                 "EvtVnd3",
+#                 "SoC",
+#                 "SoH",
+#                 "V",
+#                 "W",
+#                 "WChaMax",
+#                 "WDisChaMax"
+#             ],
+#             "1803": [
+#                 "Tmp",
+#                 "TmpMax",
+#                 "TmpMin",
+#                 {"TmpMinMaxLoc": [
+#                     "max",
+#                     "min"
+#                 ]},
+#                 "VCell",
+#                 "VCellMax",
+#                 "VCellMin",
+#                 {"VCellMinMaxLoc": [
+#                     "max",
+#                     "min"
+#                 ]}
+#             ],
+#             "1805": [
+#                 "NModOn"
+#             ]
+#         },
+#         "1": {
+#             "802": [
+#                 "A",
+#                 "AChaMax",
+#                 "ADisChaMax",
+#                 "EvtVnd1",
+#                 "EvtVnd3",
+#                 "SoC",
+#                 "V",
+#                 "W",
+#                 "WChaMax",
+#                 "WDisChaMax"
+#             ],
+#             "1803": [
+#                 "Tmp",
+#                 "TmpMax",
+#                 "TmpMin",
+#                 {"TmpMinMaxLoc": [
+#                     "max",
+#                     "min"
+#                 ]},
+#                 "VCell",
+#                 "VCellMax",
+#                 "VCellMin",
+#                 {"VCellMinMaxLoc": [
+#                     "max",
+#                     "min"
+#                 ]}
+#             ],
+#             "1805": [
+#                 "NModOn"
+#             ]
+#         }
+#     }
+# }
 
 def depth(json_v):
     json_v = str(json_v)
@@ -330,8 +413,8 @@ def file_read():
 
     listOfFiles.sort()
 
-    print("file_read: ", listOfFiles)
-    print(" - - -")
+    # print("file_read: ", listOfFiles)
+    # print(" - - -")
     return listOfFiles
 
 # json depth 만큼 계산.
@@ -381,7 +464,6 @@ def get_feature_ext(json_data):
     final_name_result = []
     final_value_result = []
     list_name_get = []
-    target = None
     # print(keyname_list)
     # print(len(keyname_list))
     for i in keyname_list:
@@ -402,30 +484,7 @@ def get_feature_ext(json_data):
             elif len(i) == 7:
                 target = json_data[i[0]].loc[int(i[1])][i[2]][i[3]][i[4]][i[5]][i[6]]
             else:
-                target = None
-
-            # if target:
-            final_value_result = final_value_result + [target]
-            value_get_str = str()
-
-
-            for value_get in i:
-                if value_get == i[-1]:
-                    value_get_str += str(value_get)
-                else:
-                    value_get_str += str(value_get) + '_'
-            final_name_result.append(value_get_str)
-
-        except Exception as e:
-            '''
-            json_data['meter--grid'].loc[int(214)] -> nan 값 발생.
-            json_data['meter--grid'].loc[int(214)]['PPVphBC'] -> IndexError: invalid index to scalar variable.
-            json_data['bms'].loc[int(802)]['214']['A'] -> 214 key 값 없음.
-            '''
-            # print("SKIP ERROR VALUE")
-            # print(e)
-            target = None
-
+                target = 0
 
             final_value_result = final_value_result + [target]
             value_get_str = str()
@@ -436,12 +495,16 @@ def get_feature_ext(json_data):
                     value_get_str += str(value_get) + '_'
             final_name_result.append(value_get_str)
 
-    # print("-------------=======")
-    # print("name_list: ",final_name_result)
-    # print("tar_list: ",final_value_result)
-    # print("-------------=======")
-    # print("final_value_result_len: ", len(final_value_result))
-    # print("final_name_result_len: ", len(final_name_result))
+        except:
+            target = 0
+            final_value_result = final_value_result + [target]
+            value_get_str = str()
+            for value_get in i:
+                if value_get == i[-1]:
+                    value_get_str += str(value_get)
+                else:
+                    value_get_str += str(value_get) + '_'
+            final_name_result.append(value_get_str)
 
     return final_value_result
 
@@ -451,74 +514,72 @@ def list2pd(tar_list, df):
     pdf = pd.DataFrame(tar_list, columns=keyname_list)  # column head 수정
     pd_con = pd.concat([pdf, df['timestamp']], axis=1)
 
-    # try:
-    #     pd_con.to_csv(tar_frame_save_folder+'/tar_frame.csv', mode='a', index=False)
-    # except Exception as e:
-    #     return print(e)
-
     return pd_con
 
 
-# # In[24]:
-# plot_title = str(keyname_list)
-#
-# def visualization1(tar_frame):
-#     tar_frame_time = tar_frame.copy()
-#
-#     #    tar_frame_time[target_value_02].plot(kind='line', figsize=(20,6), linewidth=3, fontsize=font_size, x = "Time")
-#     tar_frame_time.plot(kind='line', figsize=(20, 6), linewidth=3, fontsize=font_size, x="timestamp")
-#     plt.legend(loc='center left', bbox_to_anchor=(1.0, 0.5), fontsize=font_size)
-#     plt.title(plot_title, fontsize=font_size)
-#     plt.xlabel('Index', fontsize=font_size)
-#     plt.ylabel('Demand', fontsize=font_size)
-#
-#     plt.locator_params(axis='x', nbins=4)
-#
-#     plt.show()
-#
-#
-# # In[25]:
-#
-#
-# def visualization2(tar_frame):
-#     min_max_scaler = MinMaxScaler()
-#
-#     drop_frame = tar_frame.drop(['timestamp'], axis=1)
-#     fit_data = min_max_scaler.fit(drop_frame)
-#
-#     tar_frame_norm = min_max_scaler.transform(drop_frame)
-#     tar_frame_norm = pd.DataFrame(tar_frame_norm, columns=drop_frame.columns, index=list(drop_frame.index.values))
-#
-#     tar_frame_time = tar_frame_norm.copy()
-#     tar_frame_time["Time"] = tar_frame['timestamp']
-#
-#     #    tar_frame_time[target_value_02].plot(kind='line', figsize=(20,6), linewidth=3, fontsize=font_size, x = "Time")
-#     tar_frame_time.plot(kind='line', figsize=(20, 6), linewidth=3, fontsize=font_size, x="Time")
-#     plt.legend(loc='center left', bbox_to_anchor=(1.0, 0.5), fontsize=font_size)
-#     plt.title(plot_title, fontsize=font_size)
-#     plt.xlabel('Index', fontsize=font_size)
-#     plt.ylabel('Demand', fontsize=font_size)
-#
-#     plt.locator_params(axis='x', nbins=4)
-#
-#     plt.show()
+# plot_title = '_'.join(target_device) + '_' + '_'.join([key for key in target_id])
+## bms_pcs--ess_802_1803_113
+
+# In[24]:
+plot_title = str(keyname_list)
+
+def visualization1(tar_frame):
+    tar_frame_time = tar_frame.copy()
+
+    #    tar_frame_time[target_value_02].plot(kind='line', figsize=(20,6), linewidth=3, fontsize=font_size, x = "Time")
+    tar_frame_time.plot(kind='line', figsize=(20, 6), linewidth=3, fontsize=font_size, x="timestamp")
+    plt.legend(loc='center left', bbox_to_anchor=(1.0, 0.5), fontsize=font_size)
+    plt.title(plot_title, fontsize=font_size)
+    plt.xlabel('Index', fontsize=font_size)
+    plt.ylabel('Demand', fontsize=font_size)
+
+    plt.locator_params(axis='x', nbins=4)
+
+    plt.show()
+
+
+# In[25]:
+
+
+def visualization2(tar_frame):
+    min_max_scaler = MinMaxScaler()
+
+    drop_frame = tar_frame.drop(['timestamp'], axis=1)
+    fit_data = min_max_scaler.fit(drop_frame)
+
+    tar_frame_norm = min_max_scaler.transform(drop_frame)
+    tar_frame_norm = pd.DataFrame(tar_frame_norm, columns=drop_frame.columns, index=list(drop_frame.index.values))
+
+    tar_frame_time = tar_frame_norm.copy()
+    tar_frame_time["Time"] = tar_frame['timestamp']
+
+    #    tar_frame_time[target_value_02].plot(kind='line', figsize=(20,6), linewidth=3, fontsize=font_size, x = "Time")
+    tar_frame_time.plot(kind='line', figsize=(20, 6), linewidth=3, fontsize=font_size, x="Time")
+    plt.legend(loc='center left', bbox_to_anchor=(1.0, 0.5), fontsize=font_size)
+    plt.title(plot_title, fontsize=font_size)
+    plt.xlabel('Index', fontsize=font_size)
+    plt.ylabel('Demand', fontsize=font_size)
+
+    plt.locator_params(axis='x', nbins=4)
+
+    plt.show()
 
 
 # In[26]:
 
-#
-# def feature_save(tar_frame):
-#     save_fname = plot_title + '.pickle'
-#
-#     if os.path.exists(save_fname):
-#         print(
-#             'Warning!! The same file name exists. If you are sure you want to create a new file, delete the file first. ')
-#         return
-#     else:
-#         print('A new file will be created. ')
-#         # get_ipython().run_line_magic('time', 'tar_frame.to_pickle(save_fname)')
-#
-#     return
+
+def feature_save(tar_frame):
+    save_fname = plot_title + '.pickle'
+
+    if os.path.exists(save_fname):
+        print(
+            'Warning!! The same file name exists. If you are sure you want to create a new file, delete the file first. ')
+        return
+    else:
+        print('A new file will be created. ')
+        # get_ipython().run_line_magic('time', 'tar_frame.to_pickle(save_fname)')
+
+    return
 
 
 ## 저장소 txt 및 csv 제거.
@@ -600,18 +661,22 @@ def tar_save(tar_frame, starget_id):
         # pdf.to_csv(tar_frame_save_folder+'/tar_frame.csv',header=True, index=True, )
         if not os.path.isfile(tar_frame_save_folder + tar_frame_done_csv):
             ## tar_frame_done.csv, variable.txt 최초 1번 생성.
+
+            # print("pdf: ", pdf)
+            print(" save_csv_first")
             pdf.to_csv(tar_frame_save_folder + tar_frame_done_csv, header=True, index=False)
+
 
             ## variable 저장.
             variable_save(starget_id)
         else:
             if not os.path.isfile(tar_frame_save_folder + tar_frame_variable_txt):
                 variable_save(starget_id)
+
+            # print("pdf: ", pdf)
+            print(" save_csv_continue")
             # pdf.to_csv(tar_frame_save_folder + tar_frane_csv, header=True, index=True)
             pdf.to_csv(tar_frame_save_folder + tar_frame_done_csv, header=False, index=False, mode='a')
-
-        # with open(tar_frame_save_folder+'/tar_frame.csv', 'a') as f:
-        #     f.write(tar_frame)
     except Exception as e:
         return print(e)
 
@@ -690,9 +755,6 @@ def circle(file_name, tar_frame):
         except ValueError:
             pass
 
-    # print("tar_list: ", tar_list)
-    # print("tar_list_len: ", len(tar_list))
-
     try:
         tar_box_to_save = (list2pd(tar_list, df)).reset_index(drop=True)
         # tar_box_to_save = (list2pd(get_tot_list, tar_list, df))
@@ -744,8 +806,8 @@ def main():
             # print('--------------------3--------------------')
             tar_frame = circle(file_name, tar_frame)
 
-    # feature_save(tar_frame)
-    #
+    feature_save(tar_frame)
+
     # visualization1(tar_frame)
     # visualization2(tar_frame)
 

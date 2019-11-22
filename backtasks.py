@@ -2,19 +2,21 @@
 
 import sys, os
 import threading
+import queue
 from multiprocessing import current_process
 from celery import Celery
 from API.api_helper.user_directory import root_path
+from celery.exceptions import SoftTimeLimitExceeded
 from celery import task
 from flask_sse import sse
 
 celery = Celery('task', broker='pyamqp://uk:0000@localhost:5672')
 
 # CELERY_TASK_PROTOCOL = 5
-CELERY_ENABLE_UTC=False
+CELERY_ENABLE_UTC= False
 
-celery.conf.task_protocol = 1
-worker_max_memory_per_child = 3000000  # 3000MB
+celery.conf.task_protocol = 5
+worker_max_memory_per_child = 300  # 3000MB
 # broker_trainsport_options = {'visibility_timeout':18000}
 
 filepath = root_path+'/detectkey/'
@@ -33,10 +35,15 @@ filepath = root_path+'/detectkey/'
 
 ################################################################################
 
+
+
 @celery.task(name='daily')
 def daily(predicArea, start_year, start_month, start_day, date, user_pkey, detectkey):
+
     Thread = threading.Thread(target=daily_exe, args=(predicArea, start_year, start_month, start_day, date, user_pkey, detectkey))
     Thread.start()
+
+
 
 def daily_exe(predicArea, start_year, start_month, start_day, date, user_pkey, detectkey):
     print(str(predicArea), int(start_year), int(start_month), int(start_day), int(date),user_pkey, detectkey)

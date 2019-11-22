@@ -17,6 +17,58 @@ async def SendMsg1(websocket, path, result):
 async def SendMsg2(websocket, path, result):
     await websocket.send(json.dumps(result))
 
+def db_query(data):
+    query = "SELECT model_name, location, start_date, user_pkey, temp_option, sub_option FROM result_save where pkey=%d" % (
+        int(data))
+    query_value = db_session.execute(query)
+
+    print(query)
+
+    # save_monthly
+    model_name = str()
+
+    value = []
+    for y1 in query_value:
+
+        for x, y in y1.items():
+            value.extend([y])
+
+    print(value)
+    print(type(value))
+
+    model_name = value[0]
+
+    area = value[1]
+    start_date = value[2]
+    start_year, start_month, start_day = devide_date(start_date)
+    user_pkey = value[3]
+    temp_option = value[4]
+    sub_option = value[5]
+
+    datass = []
+    from API.Predict.get_data_class import get_predic_data
+    get_class = get_predic_data()
+
+    print("model_name:", model_name)
+
+    if model_name == 'daily':
+        print("-------------------------")
+        # datass = get_class.get_Daily_coming_30days_vaule(area, start_date, user_pkey)
+        datass = get_class.get_Daily_coming_30days_vaule(area, 20191003, user_pkey)
+    elif model_name == 'monthly1':
+        # datass = get_class.get_Monthly_latest_12months_monthly_value(area, start_year - 1, start_month, temp_option, sub_option, user_pkey)
+        datass = get_class.get_Monthly_latest_12months_monthly_value(area, 2018, 10,
+                                                                     0, 0, user_pkey)
+    elif model_name == 'monthly2':
+        # datass = get_class.get_Monthly_coming_24months_monthly_value(area, start_year, start_month, user_pkey)
+        datass = get_class.get_Monthly_coming_24months_monthly_value(area, 2019, 10,
+                                                                     user_pkey)
+    elif model_name == 'yearly':
+        # datass = get_class.get_Yearly_coming_5years_month(area, start_year, user_pkey)
+        datass = get_class.get_Yearly_coming_5years_month(area, 2019, user_pkey)
+
+    return datass
+
 '''
 ws://localhost:10308/websocket
 {"type":"predicted","data":{"id":"daily"}}
@@ -32,7 +84,9 @@ async def main(websocket, path):
             if files:
                 for i in files:
                     try:
-                        result = {"data": {"dataset": i}}
+                        datass = db_query(i)
+                        # result = {"data": {"dataset": i}}
+                        result = {"type": "predicted", "dataset": {"id": i, "dataset": datass}}
                         Send1 = asyncio.ensure_future((SendMsg2(websocket, path, result)))
                         asyncio.as_completed(Send1)
                         ## send된 파일 제거.
@@ -44,7 +98,7 @@ async def main(websocket, path):
             #     websocket.recv()
             # else:
             # 웹으로부터 recv.
-            with timeout(1):
+            with timeout(0.01):
                 name = await websocket.recv()
 
                 print('----recv----')
@@ -53,65 +107,22 @@ async def main(websocket, path):
                 print(data)
 
                 if isinstance(data, dict):
-                    data = data['data']
+                    data = data['dataset']
                     data = data['id']
                     print("id: ", data)
 
+                    ## 데이터 쿼리.
+                    datass = db_query(data)
 
-                    print(type(data))
-
-                    ## todo: ResultTable DB의 pkey 에 해당하는 내용 push
-                    query = "SELECT model_name, location, start_date, user_pkey, temp_option, sub_option FROM result_save where pkey=%d"%(int(data))
-                    query_value = db_session.execute(query)
-
-                    print(query)
-
-                    # save_monthly
-                    model_name = str()
-
-                    value = []
-                    for y1 in query_value:
-
-                        for x, y in y1.items():
-                            value.extend([y])
-
-
-                    print(value)
-                    print(type(value))
-
-                    model_name = value[0]
-
-                    area = value[1]
-                    start_date = value[2]
-                    user_pkey = value[3]
-                    start_year, start_month, start_day = devide_date(start_date)
-                    temp_option = value[4]
-                    sub_option = value[5]
-
-
-                    datass = []
-                    from API.Predict.get_data_class import get_predic_data
-                    get_class = get_predic_data()
-
-                    print("model_name:",model_name)
-
-                    if model_name == 'daily':
-                        print("-------------------------")
-                        datass = get_class.get_Daily_coming_30days_vaule(area, start_date, user_pkey)
-                    elif model_name =='monthly1':
-                        datass = get_class.get_Monthly_latest_12months_monthly_value(area, start_year - 1, start_month, temp_option, sub_option, user_pkey)
-                    elif model_name == 'monthly2':
-                        datass = get_class.get_Monthly_coming_24months_monthly_value(area, start_year, start_month, user_pkey)
-                    elif model_name == 'yearly':
-                        datass = get_class.get_Yearly_coming_5years_month(area, start_year, user_pkey)
                     # print(datass)
-                    result = {"type": "predicted", "data": {"id": data, "dataset": datass}}
+                    result = {"type": "predicted", "dataset": {"id": data, "dataset": datass}}
                     # print(result)
                     Send2 = asyncio.ensure_future((SendMsg2(websocket, path, result)))
                     asyncio.as_completed(Send2)
                     print("----send message----")
 
         except Exception as e:
+            # print(websocket)
             ## 종료된 소켓은 disconnect.
             if str(type(e)) == "<class 'websockets.exceptions.ConnectionClosed'>":
                 break

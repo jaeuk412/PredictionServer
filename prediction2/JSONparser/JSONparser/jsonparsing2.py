@@ -2,16 +2,7 @@
 # json 입력 값 받아서, 불필요 변수와, Null값 제거.
 
 '''
-1. 입력값 json 형태로 변수화.
-2. 저장소(이어하기) 옵션: reset=True(저장소 내용 지우고 초기화), reset=False(기존 csv 내용 이어서 진행((저장위치:tar_frame_save_list/[해당 folder_name])))
-3. input 값에 따라 폴더명으로 저장.
-
-# 추가.
-4. 데이터는 "jsondatafile/" 폴더에 꼭 넣어야함.
-5. parsing된 파일 저장 위치: "tar_frame_save_list/폴더명(변수이름+시작날짜폴더)/tar_frame.csv"
-6. 저장된 파일의 값을 기준으로, key, value 값 parsing.
-
-- 개발 진행된 라이브러리.
+- 개발 라이브러리.
 pandas = 0.22.0
 matplotlib = 3.0.3
 sklearn = 0.0
@@ -28,41 +19,41 @@ import matplotlib as rc
 from operator import eq
 from sklearn.preprocessing import MinMaxScaler
 
-#######################################################
-######### 변수 및 경로 선언.
-#######################################################
+## 'bms', 'meter--ess', 'meter--grid', 'meter--load', 'meter--pv', 'pcs--ess', 'pcs--pv', 'pms', 'racks'
+
+# 폴더 선택. /, /30
+folder_name = '/'
+# 원하는 상위키 선택해서 parsing. (저장: /해당키폴더/result.csv)
+input_value = ['bms', 'meter--ess', 'meter--grid', 'meter--load', 'meter--pv', 'pcs--ess', 'pcs--pv', 'pms', 'racks']
+# parsing된 값에서 원하는 column(key)만 선택 출력. (저장: /해당키폴더/result(load),[columns].csv)
+load_value =['bms', 'meter--ess']
+# True=처음부터, False=저장(이어하기)
+reset = False
 
 
-# backup 폴더 선택.
-folder_name = '/' # /:None, /30 폴더명
+
+
+
+
+
+def get_folder_name(value, folder_name):
+    value_name = str()
+    count = 0
+    for i in value:
+        value_name += '%d.%s '%(count, i)
+        count +=1
+    value_name += '%s'%(folder_name)
+    return value_name
+
 if not folder_name:
     folder_name = '/'
 folder_path = os.getcwd() + '/jsondatafile' + folder_name
 
-
-# 'bms', 'meter--ess', 'meter--grid', 'meter--load', 'meter--pv', 'pcs--ess', 'pcs--pv', 'pms', 'racks'
-input_value = ['bms', 'meter--ess', 'meter--grid', 'meter--load', 'meter--pv', 'pcs--ess', 'pcs--pv', 'pms', 'racks']
-
-# bms_1805_NRackCellBal
-def folder_get_name(value, folder_name):
-    value_name = str()
-    for i in value:
-            value_name += '%s,'%(i)
-    folder_name = folder_name.replace("/","")
-    if not folder_name:
-        folder_name = 'root'
-    value_name += folder_name
-    return value_name
-
-# for save
-reset = False # True=처음부터, False=이어하기
-# reset = True # True=처음부터, False=이어하기
-tar_frame_save_folder = os.getcwd() + '/tar_frame_save_list/' + folder_get_name(input_value,folder_name)  ## 이어하기 옵션(reset) 저장 폴더.
-tar_frame_done_txt = '/already_done_list.txt'  ## 중간 결과 진행 리스트
-tar_frame_done_csv = '/tar_frame.csv'  ## 중간 결과 .csv로 저장.
-tar_frame_variable_txt = '/variable.txt'  ## variable(변수) 정보를 저장.
+tar_frame_save_folder = os.getcwd() + '/save_final_result/' + get_folder_name(input_value,folder_name)  ## 이어하기 옵션(reset) 저장 폴더.
+tar_frame_done_txt = '/file_list.txt'  ## 중간 결과 진행 리스트
+tar_frame_done_csv = '/result.csv'  ## 결과 .csv로 저장.
+tar_frame_variable_txt = '/top_key_list.txt'  ## variable(변수) 정보를 저장.
 font_size = 20
-
 
 def depth(json_v):
     json_v = str(json_v)
@@ -85,8 +76,7 @@ def file_read():
 
     listOfFiles.sort()
 
-    print("file_read: ", listOfFiles)
-    print(" - - -")
+    print("file list: ", listOfFiles)
     return listOfFiles
 
 def search_values_name(key2_value, key):
@@ -257,9 +247,9 @@ def file_detect():
 
     ## 'already_dnoe_list.txt' or 'tar_frame.csv'가 없으면 초기화해서 새로 시작.
     if not os.path.isfile(file_path) or not os.path.isfile(tar_frame_save_folder + tar_frame_done_csv):
-        print("####################################################################################################")
-        print("#########             There is no record file           * create new record file *         #########")
-        print("####################################################################################################")
+        print("------------------------------------------------------------------------------------")
+        print("-                There is no record file     * create new record file *            -")
+        print("------------------------------------------------------------------------------------")
         file_remove(True)
 
 
@@ -276,11 +266,11 @@ def file_check(file_name):
         filelist = f.read().splitlines()
 
     if str(file_name) in filelist:
-        print("----already done----")
+        print(" * done * ")
         print(file_name)
         return True
     else:
-        print('----new_file----')
+        print(' * new * ')
         print(file_name)
         return False
 
@@ -353,13 +343,30 @@ def variable_check(tot_list):
             print("** Cannot Save all information in the tar_frame_save.csv/txt **\n")
             print("NewInput_value: ", check_variable)
             print("Original_value: ", saved_file, "\n")
-
             return False
 
+## tar 값 원하는 컬럼만 처리.
+def load_values(tframe, fname):
+    load_list = tframe.columns.tolist()
+
+    save_path = '/result(load)'
+    for k in fname:
+        save_path += ',%s' % (str(k))
+
+    save_path += '.csv'
+
+    fname.append('timestamp')
+    pddata_name_value=[]
+    for i in load_list:
+        for j in fname:
+            if j in i.split('_')[0]:
+                pddata_name_value.append(i)
+
+    final = tframe[pddata_name_value]
+    final.to_csv(tar_frame_save_folder + save_path, header=True, index=True)
+    return final
 
 # In[29]:
-
-
 tar_frame = pd.DataFrame()
 
 ## 시행 함수.
@@ -372,15 +379,23 @@ def circle(file_name, tar_frame):
     sum_tar_value = []
     sum_tar_name = []
     each_input_count = 0
+    ## 컬럼의 각 값(each_input_value)
     for each_input_value in input_value:
         for index, row in df.iterrows():
             try:
                 date = row['bms']
                 jso = json.loads(date)
+                # 각 컬럼에 대한 값을 json형태의 get으로 key에 대응되는 value만 얻어옴.
                 jso_v = jso.get(each_input_value)
+                # print("jso_v: ",jso_v)
+                # print("each_input_value: ",each_input_value)
+                # print("-------------------------------")
 
                 if jso_v:
                     tar_name, get_tar_list = get_json_values(jso_v, each_input_value)
+                    # print("tar_name: ",tar_name)
+                    # print("get_tar_list: ",get_tar_list)
+                    # print("============================================================")
                     if each_input_count == 0:
                         sum_tar_value.append(get_tar_list)
                     else:
@@ -427,9 +442,8 @@ def main():
 
     ## reset 체크, True 일 때 저장소 초기화.
     if reset == True:
-        print("####################################################################################################")
-        print("#########    reset = T ( reset=T - remove save data, reset=F - continue save data )         ########")
-        print("####################################################################################################")
+        print("------------------------------------------------------------------------------------")
+        print("-                                    reset mode                                    -")
 
     file_remove(reset)
 
@@ -456,10 +470,11 @@ def main():
             tar_frame = circle(file_name, tar_frame)
 
     feature_save(tar_frame)
-    print(tar_frame)
+    ## 'bms', 'meter--ess'
+    tar_frame = load_values(tar_frame, load_value)
 
-    visualization1(tar_frame)
-    visualization2(tar_frame)
+    # visualization1(tar_frame)
+    # visualization2(tar_frame)
 
 
 # In[30]:
@@ -468,7 +483,10 @@ def main():
 if __name__ == "__main__":
     main()
 
+    # print(tar_frame)
     print(tar_frame)
+
+
 
 
 
