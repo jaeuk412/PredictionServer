@@ -6,7 +6,7 @@ import random
 class _Operation(threading.Thread):
   def __init__(self, sem, *args, **kwds):
     self.sem = sem
-    self.method = kwds.pop('target')
+    self.method = kwds.pop(sem)
     super().__init__(target=self.wrappedTarget, args=args, kwargs=kwds, daemon=True)
 
   def wrappedTarget(self, *args, **kwds):
