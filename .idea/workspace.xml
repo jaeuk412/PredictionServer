@@ -1,377 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="BookmarkManager">
-    <bookmark url="file://$PROJECT_DIR$/API/DataSet/data_API.py" description="meta_get2 = []" line="723" />
+    <bookmark url="file://$PROJECT_DIR$/API/DataSet/data_API.py" description="meta_get2 = []" line="719" />
   </component>
   <component name="ChangeListManager">
     <list default="true" id="997b5422-ce25-402f-99ae-daebf021415c" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/DataSet/backupfile/data_API_1110.py" beforeDir="false" afterPath="$PROJECT_DIR$/API/DataSet/backupfile/data_API_1110.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/API/DataSet/data_API.py" beforeDir="false" afterPath="$PROJECT_DIR$/API/DataSet/data_API.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/DataSet/uploadfiles/20191101190323_postgre2.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Login/login_API.py" beforeDir="false" afterPath="$PROJECT_DIR$/API/Login/login_API.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Predict/backupfile/1011get_data_class.py" beforeDir="false" afterPath="$PROJECT_DIR$/API/Predict/backupfile/1011get_data_class.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Predict/get_data_class.py" beforeDir="false" afterPath="$PROJECT_DIR$/API/Predict/get_data_class.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Predict/predic_API.py" beforeDir="false" afterPath="$PROJECT_DIR$/API/Predict/predic_API.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Predict/set_data_class.py" beforeDir="false" afterPath="$PROJECT_DIR$/API/Predict/set_data_class.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/api_helper/api_helper.py" beforeDir="false" afterPath="$PROJECT_DIR$/API/api_helper/api_helper.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/api_helper/user_directory.py" beforeDir="false" afterPath="$PROJECT_DIR$/API/api_helper/user_directory.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DB/DataBase/machbase.py" beforeDir="false" afterPath="$PROJECT_DIR$/DB/DataBase/machbase.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DB/DataBase/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/DB/DataBase/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backtasks.py" beforeDir="false" afterPath="$PROJECT_DIR$/backtasks.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backtasks1.py" beforeDir="false" afterPath="$PROJECT_DIR$/backtasks1.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/Model_test.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/Modeltest2.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/__init__.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/ana_insu_per_use_over_time.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/code/20190808/v1/ana_insu_per_use_over_time.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/code/20190808/v1/crawling_temp.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/code/20190808/v1/get_date_info.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/code/20190808/v1/predict_common.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/code/20190808/v1/predict_monthly.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/code/20190808/v1/predict_past_12months.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/code/20190808/v2/ana_insu_per_use_over_time.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/code/20190808/v2/crawling_temp.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/code/20190808/v2/get_date_info.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/code/20190808/v2/predict_common.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/code/20190808/v2/predict_future_24months.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/code/20190808/v2/predict_monthly.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/code/20190808/v2/predict_past_12months.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/code/20190808/v3/ana_insu_per_use_over_time.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/code/20190808/v3/crawling_temp.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/code/20190808/v3/get_date_info.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/code/20190808/v3/predict_coming_24months.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/code/20190808/v3/predict_coming_30days.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/code/20190808/v3/predict_common.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/code/20190808/v3/predict_daily.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/code/20190808/v3/predict_monthly.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/code/20190808/v3/predict_past_12months.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/code/prev/ana_insu_per_use_over_time.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/code/prev/predict_HyGas_24months_20190807_v1.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/code/prev/predict_HyGas_24months_20190807_v2.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/code/prev/predict_HyGas_24months_20190807_v3.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/code/prev/predict_HyGas_24months_20190807_v4.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/code/prev/predict_HyGas_30days_20190807_v1.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/code/prev/predict_HyGas_damyang.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/code/prev/predict_HyGas_gwangju.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/code/prev/predict_HyGas_jangsung.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/code/prev/predict_HyGas_naju_20190805_v1.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/code/prev/predict_HyGas_naju_20190806_v1.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/code/prev/predict_HyGas_naju_20190806_v2.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/code/prev/predict_HyGas_naju_20190806_v3.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/code/prev/predict_HyGas_naju_20190806_v4.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/code/prev/predict_HyGas_naju_20190806_v5.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/code/prev/predict_HyGas_naju_24months_20190808.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/code/prev/predict_HyGas_naju_30days_20190808.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/code/prev/predict_HyGas_naju_best.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/code/prev/predict_HyGas_naju_trial.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/crawling_temp.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/Backup/date/date_info_Y2014" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/Backup/date/date_info_Y2015" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/Backup/date/date_info_Y2016" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/Backup/date/date_info_Y2017" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/Backup/date/date_info_Y2018" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/Backup/date/date_info_Y2019" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/Backup/date/get_day_and_date_info.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/Backup/insu/naju_insu_2014" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/Backup/insu/naju_insu_2014_201806" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/Backup/insu/naju_insu_2015" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/Backup/insu/naju_insu_2016" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/Backup/insu/naju_insu_2017" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/Backup/insu/naju_insu_2018" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/Backup/insu/naju_insu_2019" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/Backup/insu/print.awk" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/Backup/insu_sub/merged/merged_damyang_2014_2018" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/Backup/insu_sub/merged/merged_gwangju_2014_2018" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/Backup/insu_sub/merged/merged_haenam_2014_2018" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/Backup/insu_sub/merged/merged_hampyoung_2015_2018" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/Backup/insu_sub/merged/merged_hwasun_2014_2018" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/Backup/insu_sub/merged/merged_jangsung_2014_2018" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/Backup/insu_sub/merged/merged_naju_2014_2018" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/Backup/insu_sub/merged/merged_naju_2014_2018_backup" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/Backup/insu_sub/merged/merged_youngkwang_2014_2018" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/Backup/insu_sub/naju_insu_sub_2014" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/Backup/insu_sub/naju_insu_sub_2015" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/Backup/insu_sub/naju_insu_sub_2016" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/Backup/insu_sub/naju_insu_sub_2017" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/Backup/insu_sub/naju_insu_sub_2018" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/Backup/insu_sub/split.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/Backup/sub/naju_insu_sub_2014" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/Backup/sub/naju_insu_sub_2015" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/Backup/sub/naju_insu_sub_2016" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/Backup/sub/naju_insu_sub_2017" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/Backup/sub/naju_insu_sub_2018" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/Backup/sub/split.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/Backup/temperature/crawling_daily_temperature.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/Backup/temperature/naju_temp_2014" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/Backup/temperature/naju_temp_2015" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/Backup/temperature/naju_temp_2016" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/Backup/temperature/naju_temp_2017" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/Backup/temperature/naju_temp_2018" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/Backup/temperature/naju_temp_2019" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/Backup/temperature/print.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/Backup/weather/crawling_daily_weather.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/Backup/weather/naju_weatheer_2018" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/Backup/weather/naju_weather_2014" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/Backup/weather/naju_weather_2015" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/Backup/weather/naju_weather_2016" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/Backup/weather/naju_weather_2017" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/Backup/weather/naju_weather_2018" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/Backup/weather/naju_weather_2019" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/date/date_info_Y2014" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/date/date_info_Y2015" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/date/date_info_Y2016" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/date/date_info_Y2017" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/date/date_info_Y2018" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/date/date_info_Y2019" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/date/date_info_Y2020" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/date/get_day_and_date_info.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/forecast/20191001/naju_mid_term" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/forecast/20191001/naju_short_term" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/forecast/20191002/naju_mid_term" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/forecast/20191002/naju_short_term" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/forecast/20191003/naju_mid_term" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/forecast/20191003/naju_short_term" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/forecast/20191004/naju_mid_term" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/forecast/20191004/naju_short_term" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/forecast/20191005/naju_mid_term" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/forecast/20191005/naju_short_term" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/forecast/20191009/naju_mid_term" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/forecast/20191009/naju_short_term" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/forecast/20191010/naju_mid_term" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/forecast/20191010/naju_short_term" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/forecast/20191013/naju_mid_term" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/forecast/20191013/naju_short_term" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/forecast/20191014/naju_mid_term" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/forecast/20191014/naju_short_term" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/forecast/20191015/naju_mid_term" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/forecast/20191015/naju_short_term" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/forecast/20191028/naju_mid_term" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/forecast/20191028/naju_short_term" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/forecast/20191029/naju_mid_term" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/forecast/20191029/naju_short_term" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/forecast/20191108/naju_mid_term" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/forecast/20191108/naju_short_term" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/forecast/20191111/naju_mid_term" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/forecast/20191111/naju_short_term" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/forecast/20191112/naju_mid_term" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/forecast/20191112/naju_short_term" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/forecast/20191113/naju_mid_term" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/forecast/20191113/naju_short_term" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/forecast/naju_20191003_short_term" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/forecast/naju_20191004_short_term" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/forecast/naju_20191007_mid_term" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/forecast/naju_20191007_short_term" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/forecast/naju_20191008_mid_term" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/forecast/naju_20191008_short_term" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/forecast/naju_mid_term" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/forecast/naju_mid_term1" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/forecast/naju_short_term" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/forecast/naju_short_term1" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/insu/backup/merged_damyang_2014_2018" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/insu/backup/merged_gwangju_2014_2018" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/insu/backup/merged_haenam_2014_2018" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/insu/backup/merged_hampyoung_2015_2018" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/insu/backup/merged_hwasun_2014_2018" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/insu/backup/merged_jangsung_2014_2018" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/insu/backup/merged_naju_2014_2018" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/insu/backup/merged_naju_2014_2018_backup" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/insu/backup/merged_youngkwang_2014_2018" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/insu/backup/naju_insu_per_cat_2014" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/insu/backup/naju_insu_per_cat_2015" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/insu/backup/naju_insu_per_cat_2016" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/insu/backup/naju_insu_per_cat_2017" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/insu/backup/naju_insu_per_cat_2018" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/insu/backup/naju_insu_sum_2014" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/insu/backup/naju_insu_sum_2015" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/insu/backup/naju_insu_sum_2016" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/insu/backup/naju_insu_sum_2017" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/insu/backup/naju_insu_sum_2018" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/insu/naju_insu_2014" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/insu/naju_insu_2015" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/insu/naju_insu_2016" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/insu/naju_insu_2017" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/insu/naju_insu_2018" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/insu/naju_insu_2019" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/sub/example/convert_monthly_to_daily.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/sub/example/naju_sub_2019_monthly" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/sub/example/sub_num_Naju_2014_2018_monthly" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/sub/naju_sub_2014" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/sub/naju_sub_2015" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/sub/naju_sub_2016" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/sub/naju_sub_2017" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/sub/naju_sub_2018" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/sub/naju_sub_2019" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/temperature/crawling_daily_temperature.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/temperature/naju_temp_2014" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/temperature/naju_temp_2015" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/temperature/naju_temp_2016" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/temperature/naju_temp_2017" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/temperature/naju_temp_2018" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/temperature/naju_temp_2019" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/tmp_for_pred/date/date_info_Y2014" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/tmp_for_pred/date/date_info_Y2015" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/tmp_for_pred/date/date_info_Y2016" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/tmp_for_pred/date/date_info_Y2017" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/tmp_for_pred/date/date_info_Y2018" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/tmp_for_pred/date/date_info_Y2019" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/tmp_for_pred/date/date_info_Y2020" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/tmp_for_pred/date/date_info_Y2021" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/tmp_for_pred/date/get_day_and_date_info.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/tmp_for_pred/insu/backup/merged_damyang_2014_2018" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/tmp_for_pred/insu/backup/merged_gwangju_2014_2018" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/tmp_for_pred/insu/backup/merged_haenam_2014_2018" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/tmp_for_pred/insu/backup/merged_hampyoung_2015_2018" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/tmp_for_pred/insu/backup/merged_hwasun_2014_2018" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/tmp_for_pred/insu/backup/merged_jangsung_2014_2018" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/tmp_for_pred/insu/backup/merged_naju_2014_2018" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/tmp_for_pred/insu/backup/merged_naju_2014_2018_backup" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/tmp_for_pred/insu/backup/merged_youngkwang_2014_2018" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/tmp_for_pred/insu/backup/naju_insu_per_cat_2014" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/tmp_for_pred/insu/backup/naju_insu_per_cat_2015" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/tmp_for_pred/insu/backup/naju_insu_per_cat_2016" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/tmp_for_pred/insu/backup/naju_insu_per_cat_2017" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/tmp_for_pred/insu/backup/naju_insu_per_cat_2018" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/tmp_for_pred/insu/backup/naju_insu_sum_2014" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/tmp_for_pred/insu/backup/naju_insu_sum_2015" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/tmp_for_pred/insu/backup/naju_insu_sum_2016" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/tmp_for_pred/insu/backup/naju_insu_sum_2017" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/tmp_for_pred/insu/backup/naju_insu_sum_2018" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/tmp_for_pred/insu/naju_insu_2014" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/tmp_for_pred/insu/naju_insu_2015" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/tmp_for_pred/insu/naju_insu_2016" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/tmp_for_pred/insu/naju_insu_2017" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/tmp_for_pred/insu/naju_insu_2018" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/tmp_for_pred/insu/naju_insu_2019" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/tmp_for_pred/insu/naju_insu_2020" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/tmp_for_pred/insu/naju_insu_2021" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/tmp_for_pred/sub/example/convert_monthly_to_daily.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/tmp_for_pred/sub/example/naju_sub_2019_monthly" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/tmp_for_pred/sub/example/sub_num_Naju_2014_2018_monthly" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/tmp_for_pred/sub/naju_sub_2014" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/tmp_for_pred/sub/naju_sub_2015" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/tmp_for_pred/sub/naju_sub_2016" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/tmp_for_pred/sub/naju_sub_2017" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/tmp_for_pred/sub/naju_sub_2018" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/tmp_for_pred/sub/naju_sub_2019" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/tmp_for_pred/sub/naju_sub_2020" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/tmp_for_pred/sub/naju_sub_2021" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/tmp_for_pred/temperature/crawling_daily_temperature.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/tmp_for_pred/temperature/naju_temp_2014" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/tmp_for_pred/temperature/naju_temp_2015" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/tmp_for_pred/temperature/naju_temp_2016" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/tmp_for_pred/temperature/naju_temp_2017" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/tmp_for_pred/temperature/naju_temp_2018" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/tmp_for_pred/temperature/naju_temp_2019" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/tmp_for_pred/temperature/naju_temp_2020" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/tmp_for_pred/temperature/naju_temp_2021" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/weather/crawling_daily_weather.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/weather/naju_weatheer_2019" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/weather/naju_weather_2014" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/weather/naju_weather_2015" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/weather/naju_weather_2016" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/weather/naju_weather_2017" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/weather/naju_weather_2018" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/data/weather/naju_weather_2019" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/get_date_info.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/predict_coming_24months.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/predict_coming_30days.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/predict_coming_5years.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/predict_common.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/predict_daily.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/predict_monthly.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/predict_past_12months.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/result/0/coming_naju_2019_10_24_daily" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/result/0/coming_naju_2019_10_24_monthly" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/result/0/past_naju_2018_10_12_T0_S0_daily" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/result/0/past_naju_2018_10_12_T0_S0_monthly" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/result/0/predict_naju_2019_10_10_daily" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/result/0/predict_naju_2019_10_28_daily" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/result/0/predict_naju_2019_10_29_daily" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/result/0/predict_naju_2019_10_3_daily" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/result/0/yearly/5years_Gas-insu_prediction.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/result/0/yearly/Data_Feature.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/result/0/yearly/Original_Data.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/result/0/yearly/coming_naju_2019_to_2024_monthly.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/result/1/coming_naju_2019_10_24_daily" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/result/1/coming_naju_2019_10_24_monthly" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/result/1/past_naju_2018_10_12_T0_S0_daily" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/result/1/past_naju_2018_10_12_T0_S0_monthly" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/result/1/predict_naju_2019_10_30_daily" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/result/1/predict_naju_2019_10_3_daily" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/result/1/predict_naju_2019_10_9_daily" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/result/1/predict_naju_2019_9_5_daily" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/result/1/yearly/5years_Gas-insu_prediction.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/result/1/yearly/Data_Feature.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/result/1/yearly/Original_Data.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/result/1/yearly/coming_naju_2019_to_2024_monthly.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/result/1/yearly/coming_naju_2019_to_2024_yearly.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/result/20190901/coming_naju_2019_9_24_daily" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/result/20190901/coming_naju_2019_9_24_monthly" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/result/20191001/coming_naju_2019_10_24_daily" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/result/20191001/coming_naju_2019_10_24_monthly" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/result/20191001/past_naju_2018_10_12_T0_S0_daily" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/result/20191001/past_naju_2018_10_12_T0_S0_monthly" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/result/20191001/predict_naju_2019_10_1_daily" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/result/20191003/coming_naju_2019_10_24_daily" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/result/20191003/coming_naju_2019_10_24_monthly" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/result/20191003/predict_naju_2019_10_3_daily" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/result/20191003/yearly1/5years_Gas-insu_prediction.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/result/20191003/yearly1/Data_Feature.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/result/20191003/yearly1/Original_Data.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/result/20191003/yearly1/coming_naju_2019_to_2024_monthly.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/result/20191003/yearly1/coming_naju_2019_to_2024_yearly.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/result/20191005/predict_naju_2019_10_5_daily" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/result/20191009/predict_naju_2019_10_9_daily" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/result/20191010/predict_naju_2019_9_5_daily" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/result/20191023/yearly/5years_Gas-insu_prediction.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/result/20191023/yearly/Data_Feature.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/result/20191023/yearly/Original_Data.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/result/20191023/yearly/coming_naju_2019_to_2024_monthly.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/result/20191023/yearly/coming_naju_2019_to_2024_yearly.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/result/coming_naju_2019_1_23_daily" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/result/coming_naju_2019_1_23_monthly" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/result/coming_naju_2019_1_24_daily" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/result/coming_naju_2019_1_24_monthly" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/result/past_naju_2018_1_12_T0_S0_daily" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/result/past_naju_2018_1_12_T0_S0_monthly" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/result/past_naju_2018_1_12_T1_S1_daily" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/result/past_naju_2018_1_12_T1_S1_monthly" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/result/past_naju_2018_1_1_T1_S1_daily" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/result/past_naju_2018_1_1_T1_S1_monthly" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/result/past_naju_2018_4_12_T0_S0_daily" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/result/past_naju_2018_4_12_T0_S0_monthly" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/result/past_naju_2018_4_12_T1_S0_daily" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/result/past_naju_2018_4_12_T1_S0_monthly" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/result/past_naju_2018_4_12_T1_S1_daily" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/result/past_naju_2018_4_12_T1_S1_monthly" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/result/predict_naju_2018_12_1_daily" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/result/predict_naju_2018_9_30_daily" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/result/predict_naju_2019_10_7_daily" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/result/predict_naju_2019_1_1_daily" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/result/predict_naju_2019_7_30_daily" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/result/predict_naju_2019_8_30_daily" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/result/predict_naju_2019_8_31_daily" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/result/predict_naju_2019_9_6_daily" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/result/result_yearly/5years_Gas-insu_prediction.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/result/result_yearly/Data_Feature.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/result/result_yearly/Original_Data.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/result/result_yearly/coming_naju_2019_to_2024_monthly.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/result/result_yearly/coming_naju_2019_to_2024_yearly.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/result/yearly/123/5years_Gas-insu_prediction.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/result/yearly/123/Data_Feature.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/result/yearly/123/Original_Data.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/result/yearly/123/coming_naju_2019_to_2024_monthly.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/result/yearly/123/coming_naju_2019_to_2024_yearly.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/result/yearly/123/coming_naju_2020_to_2025_monthly.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/result/yearly/123/coming_naju_2020_to_2025_yearly.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/result/yearly/5years_Gas-insu_prediction.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/result/yearly/Data_Feature.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/result/yearly/Original_Data.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/result/yearly/coming_naju_2019_to_2024_monthly.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/prediction_ETRI/result/yearly/coming_naju_2019_to_2024_yearly.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction2/result/0/weather_energy_numeric_ismart_ismart_0330102552_usage.csv" beforeDir="false" afterPath="$PROJECT_DIR$/prediction2/result/0/weather_energy_numeric_ismart_ismart_0330102552_usage.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ssocket.py" beforeDir="false" afterPath="$PROJECT_DIR$/ssocket.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/prediction/predict_common.py" beforeDir="false" afterPath="$PROJECT_DIR$/prediction/predict_common.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/prediction/predict_daily.py" beforeDir="false" afterPath="$PROJECT_DIR$/prediction/predict_daily.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/static" beforeDir="false" afterPath="$PROJECT_DIR$/static" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/static/assets/development-environment.json" beforeDir="false" afterPath="$PROJECT_DIR$/static/assets/development-environment.json" afterDir="false" />
     </list>
@@ -433,8 +69,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/API/DataSet/data_API.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="240">
-              <caret line="121" column="52" selection-start-line="121" selection-start-column="52" selection-end-line="121" selection-end-column="52" />
+            <state relative-caret-position="337">
+              <caret line="309" column="51" lean-forward="true" selection-start-line="309" selection-start-column="51" selection-end-line="309" selection-end-column="51" />
               <folding>
                 <element signature="e#63#74#0" expanded="true" />
               </folding>
@@ -547,7 +183,6 @@
         <option value="$PROJECT_DIR$/backtasks1.py" />
         <option value="$PROJECT_DIR$/backtasks.py" />
         <option value="$PROJECT_DIR$/DB/DataBase/models.py" />
-        <option value="$PROJECT_DIR$/prediction/predict_common.py" />
         <option value="$PROJECT_DIR$/prediction/predict_monthly.py" />
         <option value="$PROJECT_DIR$/API/DataSet/backupfile/data_API_1110.py" />
         <option value="$PROJECT_DIR$/prediction/predict_past_12months.py" />
@@ -555,12 +190,13 @@
         <option value="$PROJECT_DIR$/API/Predict/backupfile/1011get_data_class.py" />
         <option value="$PROJECT_DIR$/prediction/Model_test.py" />
         <option value="$PROJECT_DIR$/prediction/predict_coming_30days.py" />
-        <option value="$PROJECT_DIR$/prediction/predict_daily.py" />
         <option value="$PROJECT_DIR$/prediction/predict_coming_5years.py" />
         <option value="$PROJECT_DIR$/API/Predict/get_data_class.py" />
         <option value="$PROJECT_DIR$/API/Predict/predic_API.py" />
         <option value="$PROJECT_DIR$/DB/DataBase/machbase.py" />
         <option value="$PROJECT_DIR$/API/DataSet/data_API.py" />
+        <option value="$PROJECT_DIR$/prediction/predict_daily.py" />
+        <option value="$PROJECT_DIR$/prediction/predict_common.py" />
       </list>
     </option>
   </component>
@@ -634,6 +270,27 @@
               <item name="PredictionServer" type="462c0819:PsiDirectoryNode" />
               <item name="prediction" type="462c0819:PsiDirectoryNode" />
               <item name="data" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="PredictionServer" type="b2602c69:ProjectViewProjectNode" />
+              <item name="PredictionServer" type="462c0819:PsiDirectoryNode" />
+              <item name="prediction" type="462c0819:PsiDirectoryNode" />
+              <item name="data" type="462c0819:PsiDirectoryNode" />
+              <item name="insu" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="PredictionServer" type="b2602c69:ProjectViewProjectNode" />
+              <item name="PredictionServer" type="462c0819:PsiDirectoryNode" />
+              <item name="prediction" type="462c0819:PsiDirectoryNode" />
+              <item name="data" type="462c0819:PsiDirectoryNode" />
+              <item name="sub" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="PredictionServer" type="b2602c69:ProjectViewProjectNode" />
+              <item name="PredictionServer" type="462c0819:PsiDirectoryNode" />
+              <item name="prediction" type="462c0819:PsiDirectoryNode" />
+              <item name="data" type="462c0819:PsiDirectoryNode" />
+              <item name="temperature" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -815,23 +472,23 @@
       <workItem from="1574313170051" duration="617000" />
       <workItem from="1574314056312" duration="29106000" />
       <workItem from="1574415674428" duration="6531000" />
-      <workItem from="1574670199740" duration="100046000" />
+      <workItem from="1574670199740" duration="106046000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="394560000" />
+    <option name="totallyTimeSpent" value="400560000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1975" y="-4" width="1865" height="1204" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.21959274" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.21959274" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32992566" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.49972484" visible="true" weight="0.37825277" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49972484" visible="true" weight="0.37825277" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.39962825" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -853,53 +510,6 @@
     <option name="version" value="1" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/WebsocketServer.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="200">
-          <caret line="10" column="16" lean-forward="true" selection-start-line="10" selection-start-column="16" selection-end-line="10" selection-end-column="16" />
-          <folding>
-            <element signature="e#0#50#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file:///usr/lib/python3.5/json/__init__.py">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$APPLICATION_HOME_DIR$/helpers/typeshed/stdlib/2and3/datetime.pyi">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="589">
-          <caret line="37" column="8" selection-start-line="37" selection-start-column="8" selection-end-line="37" selection-end-column="8" />
-          <folding>
-            <element signature="e#0#10#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/prediction/prediction_ETRI/crawling_temp.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="60">
-          <caret line="3" selection-start-line="3" selection-end-line="3" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/queue_task.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="240">
-          <caret line="12" column="17" selection-start-line="12" selection-start-column="17" selection-end-line="12" selection-end-column="17" />
-          <folding>
-            <element signature="e#0#16#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/bin/lib/python3.5/site-packages/flask/helpers.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="5477">
-          <caret line="732" column="4" selection-start-line="732" selection-start-column="4" selection-end-line="732" selection-end-column="4" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/bin/lib/python3.5/site-packages/machbaseAPI/machbaseAPI.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="238">
@@ -1119,23 +729,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/prediction/predict_common.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="283">
-          <caret line="137" column="18" selection-start-line="137" selection-start-column="18" selection-end-line="137" selection-end-column="18" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/prediction/predict_monthly.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="205">
-          <caret line="155" column="18" selection-start-line="155" selection-start-column="18" selection-end-line="155" selection-end-column="18" />
-          <folding>
-            <element signature="e#0#19#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/API/DataSet/backupfile/data_API_1110.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="205">
@@ -1150,16 +743,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/prediction/predict_coming_24months.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="457">
-          <caret line="759" column="40" selection-start-line="759" selection-start-column="40" selection-end-line="759" selection-end-column="40" />
-          <folding>
-            <element signature="e#0#19#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/API/Predict/backupfile/1011get_data_class.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="205">
@@ -1171,27 +754,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="214">
           <caret line="194" column="49" selection-start-line="194" selection-start-column="49" selection-end-line="194" selection-end-column="49" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/prediction/predict_coming_30days.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="40">
-          <caret line="2" column="18" selection-start-line="2" selection-start-column="18" selection-end-line="2" selection-end-column="18" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/prediction/predict_coming_5years.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="214">
-          <caret line="19" column="58" selection-start-line="19" selection-start-column="58" selection-end-line="19" selection-end-column="58" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/prediction/predict_daily.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="277">
-          <caret line="370" column="4" lean-forward="true" selection-start-line="370" selection-start-column="4" selection-end-line="370" selection-end-column="35" />
         </state>
       </provider>
     </entry>
@@ -1242,10 +804,76 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/prediction/data/sub/naju_sub_2019">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/prediction/data/sub/naju_sub_2017">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/prediction/data/sub/naju_sub_2016">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/prediction/data/sub/naju_sub_2015">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/prediction/data/sub/naju_sub_2014">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/prediction/data/sub/naju_sub_2018">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/prediction/predict_coming_5years.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="423">
+          <caret line="277" column="58" lean-forward="true" selection-start-line="277" selection-start-column="58" selection-end-line="277" selection-end-column="58" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/prediction/predict_coming_24months.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-10723">
+          <caret line="200" lean-forward="true" selection-start-line="200" selection-end-line="200" />
+          <folding>
+            <element signature="e#0#19#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/prediction/predict_coming_30days.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-11540">
+          <caret line="8" lean-forward="true" selection-start-line="8" selection-end-line="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/prediction/predict_common.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2660">
+          <caret line="135" lean-forward="true" selection-start-line="135" selection-end-line="135" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/prediction/predict_monthly.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-703">
+          <caret line="155" column="18" selection-start-line="155" selection-start-column="18" selection-end-line="155" selection-end-column="18" />
+          <folding>
+            <element signature="e#0#19#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/prediction/predict_daily.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="7260">
+          <caret line="378" column="30" lean-forward="true" selection-start-line="378" selection-start-column="30" selection-end-line="378" selection-end-column="30" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/API/DataSet/data_API.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="240">
-          <caret line="121" column="52" selection-start-line="121" selection-start-column="52" selection-end-line="121" selection-end-column="52" />
+        <state relative-caret-position="337">
+          <caret line="309" column="51" lean-forward="true" selection-start-line="309" selection-start-column="51" selection-end-line="309" selection-end-column="51" />
           <folding>
             <element signature="e#63#74#0" expanded="true" />
           </folding>

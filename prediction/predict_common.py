@@ -137,11 +137,11 @@ def gen_date_file(target_year):
 
 import prediction.crawling_temp as crawling_temp
 def gen_temp_file(area, target_year):
-        '''
-        This function generates a temperature file.
-        Args:
-                area: string, target area of prediction
-                target_year: int, target year of prediction
-        '''
+	'''
+    This function generates a temperature file.
+    Args:
+            area: string, target area of prediction
+            target_year: int, target year of prediction
+    '''
 
-        crawling_temp.crawling_main(area, target_year)
+	crawling_temp.crawling_main(area, target_year)

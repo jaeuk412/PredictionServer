@@ -375,7 +375,7 @@ def main(area, start_year, start_month, start_day, date, user_key, detectkey):
 
     print("predict_daily_done")
 
-main('naju',2019,10,30,20191112,1,1)
+# main('naju',2019,10,30,20191112,1,1)
 # if  __name__ == '__main__' :
 #     t = multiprocessing.Process(target=main, args=("Process-1",180))
 #     t.start()

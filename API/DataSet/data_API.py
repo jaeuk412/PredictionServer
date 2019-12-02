@@ -302,18 +302,14 @@ def file_createtest():
                 date_end_year = int(date_end_value[0])
                 date_end_month = int(date_end_value[1])
                 date_end_day = int(date_end_value[2])
+
                 period = "%04d-%02d-%02d ~ %04d-%02d-%02d" % (
                 date_start_year, date_start_month, date_start_day, date_end_year, date_end_month, date_end_day)
 
+                ###########################################################
+                ## /home/uk/PredictionServer/prediction/data/insu/naju_insu_2014
+                ## 모델용에 맞춰 저장.
 
-            except:
-                return jsonify(False)
-
-
-            ###########################################################
-            ## /home/uk/PredictionServer/prediction/data/insu/naju_insu_2014
-            ## 모델용에 맞춰 저장.
-            try:
                 ## todo: resource에 따라 해당 폴더로 들어감. (폴더명과 변수명 일치 여부 확인)
                 model_save_path = folder_path + "data/%s/%s_%s_%d" % (resource, area, resource, date_start_year)
                 ## DB 모델용 저장 파일. (파일복사)
