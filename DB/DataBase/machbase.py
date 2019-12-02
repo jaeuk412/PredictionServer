@@ -40,8 +40,8 @@ $insert into tag values('HYGAS.NAJU_C_HOUSE.30001.1', now, 44);
 ### 계속 해봤는데 sleep(0.1)이 나을듯, 데이터 35개 이상부터 이상하게 다시 안된다. sleep 0.05까지 해도 안됨.
 
 
-
 '''
+
 import json
 from machbaseAPI.machbaseAPI import machbase
 import time
@@ -91,31 +91,121 @@ $csvimport -t TAG -d data.csv -F "time YYYY-MM-DD HH24:MI:SS mmm:uuu:nnn" -l err
 
 '''
 
-query1 = "insert into tag values('HYGAS.NAJU_C_HOUSE.30001.1', now, 93)"
-dblist2 = connect(query1)
-print(dblist2)
+##---------------------------------------------------------------------------------------------------------
+## todo: 마크베이스에 저장 할 때
+final_value_list = list()
+folder_path = '/home/uk/PredictionServer/prediction/'
+area = 'naju'
+resource = 'insu' # or '30001.1
+ddstart=2015
 
-time.sleep(0.1)
+path = folder_path + 'data/insu/%s_insu_%d' % (area.lower(), ddstart)
+# print("path: ",path)
 
-query = "SELECT * FROM tag where name='HYGAS.NAJU_C_HOUSE.30001.1'"
+with open(path, 'r') as f:
+    dataname_get = f.readlines()
+
+# print("dataname_get: ",dataname_get)
+# date_name = dataname_get[0].replace('\t', ' ').split(' ')
+# print("date_name: ", date_name)
+
+
+mach_usekind = list()
+resource_value = str()
+
+# todo: csv 파일 컬럼은 반듯이 년, 월, 일, house ...로 *년,월,일 꼭 있어야함*
+count=0
+for ii in dataname_get:
+    if count == 0:
+        date_name = ii.replace('\t', ' ').split(' ')
+        for i in date_name:
+            if '_' in i:
+                ## strip = 뒤 \n 제거
+                i = i.split('_')[1].strip().upper()
+
+                # print(resource)
+                # print(mach_usekind)
+            mach_usekind.append(i)
+
+        ## 년/원/일 을 제외한 뒤에 나머지 컬럼명을 가져옴.
+        mach_usekind = mach_usekind[3:]
+        # print(mach_usekind)
+
+
+        if resource == 'insu':
+            resource_value = '30001.1'
+        else:
+            resource_value = '30001.2'
+
+        try:
+            ## insert into tag metadata values ('TAG_0001');
+            for t in mach_usekind:
+                query="insert into tag metadata values ('HYGAS.%s_C_%s.%s')"%(area.upper(), t, resource_value)
+                # print(query)
+                # dblist = connect(query)
+                # print(dblist)
+        except:
+            pass
+
+    else:
+        k=0
+        for usekind in mach_usekind:
+
+            date = ii.replace('\t', ' ').split(' ')[0:3]
+            date_value = '%d-%02d-%02d' % (int(date[0]), int(date[1]), int(date[2]))
+            # print(date_value)
+
+            ## 3~14 (12걔)
+            value = ii.replace('\t', ' ').split(' ')[3 + k]
+            # print(value)
+            query1 = "insert into tag values('HYGAS.%s_C_%s.%s', '%s', %d)" % (area.upper(), usekind, resource_value, date_value, int(value))
+            # print(query1)
+            # dblist2 = connect(query1)
+            # print(dblist2)
+            k += 1
+
+    count += 1
+
+
+# print(final_value_list)
+##---------------------------------------------------------------------------------------------------------
+
+# for i in range(1):
+#     # kk = 98.3
+#     # query1 = "insert into tag values('HYGAS.NAJU_C_HOUSE.30001.1', '2019-11-28 09:43:25', %f)"%(kk)
+#     query1 = "insert into tag values('HYGAS.NAJU_C_SUM.30001.1', now, 149105)"
+#     dblist2 = connect(query1)
+#     print(dblist2)
+
+# time.sleep(0.1)
+#
+## todo: 마크베이스에서 불러 올때
+query = "SELECT * FROM tag "
 dblist = connect(query)
 # print(dblist)
 
-k = 1
+k = 0
+value_name = list()
+final_value=[]
 for row_n in dblist:
     # print(row_n)
     # print(type(row_n))
-    print(k, row_n.get('VALUE'))
+
+    row_n['VALUE']=float(row_n.get('VALUE'))
+    # dict_value={}
+    middle_value = []
+    for x, y in row_n.items():
+        if k == 0:
+            value_name.append(x)
+        # dict_value.update({x:y})
+        middle_value.extend([y])
+    final_value.append(middle_value)
     k += 1
-    # row_n['VALUE']=float(row_n.get('VALUE'))
-    #
-    # for x, y in row_n.items():
-    #     print(y)
-    #     print(type(y))
-    # print('------------------')
 
-
+final_value.insert(0,value_name)
+# print(value_name)
+# print(final_value)
 
 
 stop = timeit.default_timer()
-print("exe-time: ", stop - start)
+# print("exe-time: ", stop - start)

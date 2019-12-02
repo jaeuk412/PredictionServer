@@ -209,7 +209,7 @@ def api_data_search_all():
                     path = folder_path + 'data/insu/%s_insu_%d' % (area.lower(), ddstart)
                     print(path)
                     dataname = 'insu_sum'
-                    ## '/home/uk/PredictionServer/prediction/prediction_ETRI/data/insu/naju_insu_2019'
+                    ## '/home/uk/PredictionServer/prediction/data/insu/naju_insu_2019'
                     # with open(path, 'r') as f:
                     #     dataname_get = f.readline().strip()
 
@@ -356,7 +356,7 @@ def api_data_search_all():
 #                     path = folder_path + 'data/insu/%s_insu_%d' % (area.lower(), ddstart)
 #                     print(path)
 #
-#                     ## '/home/uk/PredictionServer/prediction/prediction_ETRI/data/insu/naju_insu_2019'
+#                     ## '/home/uk/PredictionServer/prediction/data/insu/naju_insu_2019'
 #                     with open(path, 'r') as f:
 #                         dataname = f.readline().strip()
 #

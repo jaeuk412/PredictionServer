@@ -33,10 +33,10 @@ from urllib.request import urlopen
 '''directory'''
 ## database
 from DB.DataBase.database import db_session
-from DB.DataBase.models import DailyTable, MonthlyTable1, MonthlyTable2, YearlyTable, Login, ResultTable
+from DB.DataBase.models import Login, ResultTable
 from DB.DataBase.database import dbsearch
 ## api helper
-from API.api_helper.api_helper import crossdomain, get_query_string, get_query_key, file_remove, devide_date, get_user_pkey
+from API.api_helper.api_helper import crossdomain, get_query_string, get_query_key, file_remove, devide_date, get_user_key
 from API.api_helper.api_helper import post_request, response_json_list, response_json_value, date_time
 from API.api_helper.user_directory import folder_path, root_path
 from API.Predict.set_data_class import set_predic_data
@@ -100,13 +100,13 @@ HYGAS.NAJU_C_HOUSE.30001.2 - 나주_하우스_가스검침량.
 def api_infer_predict_API():
     # try:
     #     key = session['logger']
-    #     pkey = db_session.query(Login.pkey).filter(Login.id == str(key))
-    #     login = db_session.query(Login).get(pkey)
+    #     key = db_session.query(Login.key).filter(Login.id == str(key))
+    #     login = db_session.query(Login).get(key)
     # except:
-    #     pkey = 0
+    #     key = 0
     # else:
-    #     pkey = login.pkey
-    user_pkey = get_user_pkey()
+    #     key = login.key
+    user_key = get_user_key()
 
     req = request.get_json()
     jsonString = json.dumps(req)
@@ -210,7 +210,7 @@ def api_infer_predict_API():
                 if int(period_start_date) > 20191030:
                     period_start_date = 20191028
                     # abort(400)
-                result = predict_daily(resource,area,trained_model,int(period_start_date), user_pkey)
+                result = predict_daily(resource,area,trained_model,int(period_start_date), user_key)
                 final_result.append(result)
             elif trained_model == 'monthly1':
                 '''
@@ -222,21 +222,21 @@ def api_infer_predict_API():
                 if int(period_start_date) > 20191005 or int(period_start_date) < 20150101:
                     period_start_date = 20191005
                     # abort(400)
-                result = predict_monthly1(resource, area, trained_model, int(period_start_date), temp_mode, sub_mode, user_pkey)
+                result = predict_monthly1(resource, area, trained_model, int(period_start_date), temp_mode, sub_mode, user_key)
                 final_result.append(result)
             elif trained_model == 'monthly2':
                 ## todo: 인수, 검침량 데이터를 읽어서 해당 날짜에 가능한 모델링을 하도록 자동화.
                 if int(period_start_date) > 20191005 or int(period_start_date) < 20170101:
                     period_start_date = 20191005
                     # abort(400)
-                result = predict_monthly2(resource, area, trained_model, int(period_start_date), user_pkey)
+                result = predict_monthly2(resource, area, trained_model, int(period_start_date), user_key)
                 final_result.append(result)
             elif trained_model == 'yearly':
                 ## todo: 인수, 검침량 데이터를 읽어서 해당 날짜에 가능한 모델링을 하도록 자동화.
                 if int(period_start_date) > 20191005 or int(period_start_date) < 20190101:
                     period_start_date = 20191005
                     # abort(400)
-                result = predict_yearly(resource, area, trained_model, int(period_start_date), user_pkey)
+                result = predict_yearly(resource, area, trained_model, int(period_start_date), user_key)
                 # print(result)
                 final_result.append(result)
 
@@ -245,7 +245,7 @@ def api_infer_predict_API():
                 if resource.count('.') == 1:
                     abort(400)
                 else:
-                    model = get_train_model(user_pkey)
+                    model = get_train_model(user_key)
                     model.train_model(filename, period_start_date, period_end_date, period_start_time, period_end_time)
                     value = model.train_model_result(filename)
 
@@ -290,7 +290,7 @@ def api_infer_predicted_API():
     result = []
     dict_result = {}
 
-    query = "select pkey as id, resource, location, model_name ,start_date as period from result_save ORDER BY pkey desc"
+    query = "select key as id, resource, location, model_name ,start_date as period from result_save ORDER BY key desc"
     query_value = db_session.execute(query)
 
     for y1 in query_value:
@@ -350,9 +350,7 @@ def api_infer_predicted_API():
     p1 - 0-5
     p2 - 5-10
     p3 - 10-15
-    
     daily5,4,3,2,1/monthly1_1/monthly2_4,3,2,1/yearly5,4,3,2,1
-    
     '''
 
     return response_json_list(result)
@@ -437,7 +435,7 @@ def get_period_value(period):
     return value
 
 
-def predict_daily(sort,area,model,start_date,user_pkey):
+def predict_daily(sort, area, model, start_date, user_key):
     # print("start_date: ",start_date)
 
     dt = datetime.datetime.now()
@@ -452,19 +450,19 @@ def predict_daily(sort,area,model,start_date,user_pkey):
         start_year, start_month, start_day = devide_date(start_date)
         # print('-------11------------')
 
-    daily_output_file = folder_path + 'result/%s/predict_%s_%d_%d_%d_daily' % (user_pkey, area, start_year, start_month, start_day)
+    daily_output_file = folder_path + 'result/%s/predict_%s_%d_%d_%d_daily' % (user_key, area, start_year, start_month, start_day)
 
     try:
         # print("200000: ",start_year, start_month, start_day)
         # db_session.add(DailyTable(resource=sort, location=area, model_name=model, start_date=start_date, save_daily=daily_output_file))
-        db_session.add(ResultTable(resource=sort, location=area, model_name=model, start_date=start_date, save_file1=daily_output_file, user_pkey=user_pkey))
+        db_session.add(ResultTable(resource=sort, location=area, model_name=model, start_date=start_date, save_file1=daily_output_file, user_key=user_key))
         db_session.commit()
 
-        detectkey = db_session.query(ResultTable.pkey).order_by(ResultTable.pkey.desc())
+        detectkey = db_session.query(ResultTable.key).order_by(ResultTable.key.desc())
         # print(detectkey[0][0])
 
         set_class = set_predic_data()
-        set_class.set_Daily_coming_30days(area, start_year, start_month, start_day, user_pkey, detectkey[0][0] )
+        set_class.set_Daily_coming_30days(area, start_year, start_month, start_day, user_key, detectkey[0][0])
 
         final_reuslt = detectkey[0][0]
         return final_reuslt
@@ -473,7 +471,7 @@ def predict_daily(sort,area,model,start_date,user_pkey):
         return final_reuslt
 
 
-def predict_monthly1(sort, area, model, start_date, temp_mode, sub_mode, user_pkey):
+def predict_monthly1(sort, area, model, start_date, temp_mode, sub_mode, user_key):
 
     if not start_date:
         dt = datetime.datetime.now()
@@ -491,19 +489,19 @@ def predict_monthly1(sort, area, model, start_date, temp_mode, sub_mode, user_pk
         3-3 20181005 날짜로 실행, (2018-10-01 ~ 2019-09-30) 데이터. okay. result/20191005/past~~ 저장.
         3-4 결론적으로 start_year에 -1로 시작했음.
         '''
-        daily_output_file = folder_path + 'result/%d/past_%s_%d_%d_%d_T%d_S%d_daily' % (user_pkey, area, start_year, start_month, 12, temp_mode, sub_mode)
-        monthly_output_file = folder_path + 'result/%d/past_%s_%d_%d_%d_T%d_S%d_monthly' % (user_pkey, area, start_year, start_month, 12, temp_mode, sub_mode)
+        daily_output_file = folder_path + 'result/%d/past_%s_%d_%d_%d_T%d_S%d_daily' % (user_key, area, start_year, start_month, 12, temp_mode, sub_mode)
+        monthly_output_file = folder_path + 'result/%d/past_%s_%d_%d_%d_T%d_S%d_monthly' % (user_key, area, start_year, start_month, 12, temp_mode, sub_mode)
 
         # db_session.add(MonthlyTable1(resource=sort, location=area, model_name=model, start_date=start_date, temp_option=temp_mode, sub_option=sub_mode, save_daily=daily_output_file, save_monthly=monthly_output_file))
-        db_session.add(ResultTable(resource=sort, location=area, model_name=model, start_date=start_date, temp_option=temp_mode, sub_option=sub_mode, save_file2=daily_output_file, save_file1=monthly_output_file, user_pkey=user_pkey))
+        db_session.add(ResultTable(resource=sort, location=area, model_name=model, start_date=start_date, temp_option=temp_mode, sub_option=sub_mode, save_file2=daily_output_file, save_file1=monthly_output_file, user_key=user_key))
         db_session.commit()
 
-        detectkey = db_session.query(ResultTable.pkey).order_by(ResultTable.pkey.desc())
+        detectkey = db_session.query(ResultTable.key).order_by(ResultTable.key.desc())
         print(detectkey[0][0])
 
         set_class = set_predic_data()
         set_class.set_Monthly_latest_12months(area, start_year - 1, start_month, 12, temp_mode, sub_mode,
-                                              start_date, user_pkey, detectkey[0][0])
+                                              start_date, user_key, detectkey[0][0])
         final_result = detectkey[0][0]
         return final_result
     except:
@@ -511,7 +509,7 @@ def predict_monthly1(sort, area, model, start_date, temp_mode, sub_mode, user_pk
         return final_result
 
 
-def predict_monthly2(sort,area,model,start_date,user_pkey):
+def predict_monthly2(sort, area, model, start_date, user_key):
 
     dt = datetime.datetime.now()
 
@@ -523,17 +521,17 @@ def predict_monthly2(sort,area,model,start_date,user_pkey):
     ## DB에 키가 없을 경우. except로 넘어감.
     try:
 
-        daily_output_file = folder_path + 'result/%d/coming_%s_%d_%d_%d_daily' % (user_pkey, area, start_year, start_month, 24)
-        monthly_output_file = folder_path + 'result/%d/coming_%s_%d_%d_%d_monthly' % (user_pkey, area, start_year, start_month, 24)
+        daily_output_file = folder_path + 'result/%d/coming_%s_%d_%d_%d_daily' % (user_key, area, start_year, start_month, 24)
+        monthly_output_file = folder_path + 'result/%d/coming_%s_%d_%d_%d_monthly' % (user_key, area, start_year, start_month, 24)
 
-        db_session.add(ResultTable(resource=sort, location=area, model_name=model, start_date=start_date, save_file1=monthly_output_file, save_file2=daily_output_file, user_pkey=user_pkey))
+        db_session.add(ResultTable(resource=sort, location=area, model_name=model, start_date=start_date, save_file1=monthly_output_file, save_file2=daily_output_file, user_key=user_key))
         db_session.commit()
 
-        detectkey = db_session.query(ResultTable.pkey).order_by(ResultTable.pkey.desc())
+        detectkey = db_session.query(ResultTable.key).order_by(ResultTable.key.desc())
         print(detectkey[0][0])
 
         set_class = set_predic_data()
-        set_class.set_Monthly_coming_24months(area, start_year, start_month, 24, start_date, user_pkey, detectkey[0][0])
+        set_class.set_Monthly_coming_24months(area, start_year, start_month, 24, start_date, user_key, detectkey[0][0])
 
         final_result = detectkey[0][0]
         return final_result
@@ -542,7 +540,7 @@ def predict_monthly2(sort,area,model,start_date,user_pkey):
         return final_result
 
 
-def predict_yearly(sort,area,model,start_date, user_pkey):
+def predict_yearly(sort, area, model, start_date, user_key):
     print('--------------------')
     dt = datetime.datetime.now()
 
@@ -553,7 +551,7 @@ def predict_yearly(sort,area,model,start_date, user_pkey):
 
     ## DB에 키가 없을 경우. except로 넘어감.
     try:
-        result_path = folder_path + 'result/%d/yearly/' % (user_pkey)
+        result_path = folder_path + 'result/%d/yearly/' % (user_key)
         monthly_save = result_path + 'coming_' + area + '_' + str(start_year) + '_to_' + str(start_year + 5) + '_monthly' + '.csv'
         yearly_save = result_path + 'coming_' + area + '_' + str(start_year) + '_to_' + str(start_year + 5) + '_yearly' + '.csv'
         print(monthly_save)
@@ -562,15 +560,15 @@ def predict_yearly(sort,area,model,start_date, user_pkey):
         # todo: 5.마크베이스. 7.celery(cpu,gpu)제한, 2개이상이 구동 힘듬. 8. 유저폴더안에, 날짜폴더 추가 할 건지.
 
         # db_session.add(YearlyTable(resource=sort, location=area, model_name=model, start_date=start_date, save_monthly=monthly_save, save_yearly=yearly_save))
-        db_session.add(ResultTable(resource=sort, location=area, model_name=model, start_date=start_date, save_file1=yearly_save, save_file2=monthly_save, user_pkey=user_pkey))
+        db_session.add(ResultTable(resource=sort, location=area, model_name=model, start_date=start_date, save_file1=yearly_save, save_file2=monthly_save, user_key=user_key))
         db_session.commit()
         print('--------------------------------2-----------------')
 
-        detectkey = db_session.query(ResultTable.pkey).order_by(ResultTable.pkey.desc())
+        detectkey = db_session.query(ResultTable.key).order_by(ResultTable.key.desc())
         print(detectkey[0][0])
 
         set_class = set_predic_data()
-        set_class.set_Yearly_coming_5years(area, start_year, start_date, user_pkey, detectkey[0][0])
+        set_class.set_Yearly_coming_5years(area, start_year, start_date, user_key, detectkey[0][0])
 
         final_result = detectkey[0][0]
         return final_result

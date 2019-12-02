@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 root_path = '/home/uk/PredictionServer'
-folder_path = root_path + '/prediction/prediction_ETRI/'
+folder_path = root_path + '/prediction/'
 folder_path2 = root_path +'/prediction2/'
 folder_path3 = root_path +'/API/DataSet/uploadfiles/'
 

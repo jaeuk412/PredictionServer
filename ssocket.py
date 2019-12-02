@@ -18,7 +18,7 @@ async def SendMsg2(websocket, path, result):
     await websocket.send(json.dumps(result))
 
 def db_query(data):
-    query = "SELECT model_name, location, start_date, user_pkey, temp_option, sub_option FROM result_save where pkey=%d" % (
+    query = "SELECT model_name, location, start_date, user_key, temp_option, sub_option FROM result_save where key=%d" % (
         int(data))
     query_value = db_session.execute(query)
 
@@ -41,7 +41,7 @@ def db_query(data):
     area = value[1]
     start_date = value[2]
     start_year, start_month, start_day = devide_date(start_date)
-    user_pkey = value[3]
+    user_key = value[3]
     temp_option = value[4]
     sub_option = value[5]
 
@@ -53,19 +53,19 @@ def db_query(data):
 
     if model_name == 'daily':
         print("-------------------------")
-        # datass = get_class.get_Daily_coming_30days_vaule(area, start_date, user_pkey)
-        datass = get_class.get_Daily_coming_30days_vaule(area, 20191003, user_pkey)
+        # datass = get_class.get_Daily_coming_30days_vaule(area, start_date, user_key)
+        datass = get_class.get_Daily_coming_30days_vaule(area, 20191003, user_key)
     elif model_name == 'monthly1':
-        # datass = get_class.get_Monthly_latest_12months_monthly_value(area, start_year - 1, start_month, temp_option, sub_option, user_pkey)
+        # datass = get_class.get_Monthly_latest_12months_monthly_value(area, start_year - 1, start_month, temp_option, sub_option, user_key)
         datass = get_class.get_Monthly_latest_12months_monthly_value(area, 2018, 10,
-                                                                     0, 0, user_pkey)
+                                                                     0, 0, user_key)
     elif model_name == 'monthly2':
-        # datass = get_class.get_Monthly_coming_24months_monthly_value(area, start_year, start_month, user_pkey)
+        # datass = get_class.get_Monthly_coming_24months_monthly_value(area, start_year, start_month, user_key)
         datass = get_class.get_Monthly_coming_24months_monthly_value(area, 2019, 10,
-                                                                     user_pkey)
+                                                                     user_key)
     elif model_name == 'yearly':
-        # datass = get_class.get_Yearly_coming_5years_month(area, start_year, user_pkey)
-        datass = get_class.get_Yearly_coming_5years_month(area, 2019, user_pkey)
+        # datass = get_class.get_Yearly_coming_5years_month(area, start_year, user_key)
+        datass = get_class.get_Yearly_coming_5years_month(area, 2019, user_key)
 
     return datass
 

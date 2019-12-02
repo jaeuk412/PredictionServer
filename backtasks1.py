@@ -36,7 +36,7 @@ def daily_exe(predicArea, start_year, start_month, start_day, date):
     print("celery_exe")
     print("=============================================")
     print("=============================================")
-    from prediction.prediction_ETRI.predict_daily import main
+    from prediction.predict_daily import main
     main(str(predicArea), int(start_year), int(start_month), int(start_day), int(date))
     return 0
 

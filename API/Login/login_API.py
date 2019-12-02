@@ -75,24 +75,24 @@ def api_auth_login():
         # print("userid: ",userId)
 
         try:
-            pkey = db_session.query(Login.pkey).filter(Login.id == str(userId))
-            login = db_session.query(Login).get(pkey)
-            userpkey = login.pkey
-            # print("userpkey: ", userpkey)
+            key = db_session.query(Login.key).filter(Login.id == str(userId))
+            login = db_session.query(Login).get(key)
+            userkey = login.key
+            # print("userkey: ", userkey)
         except Exception as e:
             return jsonify(False)
 
         else:
 
-            if userpkey:
+            if userkey:
                 # print(userPw)
-                # print(userpkey)
-                # print(type(userpkey))
+                # print(userkey)
+                # print(type(userkey))
 
-                query = "select * from login where pkey=%d"%(userpkey)
+                query = "select * from login where key=%d"%(userkey)
                 query = db_session.execute(query)
 
-                ## db_session.query(Login).filter(Login.pkey == userpkey)
+                ## db_session.query(Login).filter(Login.key == userkey)
 
                 records = []
                 for row in query:
@@ -140,7 +140,7 @@ def api_auth_logout():
 
     if userName:
 
-        userno = db_session.query(Login.pkey).filter(Login.id == userName).all()
+        userno = db_session.query(Login.key).filter(Login.id == userName).all()
 
         if userno:
             userno = userno[0]
@@ -194,15 +194,15 @@ def api_auth_restore():
         if key == userName:
 
             ## DB 저장된 user 아이디 불러와서 비교.
-            userno = db_session.query(Login.pkey).filter(Login.id == userName).all()
+            userno = db_session.query(Login.key).filter(Login.id == userName).all()
 
             if userno:
                 userno = userno[0]
                 userno = userno[0]
 
-                query = "select * from login where pkey=%s"%(userno)
+                query = "select * from login where key=%s"%(userno)
                 query = db_session.execute(query)
-                ##db_session.query(Login).filter(Login.pkey == userno)
+                ##db_session.query(Login).filter(Login.key == userno)
                 records = []
                 for row in query:
                     records.append(dict(row))
@@ -235,7 +235,7 @@ def api_auth_restore():
 def api_users():
     # print session
     # query = db_session.query(Login).order_by(Login.id.asc())
-    query = "select * from login ORDER BY pkey"
+    query = "select * from login ORDER BY key"
     records = db_session.execute(query)
 
     count = db_session.query(func.count('*')).select_from(Login).scalar()
@@ -304,9 +304,9 @@ def api_useredit(userid):
         pw = data['password']
 
         #2019-11-11 16:57:49.54101
-        pkey = db_session.query(Login.pkey).filter(Login.id == str(userid))
-        print(pkey)
-        login = db_session.query(Login).get(pkey)
+        key = db_session.query(Login.key).filter(Login.id == str(userid))
+        print(key)
+        login = db_session.query(Login).get(key)
         print('==========')
         print(login)
 
@@ -346,13 +346,13 @@ def api_userexist(userid):
 
 @user_apis.route('/users/<int:userid>', methods=['DELETE'])
 def api_userDel(userid):
-    pkey = db_session.query(Login.pkey).filter(Login.id == str(userid))
-    login = db_session.query(Login).get(pkey)
+    key = db_session.query(Login.key).filter(Login.id == str(userid))
+    login = db_session.query(Login).get(key)
 
-    print(login.pkey)
+    print(login.key)
 
     if login.id == str(userid):
-        db_session.query(Login).filter(Login.pkey == login.pkey).delete()
+        db_session.query(Login).filter(Login.key == login.key).delete()
         db_session.commit()
         return jsonify(True)
     else:

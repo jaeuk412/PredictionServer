@@ -38,19 +38,19 @@ filepath = root_path+'/detectkey/'
 
 
 @celery.task(name='daily')
-def daily(predicArea, start_year, start_month, start_day, date, user_pkey, detectkey):
+def daily(predicArea, start_year, start_month, start_day, date, user_key, detectkey):
 
-    Thread = threading.Thread(target=daily_exe, args=(predicArea, start_year, start_month, start_day, date, user_pkey, detectkey))
+    Thread = threading.Thread(target=daily_exe, args=(predicArea, start_year, start_month, start_day, date, user_key, detectkey))
     Thread.start()
 
 
 
-def daily_exe(predicArea, start_year, start_month, start_day, date, user_pkey, detectkey):
-    print(str(predicArea), int(start_year), int(start_month), int(start_day), int(date),user_pkey, detectkey)
+def daily_exe(predicArea, start_year, start_month, start_day, date, user_key, detectkey):
+    print(str(predicArea), int(start_year), int(start_month), int(start_day), int(date), user_key, detectkey)
     current_process()._config = {'semprefix': '/mp'}
     sys.path.insert(0, root_path)
-    from prediction.prediction_ETRI.predict_daily import main
-    main(str(predicArea), int(start_year), int(start_month), int(start_day), int(date), user_pkey, detectkey)
+    from prediction.predict_daily import main
+    main(str(predicArea), int(start_year), int(start_month), int(start_day), int(date), user_key, detectkey)
     # message="daily_" + str(detectkey)
     #
     # if not os.path.isdir(filepath):
@@ -62,15 +62,15 @@ def daily_exe(predicArea, start_year, start_month, start_day, date, user_pkey, d
 ################################################################################
 
 @celery.task(name='monthly1')
-def monthly1(predicArea,start_year, start_month, month_range, temp_mode, sub_mode, start_date, user_pkey, detectkey):
-    Thread = threading.Thread(target=monthly1_exe, args=(predicArea,start_year, start_month, month_range, temp_mode, sub_mode, start_date, user_pkey, detectkey))
+def monthly1(predicArea, start_year, start_month, month_range, temp_mode, sub_mode, start_date, user_key, detectkey):
+    Thread = threading.Thread(target=monthly1_exe, args=(predicArea, start_year, start_month, month_range, temp_mode, sub_mode, start_date, user_key, detectkey))
     Thread.start()
 
-def monthly1_exe(predicArea,start_year, start_month, month_range, temp_mode, sub_mode, start_date, user_pkey, detectkey):
+def monthly1_exe(predicArea, start_year, start_month, month_range, temp_mode, sub_mode, start_date, user_key, detectkey):
     current_process()._config = {'semprefix': '/mp'}
     sys.path.insert(0, root_path)
-    from prediction.prediction_ETRI.predict_past_12months import conduct_prediction
-    conduct_prediction(predicArea,start_year, start_month, month_range, temp_mode, sub_mode, start_date, user_pkey, detectkey)
+    from prediction.predict_past_12months import conduct_prediction
+    conduct_prediction(predicArea, start_year, start_month, month_range, temp_mode, sub_mode, start_date, user_key, detectkey)
     # message = "monthly1_" + str(detectkey)
     # if not os.path.isdir(filepath):
     #     os.mkdir(filepath)
@@ -81,15 +81,15 @@ def monthly1_exe(predicArea,start_year, start_month, month_range, temp_mode, sub
 ################################################################################
 
 @celery.task(name='monthly2')
-def monthly2(predicArea, start_year, start_month, month_range, start_date, user_pkey, detectkey):
-    Thread = threading.Thread(target=monthly2_exe, args=(predicArea, start_year, start_month, month_range, start_date, user_pkey, detectkey))
+def monthly2(predicArea, start_year, start_month, month_range, start_date, user_key, detectkey):
+    Thread = threading.Thread(target=monthly2_exe, args=(predicArea, start_year, start_month, month_range, start_date, user_key, detectkey))
     Thread.start()
 
-def monthly2_exe(predicArea, start_year, start_month, month_range, start_date, user_pkey, detectkey):
+def monthly2_exe(predicArea, start_year, start_month, month_range, start_date, user_key, detectkey):
     current_process()._config = {'semprefix': '/mp'}
     sys.path.insert(0, root_path)
-    from prediction.prediction_ETRI.predict_coming_24months import conduct_prediction
-    conduct_prediction(predicArea, start_year, start_month, month_range, start_date, user_pkey, detectkey)
+    from prediction.predict_coming_24months import conduct_prediction
+    conduct_prediction(predicArea, start_year, start_month, month_range, start_date, user_key, detectkey)
     # message = "monthly2_" + str(detectkey)
     # if not os.path.isdir(filepath):
     #     os.mkdir(filepath)
@@ -100,15 +100,15 @@ def monthly2_exe(predicArea, start_year, start_month, month_range, start_date, u
 ################################################################################
 
 @celery.task(name='yearly')
-def yearly(predicArea,start_year, date, user_pkey, detectkey):
-    Thread = threading.Thread(target=yearly_exe, args=(predicArea,start_year, date, user_pkey, detectkey))
+def yearly(predicArea, start_year, date, user_key, detectkey):
+    Thread = threading.Thread(target=yearly_exe, args=(predicArea, start_year, date, user_key, detectkey))
     Thread.start()
 
-def yearly_exe(predicArea,start_year, date, user_pkey, detectkey):
+def yearly_exe(predicArea, start_year, date, user_key, detectkey):
     current_process()._config = {'semprefix': '/mp'}
     sys.path.insert(0, root_path)
-    from prediction.prediction_ETRI.predict_coming_5years import main
-    main(predicArea,start_year, date, user_pkey, detectkey)
+    from prediction.predict_coming_5years import main
+    main(predicArea, start_year, date, user_key, detectkey)
     # message = "yearly_" + str(detectkey)
     # if not os.path.isdir(filepath):
     #     os.mkdir(filepath)

@@ -31,7 +31,7 @@ class get_predic_data(object):
     #     # self._predicArea = predicArea  ## 선택한 지역들(s).
 
 
-    def get_Daily_coming_30days_vaule(self, predicArea, start_date, user_pkey):
+    def get_Daily_coming_30days_vaule(self, predicArea, start_date, user_key):
 
         start_year, start_month, start_day = devide_date(start_date)
         # start_date = str(start_date)
@@ -39,8 +39,8 @@ class get_predic_data(object):
         # start_month = int(start_date[4:6])
         # start_day = int(start_date[6:8])
 
-        path = folder_path + 'result/%d/predict_%s_%s_%s_%s_daily' % (user_pkey, predicArea, start_year, start_month, start_day)
-        # file = '/home/uk/PredictionServer/prediction/prediction_ETRI/result/predict_naju_2019_1_1_daily'
+        path = folder_path + 'result/%d/predict_%s_%s_%s_%s_daily' % (user_key, predicArea, start_year, start_month, start_day)
+        # file = '/home/uk/PredictionServer/prediction/result/predict_naju_2019_1_1_daily'
         print(path)
         if not os.path.isfile(path):
             return False
@@ -109,8 +109,8 @@ class get_predic_data(object):
 
     ## set에서 실행 시킨후 get에서 value 얻으면 됨.
 
-    def get_Monthly_latest_12months_daily_value(self, predicArea, start_year, start_month, temp_mode, sub_mode, user_pkey):
-        path = folder_path+'result/%d/past_%s_%d_%d_%d_T%d_S%d_daily'%(user_pkey, predicArea, start_year, start_month, 12, temp_mode, sub_mode)
+    def get_Monthly_latest_12months_daily_value(self, predicArea, start_year, start_month, temp_mode, sub_mode, user_key):
+        path = folder_path+'result/%d/past_%s_%d_%d_%d_T%d_S%d_daily'%(user_key, predicArea, start_year, start_month, 12, temp_mode, sub_mode)
         # file = '/home/uk/PredictionServer/prediction/prediction_ETRI/result/predict_naju_2019_1_1_daily'
         print(path)
         if not os.path.isfile(path):
@@ -118,7 +118,7 @@ class get_predic_data(object):
         final_result = dict()
 
         pddata = pd.read_csv(path, delim_whitespace=True)
-        import prediction.prediction_ETRI.predict_common as predict_common
+        import prediction.predict_common as predict_common
 
         category = predict_common.get_category(predicArea)
 
@@ -155,8 +155,8 @@ class get_predic_data(object):
         return final_result
 
 
-    def get_Monthly_latest_12months_monthly_value(self, predicArea, start_year, start_month, temp_mode, sub_mode, user_pkey):
-        path = folder_path+'result/%d/past_%s_%d_%d_%d_T%d_S%d_monthly'%(user_pkey, predicArea, start_year, start_month, 12, temp_mode, sub_mode)
+    def get_Monthly_latest_12months_monthly_value(self, predicArea, start_year, start_month, temp_mode, sub_mode, user_key):
+        path = folder_path+'result/%d/past_%s_%d_%d_%d_T%d_S%d_monthly'%(user_key, predicArea, start_year, start_month, 12, temp_mode, sub_mode)
         # file = '/home/uk/PredictionServer/prediction/prediction_ETRI/result/predict_naju_2019_1_1_daily'
         # print("=========================123====================================")
         # print(path)
@@ -239,9 +239,9 @@ class get_predic_data(object):
     # 다가오는 24개월 이기 때문에 month_range=24 고정.
 
     ## set 실행 후, get으로 value 얻음.
-    def get_Monthly_coming_24months_daily_value(self, predicArea, start_year, start_month, user_pkey):
+    def get_Monthly_coming_24months_daily_value(self, predicArea, start_year, start_month, user_key):
         path = folder_path + 'result/%d/coming_%s_%d_%d_%d_daily' % (
-            user_pkey, predicArea, start_year, start_month, 24)
+            user_key, predicArea, start_year, start_month, 24)
         # file = '/home/uk/PredictionServer/prediction/prediction_ETRI/result/predict_naju_2019_1_1_daily'
         print(path)
         if not os.path.isfile(path):
@@ -249,7 +249,7 @@ class get_predic_data(object):
         final_result = dict()
 
         pddata = pd.read_csv(path, delim_whitespace=True)
-        import prediction.prediction_ETRI.predict_common as predict_common
+        import prediction.predict_common as predict_common
 
         category = predict_common.get_category(predicArea)
 
@@ -305,7 +305,7 @@ class get_predic_data(object):
         pddata = pd.read_csv(path, delim_whitespace=True)
         # print(short_term_data)
         # print("short_term_data: ",short_term_data)
-        import prediction.prediction_ETRI.predict_common as predict_common
+        import prediction.predict_common as predict_common
 
         category = predict_common.get_category(predicArea)
 
@@ -448,13 +448,13 @@ class get_predic_data(object):
 
 class get_train_model(object):
 
-    def __init__(self, pkey):
+    def __init__(self, key):
         ## weather+gas
         # self._trainedModel = trainedModel
         ## [{'str':'lwm2m/imr-ami-002/22000/0/5700'}]
         ## 해당 주소로 lwm2m 값을 가져와서 모델링.
 
-        self._pkey = pkey
+        self._key = key
 
     def get_lwm2m(self, arguments):
         value = lwm2m_set(arguments)
@@ -471,7 +471,7 @@ class get_train_model(object):
         # model_start_set(self._trainedModel, argument)
 
 
-        model_create(filename, period_start, period_end, period_start_time, period_end_time, self._pkey)
+        model_create(filename, period_start, period_end, period_start_time, period_end_time, self._key)
 
         # # 파일 저장.
         # with open('file','r') as f:
@@ -480,7 +480,7 @@ class get_train_model(object):
     def train_model_result(self, filename):
 
         # 모델 결과 읽기.
-        file_path = folder_path2 + 'result/%d/%s.csv' % (self._pkey, filename)
+        file_path = folder_path2 + 'result/%d/%s.csv' % (self._key, filename)
         # with open(file_path,'r') as f:
         #     result = f.read().splitlines()
 
@@ -542,7 +542,7 @@ def model_start_set(model,argument):
 
 
 ## .csv 파일 만듬.
-def model_create(filename, period_start, period_end, period_start_time, period_end_time, pkey):
+def model_create(filename, period_start, period_end, period_start_time, period_end_time, key):
     value = 'date, value\n'
 
     # print("period_start: ",period_start)
@@ -645,40 +645,14 @@ def model_create(filename, period_start, period_end, period_start_time, period_e
                 sday += 1
 
 
-
-
-        # if sday >= 28:
-        #     if smonth == 1 or 3 or 5 or 7 or 8 or 10 or 12:
-        #         if sday == 31:
-        #             sday = 0
-        #             if smonth == 12:
-        #                 smonth = 1
-        #                 syear += 1
-        #             else:
-        #                 smonth += 1
-        #
-        #     elif smonth == 4 or 6 or 9 or 11:
-        #         if sday == 30:
-        #             sday = 0
-        #             smonth += 1
-        #
-        #     elif smonth == 2:
-        #         if sday == 28:
-        #             sday = 0
-        #             smonth += 1
-        #
-        # sday += 1
-
-
-
     # print(final_result)
-    if not os.path.isdir(folder_path2 + 'result/%d' % (pkey)):
-        os.makedirs(folder_path2 + 'result/%d' % (pkey))
+    if not os.path.isdir(folder_path2 + 'result/%d' % (key)):
+        os.makedirs(folder_path2 + 'result/%d' % (key))
         pass
 
-    print(folder_path2 + 'result/%d/%s.csv' % (pkey, filename))
+    print(folder_path2 + 'result/%d/%s.csv' % (key, filename))
 
-    with open(folder_path2 + 'result/%d/%s.csv' % (pkey, filename), 'w') as f:
+    with open(folder_path2 + 'result/%d/%s.csv' % (key, filename), 'w') as f:
         f.write(str(final_result))
 
 

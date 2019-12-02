@@ -41,7 +41,7 @@ class get_predic_data(object):
         # start_day = int(start_date[6:8])
 
         path = folder_path + 'result/%s/predict_%s_%s_%s_%s_daily' % (start_date, predicArea, start_year, start_month, start_day)
-        # file = '/home/uk/PredictionServer/prediction/prediction_ETRI/result/predict_naju_2019_1_1_daily'
+        # file = '/home/uk/PredictionServer/prediction/result/predict_naju_2019_1_1_daily'
         print(path)
         if not os.path.isfile(path):
             return False
@@ -112,14 +112,14 @@ class get_predic_data(object):
 
     def get_Monthly_latest_12months_daily_value(self, predicArea, start_year, start_month, temp_mode, sub_mode, start_date):
         path = folder_path+'result/%d/past_%s_%d_%d_%d_T%d_S%d_daily'%(start_date, predicArea, start_year, start_month, 12, temp_mode, sub_mode)
-        # file = '/home/uk/PredictionServer/prediction/prediction_ETRI/result/predict_naju_2019_1_1_daily'
+        # file = '/home/uk/PredictionServer/prediction/result/predict_naju_2019_1_1_daily'
         print(path)
         if not os.path.isfile(path):
             return False
         final_result = dict()
 
         pddata = pd.read_csv(path, delim_whitespace=True)
-        import prediction.prediction_ETRI.predict_common as predict_common
+        import prediction.predict_common as predict_common
 
         category = predict_common.get_category(predicArea)
 
@@ -158,7 +158,7 @@ class get_predic_data(object):
 
     def get_Monthly_latest_12months_monthly_value(self, predicArea, start_year, start_month, temp_mode, sub_mode,start_date):
         path = folder_path+'result/%d/past_%s_%d_%d_%d_T%d_S%d_monthly'%(start_date, predicArea, start_year, start_month, 12, temp_mode, sub_mode)
-        # file = '/home/uk/PredictionServer/prediction/prediction_ETRI/result/predict_naju_2019_1_1_daily'
+        # file = '/home/uk/PredictionServer/prediction/result/predict_naju_2019_1_1_daily'
         print(path)
         if not os.path.isfile(path):
             return False
@@ -176,7 +176,7 @@ class get_predic_data(object):
         pddata = pd.read_csv(path, delim_whitespace=True)
         # print(short_term_data)
         # print("short_term_data: ",short_term_data)
-        import prediction.prediction_ETRI.predict_common as predict_common
+        import prediction.predict_common as predict_common
 
         category = predict_common.get_category(predicArea)
 
@@ -231,7 +231,7 @@ class get_predic_data(object):
     def get_Monthly_coming_24months_daily_value(self, predicArea, start_year, start_month,start_date):
         path = folder_path + 'result/%d/coming_%s_%d_%d_%d_daily' % (
         start_date, predicArea, start_year, start_month, 24)
-        # file = '/home/uk/PredictionServer/prediction/prediction_ETRI/result/predict_naju_2019_1_1_daily'
+        # file = '/home/uk/PredictionServer/prediction/result/predict_naju_2019_1_1_daily'
         print(path)
         if not os.path.isfile(path):
             return False

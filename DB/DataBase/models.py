@@ -13,7 +13,7 @@ Base = declarative_base()
 
 class Login(Base):
     __tablename__ = 'login'
-    pkey = Column(Integer, primary_key=True, autoincrement=True)
+    key = Column(Integer, primary_key=True, autoincrement=True)
     inserted = Column(DateTime, default=datetime.datetime.now())
     id = Column(String(100), unique=True, nullable=False)
     password = Column(String(100), nullable=False)
@@ -23,7 +23,7 @@ class Login(Base):
 class ResultTable(Base):
     __tablename__ = 'result_save'
     ## 고유 식별
-    pkey = Column(Integer, primary_key=True, autoincrement=True)
+    key = Column(Integer, primary_key=True, autoincrement=True)
     ## finished-inserted로 test 시간 측정.
     inserted = Column(DateTime, default=datetime.datetime.now())
     finished = Column(DateTime, nullable=True)
@@ -37,59 +37,78 @@ class ResultTable(Base):
     save_file1 = Column(String(300), nullable=True)
     save_file2 = Column(String(300), nullable=True)
 
-    user_pkey = Column(Integer, nullable=True)
+    user_key = Column(Integer, nullable=True)
 
-
-class DailyTable(Base):
-    __tablename__ = 'daily'
-    pkey = Column(Integer, primary_key=True, autoincrement=True)
+## 저장만 따로 마크베이스로. 실파일저장위치(파일명:najuaaaa)(DataSet/uploadfiles), 모델돌리려는 파일저장위치(파일명:naju_insu_2015)(prediction/data) 연결
+class DataTable(Base):
+    __tablename__ = 'data'
+    key = Column(Integer, primary_key=True, autoincrement=True)
     inserted = Column(DateTime, default=datetime.datetime.now())
-    resource = Column(String(30), nullable=False)
-    location = Column(String(30), nullable=False)
-    start_date = Column(Integer, nullable=True)
-    # end_date = Column(Integer, nullable=True)
-    model_name = Column(String(50), nullable=False)
-    save_daily = Column(String(100), nullable=True)
-
-class MonthlyTable1(Base):
-    __tablename__ = 'monthly1'
-    pkey = Column(Integer, primary_key=True, autoincrement=True)
-    inserted = Column(DateTime, default=datetime.datetime.now())
-    resource = Column(String(30), nullable=False)
-    location = Column(String(100), nullable=False)
-    start_date = Column(Integer, nullable=True)
-    # end_date = Column(Integer, nullable=True)
-    model_name = Column(String(50), nullable=False)
-    temp_option = Column(Integer, nullable=False)
-    sub_option = Column(Integer, nullable=False)
-    save_daily = Column(String(100), nullable=True)
-    save_monthly = Column(String(100), nullable=True)
+    ## 실제 파일 저장.
+    file_path = Column(String(300), nullable=True)
+    ## 모델에 맞춰 파일명 저장.
+    save_path = Column(String(300), nullable=True)
+    ## 마크베이스 저장된 테이블 HYGAS.NAJU_C_HOUSE.30001.1
+    machbase_name = Column(String(100), nullable=True)
+    ## todo: 검침/예측, 인수, 지역
+    purpose = Column(String(100), nullable=True)
+    resource = Column(String(100), nullable=True)
+    location = Column(String(30), nullable=True)
+    ## 해당 파일의 시작-끝 기간.
+    period = Column(String(100), nullable=True)
 
 
-class MonthlyTable2(Base):
-    __tablename__ = 'monthly2'
-    pkey = Column(Integer, primary_key=True, autoincrement=True)
-    inserted = Column(DateTime, default=datetime.datetime.now())
-    resource = Column(String(30), nullable=False)
-    location = Column(String(100), nullable=False)
-    start_date = Column(Integer, nullable=True)
-    # end_date = Column(Integer, nullable=True)
-    model_name = Column(String(50), nullable=False)
-    save_daily = Column(String(100), nullable=True)
-    save_monthly = Column(String(100), nullable=True)
+# class DailyTable(Base):
+#     __tablename__ = 'daily'
+#     pkey = Column(Integer, primary_key=True, autoincrement=True)
+#     inserted = Column(DateTime, default=datetime.datetime.now())
+#     resource = Column(String(30), nullable=False)
+#     location = Column(String(30), nullable=False)
+#     start_date = Column(Integer, nullable=True)
+#     # end_date = Column(Integer, nullable=True)
+#     model_name = Column(String(50), nullable=False)
+#     save_daily = Column(String(100), nullable=True)
+#
 
-class YearlyTable(Base):
-    __tablename__ = 'yearly'
-    pkey = Column(Integer, primary_key=True, autoincrement=True)
-    inserted = Column(DateTime, default=datetime.datetime.now())
-    resource = Column(String(30), nullable=False)
-    location = Column(String(100), nullable=False)
-    start_date = Column(Integer, nullable=True)
-    # end_date = Column(Integer, nullable=True)
-    model_name = Column(String(50), nullable=False)
-    save_monthly = Column(String(200), nullable=True)
-    save_yearly = Column(String(200), nullable=True)
-    # year_range = Column(Integer, nullable=False)
+# class MonthlyTable1(Base):
+#     __tablename__ = 'monthly1'
+#     pkey = Column(Integer, primary_key=True, autoincrement=True)
+#     inserted = Column(DateTime, default=datetime.datetime.now())
+#     resource = Column(String(30), nullable=False)
+#     location = Column(String(100), nullable=False)
+#     start_date = Column(Integer, nullable=True)
+#     # end_date = Column(Integer, nullable=True)
+#     model_name = Column(String(50), nullable=False)
+#     temp_option = Column(Integer, nullable=False)
+#     sub_option = Column(Integer, nullable=False)
+#     save_daily = Column(String(100), nullable=True)
+#     save_monthly = Column(String(100), nullable=True)
+#
+#
+# class MonthlyTable2(Base):
+#     __tablename__ = 'monthly2'
+#     pkey = Column(Integer, primary_key=True, autoincrement=True)
+#     inserted = Column(DateTime, default=datetime.datetime.now())
+#     resource = Column(String(30), nullable=False)
+#     location = Column(String(100), nullable=False)
+#     start_date = Column(Integer, nullable=True)
+#     # end_date = Column(Integer, nullable=True)
+#     model_name = Column(String(50), nullable=False)
+#     save_daily = Column(String(100), nullable=True)
+#     save_monthly = Column(String(100), nullable=True)
+#
+# class YearlyTable(Base):
+#     __tablename__ = 'yearly'
+#     pkey = Column(Integer, primary_key=True, autoincrement=True)
+#     inserted = Column(DateTime, default=datetime.datetime.now())
+#     resource = Column(String(30), nullable=False)
+#     location = Column(String(100), nullable=False)
+#     start_date = Column(Integer, nullable=True)
+#     # end_date = Column(Integer, nullable=True)
+#     model_name = Column(String(50), nullable=False)
+#     save_monthly = Column(String(200), nullable=True)
+#     save_yearly = Column(String(200), nullable=True)
+#     # year_range = Column(Integer, nullable=False)
 
 # class Testjeju(Base):
 #     __tablename__ = 'weather_jeju'

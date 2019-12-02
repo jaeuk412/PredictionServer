@@ -69,17 +69,17 @@ def devide_date(date):
     start_day = int(start_date[6:8])
     return start_year, start_month, start_day
 
-def get_user_pkey():
+def get_user_key():
     try:
         key = session['logger']
-        pkey = db_session.query(Login.pkey).filter(Login.id == str(key))
-        login = db_session.query(Login).get(pkey)
+        key = db_session.query(Login.key).filter(Login.id == str(key))
+        login = db_session.query(Login).get(key)
     except:
-        pkey = 0
+        key = 0
     else:
-        pkey = login.pkey
+        key = login.key
 
-    return pkey
+    return key
 
 ## 3.5에 맞게 수정.
 def crossdomain(origin=None, methods=None, headers=None,
