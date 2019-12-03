@@ -200,7 +200,6 @@ def file_create():
                 ## HYGAS.NAJU.30001.1
                 machbase_class_name = 'HYGAS.%s.%s'%(area.upper(), machbase_resource)
 
-
                 ## DB에 저장.
                 db_session.add(DataTable(period=period, machbase_name=machbase_class_name, file_path=new_name, purpose=purpose, resource=resource, location=area, save_path=model_save_path))
                 db_session.commit()
@@ -290,20 +289,20 @@ def file_createtest():
                 # print("model_s_path: ",model_save_path)
 
                 if resource == 'insu':
-                    machbase_resource = '30001.1'
+                    resource = '30001.1'
                 elif resource == 'sub':
-                    machbase_resource = '30005.0'
+                    resource = '30005.0'
                 elif resource == 'temp':
-                    machbase_resource = '3303.0'
+                    resource = '3303.0'
                 else:
-                    machbase_resource = '30001.1'
+                    resource = '30001.1'
 
                 ## 마크 베이스 입력---------------------------
                 machbase_input(new_name, area, resource, date_start_year)
                 ## 마크 베이스 입력 --------------------------
 
                 ## HYGAS.NAJU.30001.1
-                machbase_class_name = 'HYGAS.%s.%s'%(area.upper(), machbase_resource)
+                machbase_class_name = 'HYGAS.%s.%s'%(area.upper(), resource)
 
 
                 ## DB에 저장.
@@ -1132,10 +1131,10 @@ def machbase_input(path, area, resource, startyear):
             mach_usekind = mach_usekind[3:]
             # print(mach_usekind)
             ## 이미 받아올때 30001.1로 받아올듯.
-            if resource == 'insu':
-                resource_value = '30001.1'
-            else:
-                resource_value = '30001.2'
+            # if resource == 'insu':
+            #     resource_value = '30001.1'
+            # else:
+            #     resource_value = '30001.2'
 
             try:
                 ## 1. 해당 테크 테이블 만들고.
