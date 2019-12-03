@@ -60,7 +60,7 @@ def predict_temp(area, target_year, target_mon, target_day):
 	for tyear in range(target_year-4, target_year):
 
 		# read the temp data
-		temp_data_tmp = pd.read_csv(folder_path+'data/temperature/%s_temp_%d'%(area, tyear), delim_whitespace=True)
+		temp_data_tmp = pd.read_csv(folder_path+'data/temp/%s_temp_%d'%(area, tyear), delim_whitespace=True)
 		# merge the read data into one data for easy processing
 		if tyear == target_year-4:
 			temp_data = temp_data_tmp	
@@ -182,7 +182,7 @@ def predict_avg_insu_by_temp_regression(area, cat, target_year, target_mon, targ
 			continue
 
 		# read the temperature data
-		temp_data = pd.read_csv(folder_path+'data/temperature/%s_temp_%d'%(area, tyear), delim_whitespace=True)
+		temp_data = pd.read_csv(folder_path+'data/temp/%s_temp_%d'%(area, tyear), delim_whitespace=True)
 
 		# read the insu data
 		insu_data = pd.read_csv(folder_path+'data/insu/%s_insu_%d'%(area, tyear), delim_whitespace=True)

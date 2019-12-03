@@ -34,7 +34,7 @@ def extract_data(data):
 
 def crawling_temp_data(area, target_year, month_list):
 
-	f = open(folder_path+"data/temperature/%s_temp_%d"%(area, target_year), 'w')
+	f = open(folder_path+"data/temp/%s_temp_%d"%(area, target_year), 'w')
 	f.write("year month date avgTemp maxTemp minTemp\n")
 	PART=["1", "11", "21"]
 

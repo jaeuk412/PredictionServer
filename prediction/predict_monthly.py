@@ -27,7 +27,7 @@ def check_and_prepare_data(area, op_mode, temp_mode, sub_mode):
 	'''
 
 	# step 1: exmine the availability of true insu and sub data
-	# - note that four data files are used -> insu, sub (the number of subscribers), temp (temperature), and date (day, holiday info) files
+	# - note that four data files are used -> insu, sub (the number of subscribers), temp (temp), and date (day, holiday info) files
 	
 	# step 1-1: exaimne available insu data files
 	insu_file_list = os.listdir('data/insu')
@@ -88,10 +88,10 @@ def check_and_prepare_data(area, op_mode, temp_mode, sub_mode):
 	if op_mode == 1 :
 		# - check temp files. the required files include the data of recent 4 years (input for prediction of latest_year) and the data of latest_year (predictio target. we need this to calculate prediction accuracy)
 		for tyear in range(latest_year-4, latest_year+1):
-			if not os.path.isfile(folder_path+'data/temperature/%s_temp_%d'%(area, tyear)):
-				print ("The required file [./data/temperature/%s_temp_%d] does not exist"%(area, tyear))
+			if not os.path.isfile(folder_path+'data/temp/%s_temp_%d'%(area, tyear)):
+				print ("The required file [./data/temp/%s_temp_%d] does not exist"%(area, tyear))
 				predict_common.gen_temp_file(area, tyear)
-				print ("The required file [./data/temperature/%s_temp_%d] is generated"%(area, tyear))
+				print ("The required file [./data/temp/%s_temp_%d] is generated"%(area, tyear))
 
 		# - check date files
 		for tyear in range(latest_year-4, latest_year+1):
@@ -137,11 +137,11 @@ def check_and_prepare_data(area, op_mode, temp_mode, sub_mode):
 
 		# - copy the available files to use them temporarily
 		script="cp -R"
-		scr_list = ["data/date", "data/insu", "data/sub", "data/temperature", "data/tmp_for_pred/"]
+		scr_list = ["data/date", "data/insu", "data/sub", "data/temp", "data/tmp_for_pred/"]
 		for scr_box in scr_list:
 			script += " " + scr_box
 		os.system(script)
-		## "cp -R data/date data/insu data/sub data/temperature data/tmp_for_pred/"
+		## "cp -R data/date data/insu data/sub data/temp data/tmp_for_pred/"
 
 		return target.year, target.month, 24
 

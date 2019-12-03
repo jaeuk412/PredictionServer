@@ -206,4 +206,4 @@ soup = BeautifulSoup(web_page.text, "html.parser")
 r = requests.get(url).text
 json_data = pd.read_json(r)
 
-temp_tmp = pd.read_csv(folder_path+'data/tmp_for_pred/temperature/%s_temp_%d'%(area, target_year), delim_whitespace=True)
+temp_tmp = pd.read_csv(folder_path+'data/tmp_for_pred/temp/%s_temp_%d'%(area, target_year), delim_whitespace=True)

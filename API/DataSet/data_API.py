@@ -72,11 +72,17 @@ def file_attach():
         now = datetime.datetime.now()
         nowDate = now.strftime('%Y%m%d')
         nowTime = now.strftime('%H%M%S')
-        strtime = 'temp_'+ nowDate + nowTime+'_'
+        # strtime = 'temp_'+ nowDate + nowTime+'_'
+        strtime = nowDate + nowTime + '_'
         file_list = list()
 
         if not os.path.isdir(folder_path3):
             os.mkdir(folder_path3)
+
+        tempfilepath = folder_path3 + 'tempfile/'
+
+        if not os.path.isdir(tempfilepath):
+            os.mkdir(tempfilepath)
 
         ## todo: 파일용량 제한 가능 -> app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
         for f in request.files.getlist('file-key'):
@@ -84,7 +90,7 @@ def file_attach():
             # print(secure_filename(strtime+f.filename))
             ## source_filename이 한글적용이 안되는 문제가 있어 제거.
             # f.save(folder_path3 + secure_filename(strtime+f.filename))
-            f.save(folder_path3 + strtime + f.filename)
+            f.save(tempfilepath + strtime + f.filename)
             file_list.append(strtime+f.filename)
 
         result = {"file-key":file_list}
@@ -123,6 +129,10 @@ def file_create():
             resource = data['resource']
             if resource == '13001.1':
                 resource = 'insu'
+            elif resource == '30005.0':
+                resource = 'sub'
+            elif resource =='3303.0':
+                resource = 'temp'
             else:
                 resource = 'insu'
         except:
@@ -133,36 +143,20 @@ def file_create():
         except:
             purpose = 'prediction'
 
-        # ## 지역,자원,목적 정보를 RDB에 저장.
-        # try:
-        #     db_session.add(DataTable(purpose=purpose, resource=resource, location=area))
-        #     db_session.commit()
-        #
-        # except Exception as e:
-        #     return jsonify(e)
-
-        datacount = 0
-        for i in file_key:
-            file_key[datacount] = folder_path3 + i
-            datacount += 1
-
-        date_get = list()
-        print("file_key: ",file_key)
+        # print("file_key: ",file_key)
         ## temp 붙은거 삭제.
         for name in file_key:
-            # # 실행 중인 파일 수정 금지.
-            # if sys.argv[0].split("\\")[-1] == name:
-            #     continue
-
-            new_name = name.replace('temp_', '')
-            print("name: ",name)
-            print("new_name: ",new_name)
+            tempfilepath = folder_path3 + 'tempfile/' + name
+            new_name = folder_path3 + name
 
             try:
-                os.rename(name, new_name)
+                # temp 에서 실 저장소로 이동.
+                shutil.copy(tempfilepath, new_name)
+                # print("name: ", name)
+                # print("new_name: ", new_name)
 
                 ## 파일 읽어서 년도 정보 2014 획득.
-                ## todo: 첫날짜, 마지막 날짜 DB에 저장.
+                ## 첫날짜, 마지막 날짜 DB에 저장.
                 ##########################################################
                 with open(new_name, 'r') as f:
                     date_get = f.readlines()
@@ -175,27 +169,27 @@ def file_create():
                 date_end_year = int(date_end_value[0])
                 date_end_month = int(date_end_value[1])
                 date_end_day = int(date_end_value[2])
+
                 period = "%04d-%02d-%02d ~ %04d-%02d-%02d" % (
                 date_start_year, date_start_month, date_start_day, date_end_year, date_end_month, date_end_day)
 
+                ###########################################################
+                ## /home/uk/PredictionServer/prediction/data/insu/naju_insu_2014
+                ## 모델용에 맞춰 저장.
 
-            except:
-                return jsonify(False)
-
-
-            ###########################################################
-            ## /home/uk/PredictionServer/prediction/data/insu/naju_insu_2014
-            ## 모델용에 맞춰 저장.
-            try:
                 ## todo: resource에 따라 해당 폴더로 들어감. (폴더명과 변수명 일치 여부 확인)
                 model_save_path = folder_path + "data/%s/%s_%s_%d" % (resource, area, resource, date_start_year)
                 ## DB 모델용 저장 파일. (파일복사)
                 ## shutil 사용.
                 shutil.copy(new_name,model_save_path)
-                print("model_s_path: ",model_save_path)
+                # print("model_s_path: ",model_save_path)
 
                 if resource == 'insu':
                     machbase_resource = '30001.1'
+                elif resource == 'sub':
+                    machbase_resource = '30005.0'
+                elif resource == 'temp':
+                    machbase_resource = '3303.0'
                 else:
                     machbase_resource = '30001.1'
 
@@ -213,16 +207,6 @@ def file_create():
 
             except Exception as e:
                 return jsonify(e)
-
-        # files = os.listdir(folder_path3)
-        #
-        # ## temp 붙은 파일 삭제 (추후 자동 업데이트로)
-        # for i in files:
-        #     if 'temp' in i:
-        #         try:
-        #             os.remove(folder_path3 + i)
-        #         except:
-        #             pass
 
         return jsonify(True)
 
@@ -250,6 +234,10 @@ def file_createtest():
             resource = data['resource']
             if resource == '13001.1':
                 resource = 'insu'
+            elif resource == '30005.0':
+                resource = 'sub'
+            elif resource =='3303.0':
+                resource = 'temp'
             else:
                 resource = 'insu'
         except:
@@ -260,36 +248,20 @@ def file_createtest():
         except:
             purpose = 'prediction'
 
-        # ## 지역,자원,목적 정보를 RDB에 저장.
-        # try:
-        #     db_session.add(DataTable(purpose=purpose, resource=resource, location=area))
-        #     db_session.commit()
-        #
-        # except Exception as e:
-        #     return jsonify(e)
-
-        datacount = 0
-        for i in file_key:
-            file_key[datacount] = folder_path3 + i
-            datacount += 1
-
-        date_get = list()
-        print("file_key: ",file_key)
+        # print("file_key: ",file_key)
         ## temp 붙은거 삭제.
         for name in file_key:
-            # # 실행 중인 파일 수정 금지.
-            # if sys.argv[0].split("\\")[-1] == name:
-            #     continue
-
-            new_name = name.replace('temp_', '')
-            print("name: ",name)
-            print("new_name: ",new_name)
+            tempfilepath = folder_path3 + 'tempfile/' + name
+            new_name = folder_path3 + name
 
             try:
-                os.rename(name, new_name)
+                # temp 에서 실 저장소로 이동.
+                shutil.copy(tempfilepath, new_name)
+                # print("name: ", name)
+                # print("new_name: ", new_name)
 
                 ## 파일 읽어서 년도 정보 2014 획득.
-                ## todo: 첫날짜, 마지막 날짜 DB에 저장.
+                ## 첫날짜, 마지막 날짜 DB에 저장.
                 ##########################################################
                 with open(new_name, 'r') as f:
                     date_get = f.readlines()
@@ -303,7 +275,7 @@ def file_createtest():
                 date_end_month = int(date_end_value[1])
                 date_end_day = int(date_end_value[2])
 
-                period = "%04d-%02d-%02d ~ %04d-%02d-%02d" % (
+                period = "%04d-%02d-%02d~%04d-%02d-%02d" % (
                 date_start_year, date_start_month, date_start_day, date_end_year, date_end_month, date_end_day)
 
                 ###########################################################
@@ -315,10 +287,14 @@ def file_createtest():
                 ## DB 모델용 저장 파일. (파일복사)
                 ## shutil 사용.
                 shutil.copy(new_name,model_save_path)
-                print("model_s_path: ",model_save_path)
+                # print("model_s_path: ",model_save_path)
 
                 if resource == 'insu':
                     machbase_resource = '30001.1'
+                elif resource == 'sub':
+                    machbase_resource = '30005.0'
+                elif resource == 'temp':
+                    machbase_resource = '3303.0'
                 else:
                     machbase_resource = '30001.1'
 
@@ -336,16 +312,6 @@ def file_createtest():
 
             except Exception as e:
                 return jsonify(e)
-
-        # files = os.listdir(folder_path3)
-        #
-        # ## temp 붙은 파일 삭제 (추후 자동 업데이트로)
-        # for i in files:
-        #     if 'temp' in i:
-        #         try:
-        #             os.remove(folder_path3 + i)
-        #         except:
-        #             pass
 
         return jsonify(True)
 
@@ -1136,7 +1102,7 @@ def machbase_input(path, area, resource, startyear):
     # resource = 'insu'  # or '30001.1
     # ddstart = startyear
 
-    print("path: ", path)
+    # print("path: ", path)
 
     with open(path, 'r') as f:
         dataname_get = f.readlines()
@@ -1164,7 +1130,7 @@ def machbase_input(path, area, resource, startyear):
 
             ## 년/원/일 을 제외한 뒤에 나머지 컬럼명을 가져옴.
             mach_usekind = mach_usekind[3:]
-            print(mach_usekind)
+            # print(mach_usekind)
             ## 이미 받아올때 30001.1로 받아올듯.
             if resource == 'insu':
                 resource_value = '30001.1'

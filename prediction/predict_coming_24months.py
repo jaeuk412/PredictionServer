@@ -122,13 +122,13 @@ def predict_temp(area, target_year, target_mon):
     # examine the existence of a target file to write prediction result. the prediction results will be used for further prediction.
     need_to_write = 0
     # - the target file does not exist
-    if not os.path.isfile(folder_path + 'data/tmp_for_pred/temperature/%s_temp_%d' % (area, target_year)):
-        tmp_f = open(folder_path + 'data/tmp_for_pred/temperature/%s_temp_%d' % (area, target_year), 'w')
+    if not os.path.isfile(folder_path + 'data/tmp_for_pred/temp/%s_temp_%d' % (area, target_year)):
+        tmp_f = open(folder_path + 'data/tmp_for_pred/temp/%s_temp_%d' % (area, target_year), 'w')
         tmp_f.write("year month date avgTemp maxTemp minTemp\n")
         need_to_write = 1
     # - the target file exists
     else:
-        temp_tmp = pd.read_csv(folder_path + 'data/tmp_for_pred/temperature/%s_temp_%d' % (area, target_year),
+        temp_tmp = pd.read_csv(folder_path + 'data/tmp_for_pred/temp/%s_temp_%d' % (area, target_year),
                                delim_whitespace=True)
         same_month = temp_tmp[temp_tmp['month'] == target_mon]
 
@@ -140,14 +140,14 @@ def predict_temp(area, target_year, target_mon):
         # -- need to conduct prediction
         else:
             need_to_write = 1
-            tmp_f = open(folder_path + 'data/tmp_for_pred/temperature/%s_temp_%d' % (area, target_year), 'a')
+            tmp_f = open(folder_path + 'data/tmp_for_pred/temp/%s_temp_%d' % (area, target_year), 'a')
 
     if need_to_write == 1:
 
         # load the temperature data of recent 4 years
         for tyear in range(target_year - 4, target_year):
             # read the temp data
-            temp_data_tmp = pd.read_csv(folder_path + 'data/tmp_for_pred/temperature/%s_temp_%d' % (area, tyear),
+            temp_data_tmp = pd.read_csv(folder_path + 'data/tmp_for_pred/temp/%s_temp_%d' % (area, tyear),
                                         delim_whitespace=True)
             # merge the read data into one data for easy processing
             if tyear == target_year - 4:
@@ -257,10 +257,10 @@ def predict_avg_insu_by_temp_regression(area, cat, target_year, target_mon):
     for tyear in range(target_year - 4, target_year):
 
         # read the temperature data
-        temp_data = pd.read_csv(folder_path + 'data/tmp_for_pred/temperature/%s_temp_%d' % (area, tyear),
+        temp_data = pd.read_csv(folder_path + 'data/tmp_for_pred/temp/%s_temp_%d' % (area, tyear),
                                 delim_whitespace=True)
 
-        # print(folder_path + 'data/tmp_for_pred/temperature/%s_temp_%d' % (area, tyear))
+        # print(folder_path + 'data/tmp_for_pred/temp/%s_temp_%d' % (area, tyear))
 
         # read the insu data
         insu_data = pd.read_csv(folder_path + 'data/tmp_for_pred/insu/%s_insu_%d' % (area, tyear),
