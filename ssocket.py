@@ -1,6 +1,7 @@
 
 import asyncio
 import websockets
+import datetime
 import os
 import json
 from API.api_helper.user_directory import root_path
@@ -22,7 +23,14 @@ def db_query(data):
         int(data))
     query_value = db_session.execute(query)
 
-    print(query)
+    # ## 데이터 모델 종료 시간 -> 각 모델 마지막 종점에
+    # try:
+    #     put_key = db_session.query(ResultTable).get(int(data))
+    #     put_key.finished = datetime.datetime.now()
+    #
+    #     db_session.commit()
+    # except:
+    #     pass
 
     # save_monthly
     model_name = str()
@@ -33,8 +41,8 @@ def db_query(data):
         for x, y in y1.items():
             value.extend([y])
 
-    print(value)
-    print(type(value))
+    # print(value)
+    # print(type(value))
 
     model_name = value[0]
 
@@ -71,7 +79,7 @@ def db_query(data):
 
 '''
 ws://localhost:10308/websocket
-{"type":"predicted","data":{"id":"daily"}}
+{"type":"predicted","data":{"id":1}}
 '''
 
 async def main(websocket, path):
@@ -86,7 +94,7 @@ async def main(websocket, path):
                     try:
                         datass = db_query(i)
                         # result = {"data": {"dataset": i}}
-                        result = {"type": "predicted", "dataset": {"id": i, "dataset": datass}}
+                        result = {"type": "predicted", "dataset": {"id": int(i), "dataset": datass}}
                         Send1 = asyncio.ensure_future((SendMsg2(websocket, path, result)))
                         asyncio.as_completed(Send1)
                         ## send된 파일 제거.

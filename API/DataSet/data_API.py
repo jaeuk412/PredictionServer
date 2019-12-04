@@ -318,7 +318,7 @@ def file_createtest():
         return jsonify(False)
 
 ## ReadAll files info
-@data_apis.route('/data', methods=['GET'])
+@data_apis.route('/datasets', methods=['GET'])
 def api_file_search():
     # query = "select * from data ORDER BY key"
     query = "select key, inserted, location, purpose, resource, period, file_path from data ORDER BY key"
@@ -343,214 +343,50 @@ def api_file_search():
         result.append(result_dict)
         # print(result)
 
-    fresult = {"data": result, "total": count}
+    fresult = {"dataset": result, "total": count}
     return jsonify(fresult)
-
-@data_apis.route('/datasets/locations', methods=['GET'])
-def datasets_locations():
-    location_list = ["gwangju", "naju", "jangsung", "damyang"]
-    return jsonify(location_list)
-
-'''
-HYGAS.NAJU_C_HOUSE.30001.1 - 나주_하우스_가스인수량.
-HYGAS.NAJU_C_HOUSE.30001.2 - 나주_하우스_가스검침량.
-"resource": "HYGAS.NAJU_C_HOUSE.30001.1"
-{
-        "period": "2019-11-01 10:23:45~2019-11-30 23:59:59",
-        "dataset": [
-                {
-                        "arguments": {
-                                "location":"naju",
-                                "resource": "HYGAS.NAJU.30001.1"
-                        }
-                }
-        ]
-}
---------------------------------------
-{
-        "period": "2014-11-01 10:23:45~2019-11-30 23:59:59",
-        "dataset": [
-                {
-                        "source":" hygas",
-                        "location": "naju",
-                        "useKind": "house",
-                        "resource": "30001.1"
-                }
-        ]
-}
-'''
-
-# ## Readall
-# @data_apis.route('/datasets', methods=['POST'])
-# def api_data_search_all():
-#     try:
-#         key = session['logger']
-#         key = db_session.query(Login.key).filter(Login.id == str(key))
-#         login = db_session.query(Login).get(key)
-#     except:
-#         key = 0
-#     else:
-#         key = login.key
-#
-#     req = request.get_json()
-#     jsonString = json.dumps(req)
-#     data = json.loads(jsonString)
-#
-#
-#
-#     try:
-#         period = data['period']
-#         ## 날짜시간 [2018, 3, 10, 1, 0, 0, 2019, 3, 6, 1, 0, 0] -> 리스트 len = 12
-#         period_value = get_period_value(str(period))
-#         # print(period_value)
-#         # datestart = '%04d-%02d-%02d' % (period_value[0], period_value[1], period_value[2])
-#         # dateend = int('%04d' % (period_value[6]))
-#         dateend = 2019
-#         # print(dateend)
-#         # datestart = int('%04d' % (period_value[0]))
-#         datestart = 2014
-#         # print(datestart)
-#         datelist = []
-#
-#         import glob
-#         filecount = folder_path + 'data/insu/'
-#         filecountvalue = len(glob.glob1(filecount, "naju_insu*"))
-#
-#         # for i in range(dateend - datestart + 1):
-#         for i in range(filecountvalue):
-#             datelist.append(datestart)
-#             datestart += 1
-#
-#     except:
-#         period = None
-#
-#     try:
-#         dataset = data['dataset']
-#     except Exception as e:
-#         print('212: ',e)
-#         abort(400)
-#
-#     final_result_dict = dict()
-#     final_result_list = list()
-#     data_start_date = list()
-#     meta_get = {}
-#     # print(dataset)
-#     for data in dataset:
-#         meta_get2 = []
-#         final_value_list = []
-#         # print("data: ",data)
-#
-#         try:
-#             # argument = data['arguments']
-#             resource = data['resource']
-#             area = data['location']
-#             ## 지역이 나주가 아니면 naju로 강제 변환.
-#             if not area == 'naju':
-#                 area = 'naju'
-#
-#             try:
-#                 source = data['source']
-#             except:
-#                 source = 'HYGAS'
-#
-#             try:
-#                 kind = data['useKind']
-#             except:
-#                 kind = 'house'
-#
-#         except Exception as e:
-#             print(e)
-#             return abort(400)
-#
-#         # todo: csv 파일로 가져왔을때, 문제가 있는거 같다. 같은 값인데, 에러가 난다.
-#         else:
-#             dataname = str()
-#             # print(resource.count('.'))
-#             if resource.count('.') == 1:
-#                 # print("datelist: ",datelist)
-#                 for ddstart in datelist:
-#
-#                     # print("ddstart: ",ddstart)
-#
-#                     path = folder_path + 'data/insu/%s_insu_%d' % (area.lower(), ddstart)
-#                     # print(path)
-#                     dataname = 'insu_sum'
-#                     ## '/home/uk/PredictionServer/prediction/prediction_ETRI/data/insu/naju_insu_2019'
-#                     # with open(path, 'r') as f:
-#                     #     dataname_get = f.readline().strip()
-#
-#                     with open(path, 'r') as f:
-#                         dataname_get = f.readlines()
-#
-#                     data_t = []
-#                     count = 0
-#                     data_name = []
-#                     data_t_month_check=1
-#                     data_t_value = 0
-#                     for ii in dataname_get:
-#                         # data_t.append(ii[:-1].replace('\t',' '))
-#                         if count == 0:
-#                             ## 년월일 뺴고 나머지.
-#                             # data_name = ii[:-1].replace('\t',' ').split(' ')[3:]
-#                             ##리스트 마지막.
-#                             data_name = ii[:-1].replace('\t', ' ').split(' ')[-1]
-#                         else:
-#                             data_t_month = int(ii[:-1].replace('\t', ' ').split(' ')[1])
-#                             # print(data_t_month)
-#                             if data_t_month == data_t_month_check:
-#                                 data_t_value += int(ii[:-1].replace('\t', ' ').split(' ')[-1])
-#                             else:
-#                                 # data_t.append({data_t_month_check:data_t_value})
-#                                 ## 각 달의 값을 append
-#                                 data_t.append(data_t_value)
-#                                 data_t_value = 0
-#                                 data_t_month_check += 1
-#
-#                         if count ==1 and ddstart == 2014:
-#                             ## 처음꺼 몇월 몇일 인지.
-#                             data_start_date = ii[:-1].replace('\t', ' ').split(' ')[0:3]
-#                             # print("data_start_date: ", data_start_date)
-#
-#
-#                         if count == len(dataname_get)-1:
-#                             ## 받아온 값의 마지막 꺼 체크해서 나머지 append
-#                             # data_t.append({data_t_month_check: data_t_value})
-#                             data_t.append(data_t_value)
-#                             ## 마지막꺼 몇월 몇일 인지.
-#                             data_end_date = ii[:-1].replace('\t', ' ').split(' ')[0:3]
-#                             # print("data_end_date: ", data_end_date)
-#
-#                         count += 1
-#
-#                     data_t.insert(0,ddstart)
-#                     final_value_list.append(data_t)
-#                     # final_value_list.append({ddstart:data_t})
-#
-#             meta_get2.append({"beginDate": '%04d-%02d-%02d'%(int(data_start_date[0]),int(data_start_date[1]),int(data_start_date[2])), "endDate": '%04d-%02d-%02d'%(int(data_end_date[0]),int(data_end_date[1]),int(data_end_date[2]))})
-#
-#             final_value_list.insert(0,['date',1,2,3,4,5,6,7,8,9,10,11,12])
-#             meta_get.update({str(source).upper()+'.'+str(resource):meta_get2})
-#
-#             meta={}
-#             meta["meta"] = meta_get
-#
-#         final_result_list.append({str(source).upper()+'.'+str(resource):final_value_list})
-#     final_result_list.append({"meta":meta_get})
-#
-#     return jsonify(final_result_list)
-
-
 
 ## Read
 @data_apis.route('/datasets/<int:key>', methods=['GET'])
 def api_data_search(key):
-    pass
+    try:
 
+        query = "select key, inserted, location, purpose, resource, period, file_path from data WHERE key =%d" % (key)
+        records = db_session.execute(query)
+        result = []
+        for i in records:
+            # print(i)
+            result_dict = dict()
+            for x, y in i.items():
+                # print(x,y)
+                if x == 'file_path':
+                    x = 'file-key'
+                    y = y.split('/')[-1]
+
+                result_dict.update({x: y})
+            # print(result_dict)
+
+            result.append(result_dict)
+
+        return response_json_value(result)
+    except:
+        return jsonify(False)
 
 ## Delete
 @data_apis.route('/datasets/<int:key>', methods=['DELETE'])
 def api_data_delete(key):
-    pass
+    try:
+        ## todo: 삭제시에 저장된 파일 같이 삭제.(fileupload)
+        db_session.query(DataTable).filter(DataTable.key == key).delete()
+        db_session.commit()
+        return jsonify(True)
+    except:
+        return jsonify(False)
+
+@data_apis.route('/locations', methods=['GET'])
+def datasets_locations():
+    location_list = ["gwangju", "naju", "jangsung", "damyang"]
+    return jsonify(location_list)
 
 @data_apis.route('/datasets/dbtest', methods=['GET'])
 def api_data_get_smart_city():
@@ -891,7 +727,6 @@ def api_data_values():
 
 @data_apis.route('/analysis', methods=['POST'])
 def api_analysis():
-
     try:
         key = session['logger']
         key = db_session.query(Login.key).filter(Login.id == str(key))
@@ -912,32 +747,58 @@ def api_analysis():
         print(period_value)
         datestart = '%04d-%02d-%02d' % (period_value[0], period_value[1], period_value[2])
         dateend = '%04d-%02d-%02d' % (period_value[6], period_value[7], period_value[8])
+
+        ## 해양도시 insu값 무조건 다 출력.
+        datestart_hy = 2014
+        dateend_hy = 2019
+        # print(datestart)
+        datelist = []
+        import glob
+        filecount = folder_path + 'data/insu/'
+        filecountvalue = len(glob.glob1(filecount, "naju_insu*"))
+        # for i in range(dateend - datestart + 1):
+        ## range=6 (2014_2019)
+        for i in range(filecountvalue):
+            datelist.append(datestart_hy)
+            datestart_hy += 1
+
     except:
         period = None
+        datestart_hy = 2014
+        dateend_hy = 2019
+        datelist = []
+        # for i in range(dateend - datestart + 1):
+        for i in range(6):
+            datelist.append(datestart_hy)
+            datestart_hy += 1
 
     try:
         dataset = data['dataset']
-
     except Exception as e:
         print('212: ',e)
         abort(400)
 
     #------------------------------------------------------------
     total_value = dict()
+    total_value2 = list()
+    meta_get = {}
+    meta_get_list = list()
     for i in dataset:
+        meta_get2 = []
+        print(i)
         if isinstance(i, str):
             if 'static' in i:
                 datasetvalue = dataset_check(str(i))
+                print(period)
 
                 try:
-
                     if period:
                         ## datestart: 2019-10-30, dateend: 2019-12-31
                         datasetdate = " where DATE(date) BETWEEN '%s' AND '%s'" % (datestart, dateend)
                         query = "select * from %s%s" % (datasetvalue, datasetdate)
                     else:
                         query = "select * from %s" % (datasetvalue)
-                    #
+
                     # if datasetvalue == 'dataset_acc_inflow':
                     #     query = "select	date, dow as week, sum(in_flow) as flow from dataset_acc_inflow " + datasetdate + " group by date, dow order by date"
                     #
@@ -945,61 +806,189 @@ def api_analysis():
                     # elif datasetvalue == 'dataset_acc_outflow':
                     #     query = "select	date, dow as week, sum(out_flow) as flow from dataset_acc_outflow " + datasetdate + " group by date, dow order by date"
                     records = dbsearch1.execute(query)
-
                     result = []
 
                     import operator
-
+                    count = 0
                     for row_n in records:
                         valueaa = []
                         key_count = 0
                         keyaa = []
+
+
                         for x, y in row_n.items():
-                            print(x,y)
                             valueaa.extend([y])
+
                             if key_count == 0:
                                 keyaa.extend([x])
+
+                            if count == 0:
+                                datestart = valueaa[0]
+
+                        count += 1
                         key_count += 1
 
-                        # row_n = [row_n]
-
-                        # print(row_n)
-                        # print(type(row_n))
-                        # print(row_n[0])
-                        # row_n[0] = str(item.get('date'))
-
-                        # cc=str(cc).split(',')[0]
-                        # print(type(cc))
                         result.append(valueaa)
                         # result.append(row_n)
 
+                    dateend = result[-1][0]
+                    print(dateend)
+
                     result.insert(0, keyaa)
                     # print(result)
-
+                    print("result: ",result)
                     ss = {}
                     ss[i] = result
                     total_value.update(ss)
+                    total_value2.append(result)
+
+                    meta_get2.append({"beginDate": datestart, "endDate":dateend})
+                    meta_get.update({str(i): meta_get2})
+                    meta_get_list.extend(meta_get2)
+                    print("meta_get: ",meta_get)
 
                 except Exception as e:
-                    print('272: ', e)
-                    ss = {}
-                    ss[str(i)] = None
-                    total_value.update(ss)
+                    print(e)
+                    # ss = {}
+                    # ss[str(i)] = None
+                    # total_value.update(ss)
+                    total_value2.append([])
+                    meta_get_list.append([])
+                    pass
 
             else:
-                ss={}
-                ss[str(i)] = None
-                total_value.update(ss)
+                # ss={}
+                # ss[str(i)] = None
+                # total_value.update(ss)
+                total_value2.append([])
+                meta_get_list.append([])
+                pass
+
+        elif isinstance(i,dict):
+            try:
+                # argument = data['arguments']
+                resource = i['resource']
+                area = i['location']
+                ## 지역이 나주가 아니면 naju로 강제 변환.
+                if not area == 'naju':
+                    area = 'naju'
+
+            except Exception as e:
+                print(e)
+                return abort(400)
+
+            try:
+                source = i['source']
+            except:
+                source = 'HYGAS'
+
+            try:
+                kind = i['useKind']
+            except:
+                kind = 'house'
+
+                # todo: csv 파일로 가져왔을때, 문제가 있는거 같다. 같은 값인데, 에러가 난다.
+            else:
+                dataname = str()
+                # print(resource.count('.'))
+                if resource.count('.') == 1:
+                    final_value_list = []
+                    # print("datelist: ",datelist)
+                    for ddstart in datelist:
+
+                        # print("ddstart: ",ddstart)
+
+                        path = folder_path + 'data/insu/%s_insu_%d' % (area.lower(), ddstart)
+                        # print(path)
+                        dataname = 'insu_sum'
+                        ## '/home/uk/PredictionServer/prediction/prediction_ETRI/data/insu/naju_insu_2019'
+                        # with open(path, 'r') as f:
+                        #     dataname_get = f.readline().strip()
+
+                        with open(path, 'r') as f:
+                            dataname_get = f.readlines()
+
+                        data_t = []
+                        count = 0
+                        data_name = []
+                        data_t_month_check = 1
+                        data_t_value = 0
+                        for ii in dataname_get:
+                            # data_t.append(ii[:-1].replace('\t',' '))
+                            if count == 0:
+                                ## 년월일 뺴고 나머지.
+                                # data_name = ii[:-1].replace('\t',' ').split(' ')[3:]
+                                ##리스트 마지막.
+                                data_name = ii[:-1].replace('\t', ' ').split(' ')[-1]
+                            else:
+                                data_t_month = int(ii[:-1].replace('\t', ' ').split(' ')[1])
+                                # print(data_t_month)
+                                if data_t_month == data_t_month_check:
+                                    data_t_value += int(ii[:-1].replace('\t', ' ').split(' ')[-1])
+                                else:
+                                    # data_t.append({data_t_month_check:data_t_value})
+                                    ## 각 달의 값을 append
+                                    data_t.append(data_t_value)
+                                    data_t_value = 0
+                                    data_t_month_check += 1
+
+                            if count == 1 and ddstart == 2014:
+                                ## 처음꺼 몇월 몇일 인지.
+                                data_start_date = ii[:-1].replace('\t', ' ').split(' ')[0:3]
+
+                            if count == len(dataname_get) - 1:
+                                ## 받아온 값의 마지막 꺼 체크해서 나머지 append
+                                # data_t.append({data_t_month_check: data_t_value})
+                                data_t.append(data_t_value)
+                                ## 마지막꺼 몇월 몇일 인지.
+                                data_end_date = ii[:-1].replace('\t', ' ').split(' ')[0:3]
+
+                            count += 1
+
+                        data_t.insert(0, ddstart)
+                        final_value_list.append(data_t)
+
+
+                meta_get2.append({"beginDate": '%04d-%02d-%02d' % (
+                int(data_start_date[0]), int(data_start_date[1]), int(data_start_date[2])),
+                                  "endDate": '%04d-%02d-%02d' % (
+                                  int(data_end_date[0]), int(data_end_date[1]), int(data_end_date[2]))})
+
+                final_value_list.insert(0, ['date', 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12])
+                meta_get.update({str(source).upper() + '.' + str(resource): meta_get2})
+                meta_get_list.extend(meta_get2)
+
+            total_value.update({str(source).upper()+'.'+str(resource):final_value_list})
+            total_value2.append(final_value_list)
 
         else:
             ss = {}
             ss[str(i)] = None
             total_value.update(ss)
+            total_value2.append([])
+            meta_get_list.append([])
+
+
+        meta = {}
+            # print(final_result2)
+        meta["meta"] = meta_get
+
+        # total_value.update(meta)
+
 
     # dataset_value = get_HYGAS_dataset_value(key, dataset, period_value)
-    # print(total_value)
+    print(total_value)
+    print(type(total_value))
     kk={'dataset':total_value}
-    return jsonify(kk)
+    kk.update(meta)
+
+    sdsd={"dataset":total_value2,"meta":meta_get_list}
+
+    # kk = {}
+    # kk['datasets'] = total_value
+    # total_value.update(kk)
+    # print(total_value)
+    return jsonify(sdsd)
 
 '''
 cjr-tourist: 관광객 현황
@@ -1024,6 +1013,7 @@ acc: 문화전당
 acc-inflow
 acc-outflow
 '''
+
 def dataset_check(dataset):
     dataset = dataset.replace('static/','').replace('-','_')
     if 'acc' in dataset:

@@ -290,12 +290,12 @@ def api_infer_predicted_API():
     result = []
     dict_result = {}
 
-    query = "select key as id, resource, location, model_name ,start_date as period from result_save ORDER BY key desc"
+    query = "select key as id, resource, location, model_name ,start_date as period, inserted, finished from result_save ORDER BY key desc"
     query_value = db_session.execute(query)
 
     for y1 in query_value:
-        print(y1)
-        print(y1[3])
+        # print(y1)
+        # print(y1[3])
         count = 0
         model = str()
         if 'daily' in y1[3]:
@@ -306,8 +306,10 @@ def api_infer_predicted_API():
             model = 'monthly2'
         elif 'yearly' in y1[3]:
             model = 'yearly'
-        print(y1.items())
+        # print(y1.items())
         value_dict = {}
+        get_insert_time = None
+        get_finish_time = None
         for x, y in y1.items():
             ## start_date에 각 모델에 맞춰 기간 계산.
             if 'period' in x:
@@ -319,9 +321,26 @@ def api_infer_predicted_API():
                     value_dict.update({x: datecount(y, 'monthly2') + ' ~ ' + datecount(y + 20000, 'monthly2')})
                 elif model == 'yearly':
                     value_dict.update({x: datecount(y, 'yearly') + ' ~ ' + datecount(y + 50000, 'yearly')})
+            elif 'inserted' == str(x):
+                get_insert_time = y
+                # print(y)
+            elif 'finished' == str(x):
+                get_finish_time = y
+                # print(y)
             else:
                 value_dict.update({x: y})
             count += 1
+
+
+        try:
+            from datetime import timedelta, datetime
+            ## 종료-시작 ( 종료가 안됐다면 None값)
+            exe_time = (get_finish_time-get_insert_time).seconds
+            print("time: ",exe_time)
+            value_dict.update({"exe_time": exe_time})
+        except:
+            value_dict.update({"exe_time": None})
+
 
         result.append(value_dict)
 

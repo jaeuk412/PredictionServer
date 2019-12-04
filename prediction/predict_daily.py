@@ -4,6 +4,8 @@ import resource
 
 # sys.path.insert(0, '/home/uk/PredictionServer')
 from API.api_helper.user_directory import folder_path, root_path
+from DB.DataBase.models import ResultTable
+from DB.DataBase.database import db_session
 from functools import wraps
 
 
@@ -65,10 +67,10 @@ def train_boosting_model(trainX, trainY):
         'learning_rate': [0.01, 0.05, 0.1, 0.15, 0.2, 0.25, 0.3],
         'n_estimators': [10, 50, 100, 200, 300, 400, 500],
         'num_leaves': [10, 20, 30, 40],
-        'min_child_weight': [0.01, 0.02, 0.03, 0.04, 0.05],
-        'device': 'gpu',
-        'gpu_platform_id': 0,
-        'gpu_device_id': 0
+        'min_child_weight': [0.01, 0.02, 0.03, 0.04, 0.05]
+        # 'device': 'gpu',
+        # 'gpu_platform_id': 0,
+        # 'gpu_device_id': 0
     }
     # define a lightgbm model
     lgb_model = lgb.LGBMRegressor(boosting_type='gbdt')
@@ -363,15 +365,25 @@ def main(area, start_year, start_month, start_day, date, user_key, detectkey):
     daily_f.write(str(pred_all))
     daily_f.close()
 
-    filepath = root_path + '/detectkey/'
+    try:
+        put_key = db_session.query(ResultTable).get(int(detectkey))
+        put_key.finished = datetime.datetime.now()
 
-    message=str(detectkey)
-    print(detectkey)
+        db_session.commit()
+    except:
+        pass
 
-    if not os.path.isdir(filepath):
-        os.mkdir(filepath)
-    with open(filepath+message,'w') as f:
-        f.write(message)
+    # filepath = root_path + '/detectkey/'
+    #
+    # message=str(detectkey)
+    # print(detectkey)
+    #
+    # if not os.path.isdir(filepath):
+    #     os.mkdir(filepath)
+    # with open(filepath+message,'w') as f:
+    #     f.write(message)
+
+
 
     print("predict_daily_done")
 

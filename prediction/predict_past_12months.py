@@ -3,6 +3,8 @@ import numpy as np
 import prediction.predict_common as predict_common
 from API.api_helper.user_directory import folder_path, root_path
 import os
+from DB.DataBase.models import ResultTable
+from DB.DataBase.database import db_session
 
 # # # # # # # # # # # # # # # # # # # # # # # #
 #              F u n c t i o n s              #
@@ -714,14 +716,22 @@ def conduct_prediction(area, start_year, start_month, month_range, temp_mode, su
 
     monthly_f.close()
 
-    filepath = root_path + '/detectkey/'
+    try:
+        put_key = db_session.query(ResultTable).get(int(detectkey))
+        put_key.finished = datetime.datetime.now()
 
-    message = "monthly1_" + str(detectkey)
+        db_session.commit()
+    except:
+        pass
 
-    if not os.path.isdir(filepath):
-        os.mkdir(filepath)
-    with open(filepath + message, 'w') as f:
-        f.write(message)
+    # filepath = root_path + '/detectkey/'
+    #
+    # message = "monthly1_" + str(detectkey)
+    #
+    # if not os.path.isdir(filepath):
+    #     os.mkdir(filepath)
+    # with open(filepath + message, 'w') as f:
+    #     f.write(message)
     print("predict_monthly1_done")
 
 # conduct_prediction('naju', 2018, 1, 12, 1, 1)

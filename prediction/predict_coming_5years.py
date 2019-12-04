@@ -11,6 +11,9 @@ from API.api_helper.user_directory import folder_path, root_path
 import os
 import itertools # parameter search 할 때 사용
 
+from DB.DataBase.models import ResultTable
+from DB.DataBase.database import db_session
+
 warnings.filterwarnings("ignore")
 
 def main(area, year, start_date, user_key, detectkey):
@@ -266,13 +269,20 @@ def main(area, year, start_date, user_key, detectkey):
         # result_path + 'coming_' + area + '_' + str(current_year) + '_to_' + str(current_year + 5) + '_yearly' + '.csv',
         mode='w', index=False, sep=' ')
 
-    filepath = root_path + '/detectkey/'
+    try:
+        put_key = db_session.query(ResultTable).get(int(detectkey))
+        put_key.finished = datetime.datetime.now()
 
-    message = "yearly_" + str(detectkey)
-    if not os.path.isdir(filepath):
-        os.mkdir(filepath)
-    with open(filepath + message, 'w') as f:
-        f.write(message)
+        db_session.commit()
+    except:
+        pass
+    # filepath = root_path + '/detectkey/'
+    #
+    # message = "yearly_" + str(detectkey)
+    # if not os.path.isdir(filepath):
+    #     os.mkdir(filepath)
+    # with open(filepath + message, 'w') as f:
+    #     f.write(message)
     print("----yearly_done----")
 
     # 최종 output: insu_coming_5years_monthly, output_yearly
