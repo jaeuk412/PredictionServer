@@ -6,15 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="997b5422-ce25-402f-99ae-daebf021415c" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/DataSet/data_API.py" beforeDir="false" afterPath="$PROJECT_DIR$/API/DataSet/data_API.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Predict/predic_API.py" beforeDir="false" afterPath="$PROJECT_DIR$/API/Predict/predic_API.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/detectkey/1" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/predict_coming_24months.py" beforeDir="false" afterPath="$PROJECT_DIR$/prediction/predict_coming_24months.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/predict_coming_5years.py" beforeDir="false" afterPath="$PROJECT_DIR$/prediction/predict_coming_5years.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/prediction/predict_daily.py" beforeDir="false" afterPath="$PROJECT_DIR$/prediction/predict_daily.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/predict_past_12months.py" beforeDir="false" afterPath="$PROJECT_DIR$/prediction/predict_past_12months.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/result/0/predict_naju_2019_10_3_daily" beforeDir="false" afterPath="$PROJECT_DIR$/prediction/result/0/predict_naju_2019_10_3_daily" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ssocket.py" beforeDir="false" afterPath="$PROJECT_DIR$/ssocket.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/prediction/result/1/predict_naju_2019_10_30_daily" beforeDir="false" afterPath="$PROJECT_DIR$/prediction/result/1/predict_naju_2019_10_30_daily" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/static" beforeDir="false" afterPath="$PROJECT_DIR$/static" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/static/assets/development-environment.json" beforeDir="false" afterPath="$PROJECT_DIR$/static/assets/development-environment.json" afterDir="false" />
     </list>
@@ -34,6 +27,7 @@
     <SUITE FILE_PATH="coverage/PredictionServer$machbase1.coverage" NAME="machbase1 Coverage Results" MODIFIED="1574832053717" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/DB/DataBase" />
     <SUITE FILE_PATH="coverage/PredictionServer$data_API.coverage" NAME="data_API Coverage Results" MODIFIED="1573263499084" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/API/DataSet" />
     <SUITE FILE_PATH="coverage/PredictionServer$Jsonparsing.coverage" NAME="Jsonparsing Coverage Results" MODIFIED="1573709098494" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/prediction2/JSONparser/JSONparser" />
+    <SUITE FILE_PATH="coverage/PredictionServer$predict_daily__1_.coverage" NAME="predict_daily (1) Coverage Results" MODIFIED="1575507020863" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/prediction" />
     <SUITE FILE_PATH="coverage/PredictionServer$PredictionServer.coverage" NAME="PredictionServer Coverage Results" MODIFIED="1575432835708" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/PredictionServer$WebsocketServer.coverage" NAME="WebsocketServer Coverage Results" MODIFIED="1573129222616" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/PredictionServer$predict_daily.coverage" NAME="predict_daily Coverage Results" MODIFIED="1574641805606" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/prediction/prediction_ETRI" />
@@ -61,64 +55,22 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/bin/lib/python3.5/site-packages/lightgbm/sklearn.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="4140">
+              <caret line="218" column="24" selection-start-line="218" selection-start-column="24" selection-end-line="218" selection-end-column="24" />
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/API/Predict/predic_API.py">
+        <entry file="file://$PROJECT_DIR$/prediction/predict_daily.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="365">
-              <caret line="337" column="64" selection-start-line="337" selection-start-column="57" selection-end-line="337" selection-end-column="64" />
+            <state relative-caret-position="1600">
+              <caret line="80" column="72" selection-start-line="80" selection-start-column="72" selection-end-line="80" selection-end-column="72" />
               <folding>
-                <element signature="e#63#74#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/API/DataSet/data_API.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2427">
-              <caret line="323" column="34" lean-forward="true" selection-start-line="323" selection-start-column="34" selection-end-line="323" selection-end-column="34" />
-              <folding>
-                <element signature="e#63#74#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/API/Login/login_API.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="697">
-              <caret line="350" selection-start-line="350" selection-end-line="350" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/API/api_helper/user_directory.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="100">
-              <caret line="5" selection-start-line="5" selection-end-line="5" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/DB/DataBase/models.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="200">
-              <caret line="16" column="63" selection-start-line="16" selection-start-column="40" selection-end-line="16" selection-end-column="63" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/ssocket.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="140">
-              <caret line="25" column="37" selection-start-line="25" selection-start-column="37" selection-end-line="25" selection-end-column="37" />
-              <folding>
-                <element signature="e#1#15#0" expanded="true" />
+                <element signature="e#0#19#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -136,7 +88,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>2014</find>
       <find>start_date</find>
       <find>write</find>
       <find>file</find>
@@ -148,7 +99,6 @@
       <find>ctype</find>
       <find>ctypes</find>
       <find>yearly</find>
-      <find>params</find>
       <find>json</find>
       <find>datetime</find>
       <find>6666</find>
@@ -166,6 +116,8 @@
       <find>data</find>
       <find>datasets</find>
       <find>predicted</find>
+      <find>params</find>
+      <find>label</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -217,12 +169,12 @@
         <option value="$PROJECT_DIR$/prediction/Model_test.py" />
         <option value="$PROJECT_DIR$/prediction/crawling_temp.py" />
         <option value="$PROJECT_DIR$/API/DataSet/data_API.py" />
-        <option value="$PROJECT_DIR$/prediction/predict_daily.py" />
         <option value="$PROJECT_DIR$/prediction/predict_past_12months.py" />
         <option value="$PROJECT_DIR$/prediction/predict_coming_24months.py" />
         <option value="$PROJECT_DIR$/prediction/predict_coming_5years.py" />
         <option value="$PROJECT_DIR$/ssocket.py" />
         <option value="$PROJECT_DIR$/API/Predict/predic_API.py" />
+        <option value="$PROJECT_DIR$/prediction/predict_daily.py" />
       </list>
     </option>
   </component>
@@ -311,7 +263,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.ssocket">
+  <component name="RunManager" selected="Python.predict_daily (1)">
     <configuration name="index.html" type="JavascriptDebugType" temporary="true" nameIsGenerated="true" uri="http://localhost:63342/PredictionServer/API/DataSet/index.html" useBuiltInWebServerPort="true">
       <method v="2" />
     </configuration>
@@ -362,7 +314,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="predict_daily" type="PythonConfigurationType" factoryName="Python" temporary="true">
+    <configuration name="predict_daily (1)" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="PredictionServer" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -370,12 +322,12 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/prediction/prediction_ETRI" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/prediction" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/prediction/prediction_ETRI/predict_daily.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/prediction/predict_daily.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -428,19 +380,19 @@
     </configuration>
     <list>
       <item itemvalue="Flask server.PredictionServer" />
-      <item itemvalue="Python.predict_daily" />
+      <item itemvalue="JavaScript Debug.index.html" />
       <item itemvalue="Python.machbase" />
       <item itemvalue="Python.machbase1" />
-      <item itemvalue="JavaScript Debug.index.html" />
       <item itemvalue="Python.ssocket" />
+      <item itemvalue="Python.predict_daily (1)" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.predict_daily (1)" />
         <item itemvalue="Python.ssocket" />
         <item itemvalue="Python.machbase" />
         <item itemvalue="JavaScript Debug.index.html" />
         <item itemvalue="Python.machbase1" />
-        <item itemvalue="Python.predict_daily" />
       </list>
     </recent_temporary>
   </component>
@@ -465,18 +417,19 @@
       <workItem from="1574313170051" duration="617000" />
       <workItem from="1574314056312" duration="29106000" />
       <workItem from="1574415674428" duration="6531000" />
-      <workItem from="1574670199740" duration="133987000" />
+      <workItem from="1574670199740" duration="146987000" />
+      <workItem from="1575507271687" duration="742000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="428501000" />
+    <option name="totallyTimeSpent" value="442243000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="1975" y="-4" width="1865" height="1204" extended-state="6" />
+    <frame x="1974" y="-11" width="1867" height="1212" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.21959274" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.22234452" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -503,19 +456,6 @@
     <option name="version" value="1" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/prediction/prediction_ETRI/data/sub/naju_sub_2014">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/prediction/prediction_ETRI/data/forecast/naju_mid_term">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/API/Predict/set_data_class.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="176" lean-forward="true" selection-start-line="176" selection-end-line="176" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/API/DataSet/data_insu.py">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
@@ -546,41 +486,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/prediction/prediction_ETRI/predict_coming_5years.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="230">
-          <caret line="32" column="43" lean-forward="true" selection-start-line="32" selection-start-column="43" selection-end-line="32" selection-end-column="43" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/prediction/prediction_ETRI/predict_coming_24months.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="195">
-          <caret line="659" column="84" selection-start-line="659" selection-start-column="84" selection-end-line="659" selection-end-column="84" />
-          <folding>
-            <element signature="e#0#19#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/prediction/prediction_ETRI/predict_coming_30days.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-30">
-          <folding>
-            <element signature="e#0#19#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/prediction/prediction_ETRI/predict_common.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-30">
-          <folding>
-            <element signature="e#0#19#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/prediction/prediction_ETRI/predict_coming_5years.py" />
+    <entry file="file://$PROJECT_DIR$/prediction/prediction_ETRI/predict_coming_24months.py" />
+    <entry file="file://$PROJECT_DIR$/prediction/prediction_ETRI/predict_coming_30days.py" />
+    <entry file="file://$PROJECT_DIR$/prediction/prediction_ETRI/predict_common.py" />
     <entry file="file://$PROJECT_DIR$/sockettest.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="160">
@@ -591,38 +500,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/prediction/prediction_ETRI/predict_monthly.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="577">
-          <caret line="40" column="34" lean-forward="true" selection-start-line="40" selection-start-column="34" selection-end-line="40" selection-end-column="34" />
-          <folding>
-            <element signature="e#0#19#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/prediction/prediction_ETRI/predict_past_12months.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <folding>
-            <element signature="e#0#19#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/prediction/prediction_ETRI/data/temperature/naju_temp_2014">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/prediction/prediction_ETRI/data/insu/naju_insu_2015">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="20" selection-start-column="20" selection-end-column="20" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/prediction/prediction_ETRI/data/insu/naju_insu_2014">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
+    <entry file="file://$PROJECT_DIR$/prediction/prediction_ETRI/predict_monthly.py" />
+    <entry file="file://$PROJECT_DIR$/prediction/prediction_ETRI/predict_past_12months.py" />
+    <entry file="file://$PROJECT_DIR$/prediction/prediction_ETRI/data/temperature/naju_temp_2014" />
+    <entry file="file://$PROJECT_DIR$/prediction/prediction_ETRI/data/insu/naju_insu_2015" />
+    <entry file="file://$PROJECT_DIR$/prediction/prediction_ETRI/data/insu/naju_insu_2014" />
     <entry file="file://$PROJECT_DIR$/API/DataSet/index.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="220">
@@ -630,16 +512,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/prediction/prediction_ETRI/predict_daily.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="462">
-          <caret line="176" column="77" selection-start-line="176" selection-start-column="51" selection-end-line="176" selection-end-column="77" />
-          <folding>
-            <element signature="e#0#19#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/prediction/prediction_ETRI/predict_daily.py" />
     <entry file="file://$PROJECT_DIR$/backtasks1.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="195">
@@ -847,13 +720,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/prediction/predict_daily.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="120">
-          <caret line="6" selection-start-line="6" selection-end-line="7" selection-end-column="43" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/ssocket.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="140">
@@ -866,10 +732,37 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/API/Predict/predic_API.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="365">
-          <caret line="337" column="64" selection-start-line="337" selection-start-column="57" selection-end-line="337" selection-end-column="64" />
+        <state relative-caret-position="1005">
+          <caret line="336" column="38" lean-forward="true" selection-start-line="336" selection-start-column="38" selection-end-line="336" selection-end-column="38" />
           <folding>
             <element signature="e#63#74#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/bin/lib/python3.5/site-packages/lightgbm/basic.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="205">
+          <caret line="1096" selection-start-line="1096" selection-end-line="1096" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/bin/lib/python3.5/site-packages/lightgbm/__init__.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/bin/lib/python3.5/site-packages/lightgbm/sklearn.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="4140">
+          <caret line="218" column="24" selection-start-line="218" selection-start-column="24" selection-end-line="218" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/prediction/predict_daily.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1600">
+          <caret line="80" column="72" selection-start-line="80" selection-start-column="72" selection-end-line="80" selection-end-column="72" />
+          <folding>
+            <element signature="e#0#19#0" expanded="true" />
           </folding>
         </state>
       </provider>
