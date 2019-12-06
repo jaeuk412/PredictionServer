@@ -68,18 +68,27 @@ def train_boosting_model(trainX, trainY):
         'n_estimators': [10, 50, 100, 200, 300, 400, 500],
         'num_leaves': [10, 20, 30, 40],
         'min_child_weight': [0.01, 0.02, 0.03, 0.04, 0.05]
-        # 'task_type':"gpu"
-        # 'objective':'regression',
-        # 'device_type':'gpu'
-        # 'bin_construct_sample_cnt':256,
-        # 'device': "gpu"
-        # 'gpu_platform_id': [1],
-        # 'gpu_device_id': [0]
+        # 'max_bin' : 63,
+        # 'num_leaves' : 255,
+        # 'num_iterations' : 500,
+        # 'learning_rate' : 0.1,
+        # 'tree_learner' : 'serial',
+        # 'task' : 'train',
+        # 'is_training_metric' : 'false',
+        # 'min_data_in_leaf' : 1,
+        # 'min_sum_hessian_in_leaf' : 100,
+        # 'ndcg_eval_at' : [1, 3, 5, 10],
+        # 'sparse_threshold':1,
+        # 'device' : 'gpu',
+        # 'gpu_platform_id' : 0,
+        # 'gpu_device_id' : 0,
+        # 'num_thread' : 28
     }
 
     ## https://stackoverflow.com/questions/46511801/is-scikit-learn-running-on-my-gpu
     ## https://scikit-learn.org/stable/faq.html#will-you-add-gpu-support
     # define a lightgbm model
+    ## lightGBM에서는 rf (랜덤포레스트) / gbdt (Gradient Boosted Decision Trees) / dart (드랍아웃 Regression Trees) / goss (Gradient-based One-Side Sampling)을 쓴다.
     lgb_model = lgb.LGBMRegressor(boosting_type='gbdt')
     # lgb_model = lgb.LGBMRegressor(boosting_type='gbdt', device='gpu')
 
@@ -395,7 +404,7 @@ def main(area, start_year, start_month, start_day, date, user_key, detectkey):
 
     print("predict_daily_done")
 
-main('naju',2019,10,30,20191112,1,1)
+# main('naju',2019,10,30,20191112,1,1)
 # if  __name__ == '__main__' :
 #     t = multiprocessing.Process(target=main, args=("Process-1",180))
 #     t.start()

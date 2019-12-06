@@ -6,9 +6,11 @@
   <component name="ChangeListManager">
     <list default="true" id="997b5422-ce25-402f-99ae-daebf021415c" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/DataSet/data_API.py" beforeDir="false" afterPath="$PROJECT_DIR$/API/DataSet/data_API.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DB/DataBase/machbase.py" beforeDir="false" afterPath="$PROJECT_DIR$/DB/DataBase/machbase.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DB/DataBase/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/DB/DataBase/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backtasks.py" beforeDir="false" afterPath="$PROJECT_DIR$/backtasks.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/prediction/predict_daily.py" beforeDir="false" afterPath="$PROJECT_DIR$/prediction/predict_daily.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/prediction/result/0/predict_naju_2019_10_3_daily" beforeDir="false" afterPath="$PROJECT_DIR$/prediction/result/0/predict_naju_2019_10_3_daily" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/prediction/result/1/predict_naju_2019_10_30_daily" beforeDir="false" afterPath="$PROJECT_DIR$/prediction/result/1/predict_naju_2019_10_30_daily" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ssocket.py" beforeDir="false" afterPath="$PROJECT_DIR$/ssocket.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/static" beforeDir="false" afterPath="$PROJECT_DIR$/static" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/static/assets/development-environment.json" beforeDir="false" afterPath="$PROJECT_DIR$/static/assets/development-environment.json" afterDir="false" />
     </list>
@@ -28,7 +30,7 @@
     <SUITE FILE_PATH="coverage/PredictionServer$machbase1.coverage" NAME="machbase1 Coverage Results" MODIFIED="1574832053717" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/DB/DataBase" />
     <SUITE FILE_PATH="coverage/PredictionServer$data_API.coverage" NAME="data_API Coverage Results" MODIFIED="1573263499084" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/API/DataSet" />
     <SUITE FILE_PATH="coverage/PredictionServer$Jsonparsing.coverage" NAME="Jsonparsing Coverage Results" MODIFIED="1573709098494" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/prediction2/JSONparser/JSONparser" />
-    <SUITE FILE_PATH="coverage/PredictionServer$predict_daily__1_.coverage" NAME="predict_daily (1) Coverage Results" MODIFIED="1575507020863" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/prediction" />
+    <SUITE FILE_PATH="coverage/PredictionServer$predict_daily__1_.coverage" NAME="predict_daily (1) Coverage Results" MODIFIED="1575609529983" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/prediction" />
     <SUITE FILE_PATH="coverage/PredictionServer$PredictionServer.coverage" NAME="PredictionServer Coverage Results" MODIFIED="1575597224744" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/PredictionServer$WebsocketServer.coverage" NAME="WebsocketServer Coverage Results" MODIFIED="1573129222616" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/PredictionServer$predict_daily.coverage" NAME="predict_daily Coverage Results" MODIFIED="1574641805606" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/prediction/prediction_ETRI" />
@@ -37,7 +39,7 @@
     <SUITE FILE_PATH="coverage/PredictionServer$sse.coverage" NAME="sse Coverage Results" MODIFIED="1573141388388" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/PredictionServer$test.coverage" NAME="test Coverage Results" MODIFIED="1573387442470" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/API" />
     <SUITE FILE_PATH="coverage/PredictionServer$machbase.coverage" NAME="machbase Coverage Results" MODIFIED="1575248105336" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/DB/DataBase" />
-    <SUITE FILE_PATH="coverage/PredictionServer$ssocket.coverage" NAME="ssocket Coverage Results" MODIFIED="1575426332103" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/PredictionServer$ssocket.coverage" NAME="ssocket Coverage Results" MODIFIED="1575620783832" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/PredictionServer$socket.coverage" NAME="socket Coverage Results" MODIFIED="1573123793468" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
   <component name="DatabaseView">
@@ -56,11 +58,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/API/DataSet/data_API.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="577">
-              <caret line="225" column="29" selection-start-line="225" selection-start-column="29" selection-end-line="225" selection-end-column="29" />
+            <state relative-caret-position="2497">
+              <caret line="222" column="28" lean-forward="true" selection-start-line="222" selection-start-column="28" selection-end-line="222" selection-end-column="28" />
               <folding>
                 <element signature="e#63#74#0" expanded="true" />
               </folding>
@@ -69,10 +71,34 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/backtasks.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="580">
+              <caret line="47" column="18" lean-forward="true" selection-start-line="47" selection-start-column="18" selection-end-line="47" selection-end-column="18" />
+              <folding>
+                <element signature="e#25#39#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/ssocket.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="363">
+              <caret line="137" column="17" selection-start-line="137" selection-start-column="17" selection-end-line="137" selection-end-column="17" />
+              <folding>
+                <element signature="e#1#15#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/API/Predict/predic_API.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="199">
-              <caret line="112" column="33" lean-forward="true" selection-start-line="112" selection-start-column="33" selection-end-line="112" selection-end-column="33" />
+            <state relative-caret-position="-641">
+              <caret line="97" column="54" lean-forward="true" selection-start-line="97" selection-start-column="54" selection-end-line="97" selection-end-column="54" />
               <folding>
                 <element signature="e#63#74#0" expanded="true" />
               </folding>
@@ -108,6 +134,18 @@
               <caret line="193" column="46" selection-start-line="193" selection-start-column="46" selection-end-line="193" selection-end-column="46" />
               <folding>
                 <element signature="e#1806#1817#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/prediction/predict_daily.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="423">
+              <caret line="407" column="30" lean-forward="true" selection-start-line="407" selection-start-column="30" selection-end-line="407" selection-end-column="30" />
+              <folding>
+                <element signature="e#0#19#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -194,7 +232,6 @@
         <option value="$PROJECT_DIR$/prediction/prediction_ETRI/predict_coming_24months.py" />
         <option value="$PROJECT_DIR$/API/api_helper/user_directory.py" />
         <option value="$PROJECT_DIR$/backtasks1.py" />
-        <option value="$PROJECT_DIR$/backtasks.py" />
         <option value="$PROJECT_DIR$/API/DataSet/backupfile/data_API_1110.py" />
         <option value="$PROJECT_DIR$/API/Predict/backupfile/1011get_data_class.py" />
         <option value="$PROJECT_DIR$/API/Predict/get_data_class.py" />
@@ -206,12 +243,13 @@
         <option value="$PROJECT_DIR$/prediction/predict_past_12months.py" />
         <option value="$PROJECT_DIR$/prediction/predict_coming_24months.py" />
         <option value="$PROJECT_DIR$/prediction/predict_coming_5years.py" />
-        <option value="$PROJECT_DIR$/ssocket.py" />
         <option value="$PROJECT_DIR$/API/Predict/predic_API.py" />
-        <option value="$PROJECT_DIR$/prediction/predict_daily.py" />
         <option value="$PROJECT_DIR$/DB/DataBase/machbase.py" />
         <option value="$PROJECT_DIR$/DB/DataBase/models.py" />
         <option value="$PROJECT_DIR$/API/DataSet/data_API.py" />
+        <option value="$PROJECT_DIR$/prediction/predict_daily.py" />
+        <option value="$PROJECT_DIR$/backtasks.py" />
+        <option value="$PROJECT_DIR$/ssocket.py" />
       </list>
     </option>
   </component>
@@ -300,7 +338,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="JavaScript Debug.index.html">
+  <component name="RunManager" selected="Python.ssocket">
     <configuration name="index.html" type="JavascriptDebugType" temporary="true" nameIsGenerated="true" uri="http://localhost:63342/PredictionServer/API/DataSet/index.html" useBuiltInWebServerPort="true">
       <method v="2" />
     </configuration>
@@ -425,9 +463,9 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="JavaScript Debug.index.html" />
-        <item itemvalue="Python.predict_daily (1)" />
         <item itemvalue="Python.ssocket" />
+        <item itemvalue="Python.predict_daily (1)" />
+        <item itemvalue="JavaScript Debug.index.html" />
         <item itemvalue="Python.machbase" />
         <item itemvalue="Python.machbase1" />
       </list>
@@ -455,23 +493,23 @@
       <workItem from="1574314056312" duration="29106000" />
       <workItem from="1574415674428" duration="6531000" />
       <workItem from="1574670199740" duration="146987000" />
-      <workItem from="1575507271687" duration="16953000" />
+      <workItem from="1575507271687" duration="25972000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="458454000" />
+    <option name="totallyTimeSpent" value="467473000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1975" y="-4" width="1865" height="1204" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.22234452" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.22234452" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32992566" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.49972484" visible="true" weight="0.37825277" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49972484" visible="true" weight="0.37825277" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.39962825" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -527,16 +565,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="195">
           <caret line="38" column="19" selection-start-line="38" selection-start-column="19" selection-end-line="38" selection-end-column="19" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/backtasks.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="303">
-          <caret line="109" column="20" selection-start-line="109" selection-start-column="20" selection-end-line="109" selection-end-column="20" />
-          <folding>
-            <element signature="e#25#39#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -703,16 +731,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/ssocket.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="140">
-          <caret line="25" column="37" selection-start-line="25" selection-start-column="37" selection-end-line="25" selection-end-column="37" />
-          <folding>
-            <element signature="e#1#15#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/bin/lib/python3.5/site-packages/lightgbm/basic.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="205">
@@ -727,16 +745,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="4140">
           <caret line="218" column="24" selection-start-line="218" selection-start-column="24" selection-end-line="218" selection-end-column="24" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/prediction/predict_daily.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="280">
-          <caret line="62" lean-forward="true" selection-start-line="62" selection-end-line="62" />
-          <folding>
-            <element signature="e#0#19#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -770,16 +778,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/API/Predict/predic_API.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="199">
-          <caret line="112" column="33" lean-forward="true" selection-start-line="112" selection-start-column="33" selection-end-line="112" selection-end-column="33" />
-          <folding>
-            <element signature="e#63#74#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/API/DataSet/index.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="200">
@@ -796,10 +794,50 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/API/DataSet/data_API.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="577">
-          <caret line="225" column="29" selection-start-line="225" selection-start-column="29" selection-end-line="225" selection-end-column="29" />
+        <state relative-caret-position="2497">
+          <caret line="222" column="28" lean-forward="true" selection-start-line="222" selection-start-column="28" selection-end-line="222" selection-end-column="28" />
           <folding>
             <element signature="e#63#74#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/API/Predict/predic_API.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-641">
+          <caret line="97" column="54" lean-forward="true" selection-start-line="97" selection-start-column="54" selection-end-line="97" selection-end-column="54" />
+          <folding>
+            <element signature="e#63#74#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/prediction/predict_daily.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="423">
+          <caret line="407" column="30" lean-forward="true" selection-start-line="407" selection-start-column="30" selection-end-line="407" selection-end-column="30" />
+          <folding>
+            <element signature="e#0#19#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/backtasks.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="580">
+          <caret line="47" column="18" lean-forward="true" selection-start-line="47" selection-start-column="18" selection-end-line="47" selection-end-column="18" />
+          <folding>
+            <element signature="e#25#39#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ssocket.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="363">
+          <caret line="137" column="17" selection-start-line="137" selection-start-column="17" selection-end-line="137" selection-end-column="17" />
+          <folding>
+            <element signature="e#1#15#0" expanded="true" />
           </folding>
         </state>
       </provider>

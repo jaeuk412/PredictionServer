@@ -135,6 +135,7 @@ async def main(websocket, path):
             if str(type(e)) == "<class 'websockets.exceptions.ConnectionClosed'>":
                 break
 
+print("web-socket")
 start_server = websockets.serve(main, "0.0.0.0", 10308)
 loop = asyncio.get_event_loop()
 loop.run_until_complete(start_server)

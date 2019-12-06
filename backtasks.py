@@ -12,11 +12,15 @@ from flask_sse import sse
 
 celery = Celery('task', broker='pyamqp://uk:0000@localhost:5672')
 
+task_acks_late = True
+worker_prefetch_multiplier = 1
+
+
 # CELERY_TASK_PROTOCOL = 5
 CELERY_ENABLE_UTC= False
 
 celery.conf.task_protocol = 5
-worker_max_memory_per_child = 300  # 3000MB
+worker_max_memory_per_child = 300000  # 3000MB
 # broker_trainsport_options = {'visibility_timeout':18000}
 
 filepath = root_path+'/detectkey/'
@@ -37,7 +41,7 @@ filepath = root_path+'/detectkey/'
 
 
 
-@celery.task(name='daily')
+@celery.task(name='daily', time_limit=100)
 def daily(predicArea, start_year, start_month, start_day, date, user_key, detectkey):
 
     Thread = threading.Thread(target=daily_exe, args=(predicArea, start_year, start_month, start_day, date, user_key, detectkey))
