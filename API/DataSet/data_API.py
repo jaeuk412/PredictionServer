@@ -20,9 +20,9 @@ from werkzeug.datastructures import FileStorage
 # import werkzeug
 '''directory'''
 from DB.DataBase.database import db_session, dbsearch, dbsearch1
-from DB.DataBase.models import Login, DataTable
+from DB.DataBase.models import Login, DataTable, LocationTable
 from API.api_helper.user_directory import folder_path3, folder_path
-from API.api_helper.api_helper import response_json_value, response_json_list
+from API.api_helper.api_helper import response_json_value, response_json_list, post_request
 import collections
 from sqlalchemy import func
 from DB.DataBase.machbase import connect
@@ -122,111 +122,7 @@ def file_create():
         try:
             area = data['location']
         except:
-            area = 'naju'
-
-        try:
-            ## todo: resource 값에 따라 저장되는 모델용 폴더명 확인.
-            resource = data['resource']
-            if resource == '13001.1':
-                resource = 'insu'
-            elif resource == '30005.0':
-                resource = 'sub'
-            elif resource =='3303.0':
-                resource = 'temp'
-            else:
-                resource = 'insu'
-        except:
-            resource = 'insu'
-
-        try:
-            purpose = data['purpose']
-        except:
-            purpose = 'prediction'
-
-        # print("file_key: ",file_key)
-        ## temp 붙은거 삭제.
-        for name in file_key:
-            tempfilepath = folder_path3 + 'tempfile/' + name
-            new_name = folder_path3 + name
-
-            try:
-                # temp 에서 실 저장소로 이동.
-                shutil.copy(tempfilepath, new_name)
-                # print("name: ", name)
-                # print("new_name: ", new_name)
-
-                ## 파일 읽어서 년도 정보 2014 획득.
-                ## 첫날짜, 마지막 날짜 DB에 저장.
-                ##########################################################
-                with open(new_name, 'r') as f:
-                    date_get = f.readlines()
-                # 파일 year 정보.
-                date_start_value = date_get[1].split(' ')
-                date_start_year = int(date_start_value[0])
-                date_start_month = int(date_start_value[1])
-                date_start_day = int(date_start_value[2])
-                date_end_value = date_get[-1].split(' ')
-                date_end_year = int(date_end_value[0])
-                date_end_month = int(date_end_value[1])
-                date_end_day = int(date_end_value[2])
-
-                period = "%04d-%02d-%02d ~ %04d-%02d-%02d" % (
-                date_start_year, date_start_month, date_start_day, date_end_year, date_end_month, date_end_day)
-
-                ###########################################################
-                ## /home/uk/PredictionServer/prediction/data/insu/naju_insu_2014
-                ## 모델용에 맞춰 저장.
-
-                ## todo: resource에 따라 해당 폴더로 들어감. (폴더명과 변수명 일치 여부 확인)
-                model_save_path = folder_path + "data/%s/%s_%s_%d" % (resource, area, resource, date_start_year)
-                ## DB 모델용 저장 파일. (파일복사)
-                ## shutil 사용.
-                shutil.copy(new_name,model_save_path)
-                # print("model_s_path: ",model_save_path)
-
-                if resource == 'insu':
-                    machbase_resource = '30001.1'
-                elif resource == 'sub':
-                    machbase_resource = '30005.0'
-                elif resource == 'temp':
-                    machbase_resource = '3303.0'
-                else:
-                    machbase_resource = '30001.1'
-
-                ## 마크 베이스 입력---------------------------
-                machbase_input(new_name, area, resource, date_start_year)
-                ## 마크 베이스 입력 --------------------------
-
-                ## HYGAS.NAJU.30001.1
-                machbase_class_name = 'HYGAS.%s.%s'%(area.upper(), machbase_resource)
-
-                ## DB에 저장.
-                db_session.add(DataTable(period=period, machbase_name=machbase_class_name, file_path=new_name, purpose=purpose, resource=resource, location=area, save_path=model_save_path))
-                db_session.commit()
-
-            except Exception as e:
-                return jsonify(e)
-
-        return jsonify(True)
-
-    except Exception as e:
-        return jsonify(False)
-
-@data_apis.route('/filestest', methods=['POST'])
-def file_createtest():
-    try:
-        print("file_create")
-        req = request.get_json()
-        jsonString = json.dumps(req)
-        data = json.loads(jsonString)
-        print(data['file-key'])
-        # 한개만 받아올때 리스트 씌워서 작업.
-        file_key = [data['file-key']]
-
-        try:
-            area = data['location']
-        except:
-            area = 'naju'
+            area = 1
 
         try:
             ## todo: resource 값에 따라 저장되는 모델용 폴더명 확인.
@@ -281,8 +177,20 @@ def file_createtest():
                 ## /home/uk/PredictionServer/prediction/data/insu/naju_insu_2014
                 ## 모델용에 맞춰 저장.
 
+                try:
+                    quer = db_session.query(LocationTable.id).filter(LocationTable.key == area)
+                    records = db_session.execute(quer)
+                    result = []
+                    for i in records:
+                        for x,y in i.items():
+                            string_area = y
+                except:
+                    string_area = 'naju'
+
+
+
                 ## todo: resource에 따라 해당 폴더로 들어감. (폴더명과 변수명 일치 여부 확인)
-                model_save_path = folder_path + "data/%s/%s_%s_%d" % (resource, area, resource, date_start_year)
+                model_save_path = folder_path + "data/%s/%s_%s_%d" % (resource, string_area, resource, date_start_year)
                 ## DB 모델용 저장 파일. (파일복사)
                 ## shutil 사용.
                 shutil.copy(new_name,model_save_path)
@@ -298,11 +206,128 @@ def file_createtest():
                     resource = '30001.1'
 
                 ## 마크 베이스 입력---------------------------
-                machbase_input(new_name, area, resource, date_start_year)
+                machbase_input(new_name, string_area, resource, date_start_year)
                 ## 마크 베이스 입력 --------------------------
 
                 ## HYGAS.NAJU.30001.1
-                machbase_class_name = 'HYGAS.%s.%s'%(area.upper(), resource)
+                machbase_class_name = 'HYGAS.%s.%s'%(string_area.upper(), resource)
+
+
+                ## DB에 저장.
+                db_session.add(DataTable(period=period, machbase_name=machbase_class_name, file_path=new_name, purpose=purpose, resource=resource, location=area, save_path=model_save_path))
+                db_session.commit()
+
+            except Exception as e:
+                return jsonify(e)
+
+        return jsonify(True)
+
+    except Exception as e:
+        return jsonify(False)
+
+@data_apis.route('/filestest', methods=['POST'])
+def file_createtest():
+    try:
+        print("file_create")
+        req = request.get_json()
+        jsonString = json.dumps(req)
+        data = json.loads(jsonString)
+        print(data['file-key'])
+        # 한개만 받아올때 리스트 씌워서 작업.
+        file_key = [data['file-key']]
+
+        try:
+            area = data['location']
+        except:
+            area = 1
+
+        try:
+            ## todo: resource 값에 따라 저장되는 모델용 폴더명 확인.
+            resource = data['resource']
+            if resource == '13001.1':
+                resource = 'insu'
+            elif resource == '30005.0':
+                resource = 'sub'
+            elif resource =='3303.0':
+                resource = 'temp'
+            else:
+                resource = 'insu'
+        except:
+            resource = 'insu'
+
+        try:
+            purpose = data['purpose']
+        except:
+            purpose = 'prediction'
+
+        # print("file_key: ",file_key)
+        ## temp 붙은거 삭제.
+        for name in file_key:
+            tempfilepath = folder_path3 + 'tempfile/' + name
+            new_name = folder_path3 + name
+
+            try:
+                # temp 에서 실 저장소로 이동.
+                shutil.copy(tempfilepath, new_name)
+                # print("name: ", name)
+                # print("new_name: ", new_name)
+
+                ## 파일 읽어서 년도 정보 2014 획득.
+                ## 첫날짜, 마지막 날짜 DB에 저장.
+                ##########################################################
+                with open(new_name, 'r') as f:
+                    date_get = f.readlines()
+                # 파일 year 정보.
+                date_start_value = date_get[1].split(' ')
+                date_start_year = int(date_start_value[0])
+                date_start_month = int(date_start_value[1])
+                date_start_day = int(date_start_value[2])
+                date_end_value = date_get[-1].split(' ')
+                date_end_year = int(date_end_value[0])
+                date_end_month = int(date_end_value[1])
+                date_end_day = int(date_end_value[2])
+
+                period = "%04d-%02d-%02d~%04d-%02d-%02d" % (
+                date_start_year, date_start_month, date_start_day, date_end_year, date_end_month, date_end_day)
+
+                ###########################################################
+                ## /home/uk/PredictionServer/prediction/data/insu/naju_insu_2014
+                ## 모델용에 맞춰 저장.
+
+                try:
+                    quer = db_session.query(LocationTable.id).filter(LocationTable.key == area)
+                    records = db_session.execute(quer)
+                    result = []
+                    for i in records:
+                        for x,y in i.items():
+                            string_area = y
+                except:
+                    string_area = 'naju'
+
+
+
+                ## todo: resource에 따라 해당 폴더로 들어감. (폴더명과 변수명 일치 여부 확인)
+                model_save_path = folder_path + "data/%s/%s_%s_%d" % (resource, string_area, resource, date_start_year)
+                ## DB 모델용 저장 파일. (파일복사)
+                ## shutil 사용.
+                shutil.copy(new_name,model_save_path)
+                # print("model_s_path: ",model_save_path)
+
+                if resource == 'insu':
+                    resource = '30001.1'
+                elif resource == 'sub':
+                    resource = '30005.0'
+                elif resource == 'temp':
+                    resource = '3303.0'
+                else:
+                    resource = '30001.1'
+
+                ## 마크 베이스 입력---------------------------
+                machbase_input(new_name, string_area, resource, date_start_year)
+                ## 마크 베이스 입력 --------------------------
+
+                ## HYGAS.NAJU.30001.1
+                machbase_class_name = 'HYGAS.%s.%s'%(string_area.upper(), resource)
 
 
                 ## DB에 저장.
@@ -384,9 +409,117 @@ def api_data_delete(key):
         return jsonify(False)
 
 @data_apis.route('/locations', methods=['GET'])
-def datasets_locations():
-    location_list = ["gwangju", "naju", "jangsung", "damyang"]
-    return jsonify(location_list)
+def datasets_locations_get():
+    query = "select * from location ORDER BY key"
+    records = db_session.execute(query)
+    # location_list = ["gwangju", "naju", "jangsung", "damyang"]
+
+    result = []
+    for i in records:
+        result.append(dict(i))
+
+    return response_json_list(result)
+
+@data_apis.route('/locations/<int:key>', methods=['GET'])
+def datasets_locations_get_key(key):
+    query = "select * from location where key=%d"%(key)
+    records = db_session.execute(query)
+    # location_list = ["gwangju", "naju", "jangsung", "damyang"]
+
+    result = []
+    for i in records:
+        result.append(dict(i))
+
+    return response_json_value(result)
+'''
+{
+  "id": "naju",
+  "name":"나주",
+  "name_en":"Naju"
+}
+{
+  "id": "gwangju",
+  "name":"광주",
+  "name_en":"Gwangju"
+}
+{
+  "id": "jangsung",
+  "name":"장성",
+  "name_en":"Jangsung"
+}
+{
+  "id": "damyang",
+  "name":"담양",
+  "name_en":"Damyang"
+}
+'''
+@data_apis.route('/locations', methods=['POST'])
+def datasets_locations_post():
+    try:
+        data = post_request()
+        ## id, name, name_en
+        try:
+            id = data['id']
+        except:
+            id = 'naju'
+
+        try:
+            name = data['name']
+        except:
+            name = None
+
+        try:
+            name_en = data['name_en']
+        except:
+            name_en = None
+
+        db_session.add(LocationTable(id=id, name=name, name_en=name_en))
+        db_session.commit()
+
+        return jsonify(True)
+
+    except:
+        return jsonify(False)
+
+@data_apis.route('/locations/<int:key>', methods=['DELETE'])
+def datasets_locations_delete(key):
+    try:
+        db_session.query(LocationTable).filter(LocationTable.key == key).delete()
+        db_session.commit()
+        return jsonify(True)
+    except:
+        return jsonify(False)
+
+@data_apis.route('/locations/<int:key>', methods=['PUT'])
+def datasets_locations_put(key):
+    try:
+        data = post_request()
+        ## id, name, name_en
+        try:
+            id = data['id']
+        except:
+            id = 'naju'
+
+        try:
+            name = data['name']
+        except:
+            name = None
+
+        try:
+            name_en = data['name_en']
+        except:
+            name_en = None
+
+        value = db_session.query(LocationTable).get(key)
+        value.id = id
+        value.name = name
+        value.name_en = name_en
+        db_session.commit()
+        return jsonify(True)
+
+    except:
+        return jsonify(False)
+
 
 @data_apis.route('/datasets/dbtest', methods=['GET'])
 def api_data_get_smart_city():
@@ -549,7 +682,6 @@ def api_data_values():
                         valueaa = []
                         key_count = 0
                         keyaa = []
-
 
                         for x, y in row_n.items():
                             valueaa.extend([y])

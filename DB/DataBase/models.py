@@ -53,9 +53,18 @@ class DataTable(Base):
     ## todo: 검침/예측, 인수, 지역
     purpose = Column(String(100), nullable=True)
     resource = Column(String(100), nullable=True)
-    location = Column(String(30), nullable=True)
+    location = Column(Integer, ForeignKey('location.key'))
     ## 해당 파일의 시작-끝 기간.
     period = Column(String(100), nullable=True)
+
+class LocationTable(Base):
+    __tablename__ = 'location'
+    key = Column(Integer, primary_key=True, autoincrement=True)
+    inserted = Column(DateTime, default=datetime.datetime.now())
+    id = Column(String(50), unique=True, nullable=False)
+    name = Column(String(50), nullable=True)
+    name_en = Column(String(50), nullable=True)
+
 
 
 # class DailyTable(Base):

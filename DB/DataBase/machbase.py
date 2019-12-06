@@ -179,33 +179,33 @@ for ii in dataname_get:
 
 # time.sleep(0.1)
 #
-## todo: 마크베이스에서 불러 올때
-query = "SELECT * FROM tag "
-dblist = connect(query)
-# print(dblist)
-
-k = 0
-value_name = list()
-final_value=[]
-for row_n in dblist:
-    # print(row_n)
-    # print(type(row_n))
-
-    row_n['VALUE']=float(row_n.get('VALUE'))
-    # dict_value={}
-    middle_value = []
-    for x, y in row_n.items():
-        if k == 0:
-            value_name.append(x)
-        # dict_value.update({x:y})
-        middle_value.extend([y])
-    final_value.append(middle_value)
-    k += 1
-
-final_value.insert(0,value_name)
-# print(value_name)
-# print(final_value)
-
-
-stop = timeit.default_timer()
-# print("exe-time: ", stop - start)
+# ## todo: 마크베이스에서 불러 올때
+# query = "SELECT * FROM tag "
+# dblist = connect(query)
+# # print(dblist)
+#
+# k = 0
+# value_name = list()
+# final_value=[]
+# for row_n in dblist:
+#     # print(row_n)
+#     # print(type(row_n))
+#
+#     row_n['VALUE']=float(row_n.get('VALUE'))
+#     # dict_value={}
+#     middle_value = []
+#     for x, y in row_n.items():
+#         if k == 0:
+#             value_name.append(x)
+#         # dict_value.update({x:y})
+#         middle_value.extend([y])
+#     final_value.append(middle_value)
+#     k += 1
+#
+# final_value.insert(0,value_name)
+# # print(value_name)
+# # print(final_value)
+#
+#
+# stop = timeit.default_timer()
+# # print("exe-time: ", stop - start)
