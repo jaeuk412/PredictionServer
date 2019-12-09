@@ -28,12 +28,15 @@ class ResultTable(Base):
     inserted = Column(DateTime, default=datetime.datetime.now())
     finished = Column(DateTime, nullable=True)
     ## 인수/검침, 나주/../광주, 시작날짜, 옵션(0,1), 모델이름, 저장경로2.
-    resource = Column(String(100), nullable=False)
-    location = Column(String(30), nullable=False)
+    # resource = Column(String(100), nullable=False)
+    resource = Column(Integer, ForeignKey('resource.key'))
+    # location = Column(String(30), nullable=False)
+    location = Column(Integer, ForeignKey('location.key'))
     start_date = Column(Integer, nullable=True)
     temp_option = Column(Integer, nullable=True)
     sub_option = Column(Integer, nullable=True)
-    model_name = Column(String(100), nullable=False)
+    # model_name = Column(String(100), nullable=False)
+    model = Column(Integer, ForeignKey('model.key'))
     save_file1 = Column(String(300), nullable=True)
     save_file2 = Column(String(300), nullable=True)
 
@@ -52,7 +55,8 @@ class DataTable(Base):
     machbase_name = Column(String(100), nullable=True)
     ## todo: 검침/예측, 인수, 지역
     purpose = Column(String(100), nullable=True)
-    resource = Column(String(100), nullable=True)
+    # resource = Column(String(100), nullable=True)
+    resource = Column(Integer, ForeignKey('resource.key'))
     location = Column(Integer, ForeignKey('location.key'))
     ## 해당 파일의 시작-끝 기간.
     period = Column(String(100), nullable=True)
@@ -65,7 +69,20 @@ class LocationTable(Base):
     name = Column(String(50), nullable=True)
     name_en = Column(String(50), nullable=True)
 
+class ResourceTable(Base):
+    __tablename__ = 'resource'
+    key = Column(Integer, primary_key=True, autoincrement=True)
+    inserted = Column(DateTime, default=datetime.datetime.now())
+    id = Column(String(100), unique=True, nullable=False)
+    name = Column(String(50), nullable=True)
+    explain = Column(String(500), nullable=True)
 
+class ModelTable(Base):
+    __tablename__ = 'model'
+    key = Column(Integer, primary_key=True, autoincrement=True)
+    inserted = Column(DateTime, default=datetime.datetime.now())
+    id = Column(String(100), unique=True, nullable=False)
+    name = Column(String(500), nullable=True)
 
 # class DailyTable(Base):
 #     __tablename__ = 'daily'

@@ -20,7 +20,7 @@ from werkzeug.datastructures import FileStorage
 # import werkzeug
 '''directory'''
 from DB.DataBase.database import db_session, dbsearch, dbsearch1
-from DB.DataBase.models import Login, DataTable, LocationTable
+from DB.DataBase.models import Login, DataTable, LocationTable, ResourceTable
 from API.api_helper.user_directory import folder_path3, folder_path
 from API.api_helper.api_helper import response_json_value, response_json_list, post_request
 import collections
@@ -122,25 +122,30 @@ def file_create():
         try:
             area = data['location']
         except:
+            ## todo: 사용자 입력에러(400) 리턴을 원할 경우 abort(400)으로 바꾸면됨.
             area = 1
 
         try:
             ## todo: resource 값에 따라 저장되는 모델용 폴더명 확인.
             resource = data['resource']
-            if resource == '13001.1':
-                resource = 'insu'
-            elif resource == '30005.0':
-                resource = 'sub'
-            elif resource =='3303.0':
-                resource = 'temp'
-            else:
-                resource = 'insu'
+            # if resource == '13001.1':
+            #     resource = 'insu'
+            # elif resource == '30005.0':
+            #     resource = 'sub'
+            # elif resource =='3303.0':
+            #     resource = 'temp'
+            # else:
+            #     resource = 'insu'
         except:
-            resource = 'insu'
+            ## resource 값이 없으면 insu 데이터 자원
+            ## todo: 사용자 입력에러(400) 리턴을 원할 경우 abort(400)으로 바꾸면됨.
+            resource = 2
 
         try:
             purpose = data['purpose']
         except:
+            ## purpose 값이 없으면 예측으로.
+            ## todo: 사용자 입력에러(400) 리턴을 원할 경우 abort(400)으로 바꾸면됨.
             purpose = 'prediction'
 
         # print("file_key: ",file_key)
@@ -178,157 +183,71 @@ def file_create():
                 ## 모델용에 맞춰 저장.
 
                 try:
-                    quer = db_session.query(LocationTable.id).filter(LocationTable.key == area)
+                    quer = db_session.query(ResourceTable.name,ResourceTable.id).filter(ResourceTable.key == resource)
                     records = db_session.execute(quer)
-                    result = []
                     for i in records:
-                        for x,y in i.items():
-                            string_area = y
+                        for x, y in i.items():
+                            ## insu
+                            if x == 'resource_name':
+                                string_resource = y
+                            ##30001.1
+                            if x == 'resource_id':
+                                mach_resource = y
+
+
                 except:
-                    string_area = 'naju'
-
-
-
-                ## todo: resource에 따라 해당 폴더로 들어감. (폴더명과 변수명 일치 여부 확인)
-                model_save_path = folder_path + "data/%s/%s_%s_%d" % (resource, string_area, resource, date_start_year)
-                ## DB 모델용 저장 파일. (파일복사)
-                ## shutil 사용.
-                shutil.copy(new_name,model_save_path)
-                # print("model_s_path: ",model_save_path)
-
-                if resource == 'insu':
-                    resource = '30001.1'
-                elif resource == 'sub':
-                    resource = '30005.0'
-                elif resource == 'temp':
-                    resource = '3303.0'
-                else:
-                    resource = '30001.1'
-
-                ## 마크 베이스 입력---------------------------
-                machbase_input(new_name, string_area, resource, date_start_year)
-                ## 마크 베이스 입력 --------------------------
-
-                ## HYGAS.NAJU.30001.1
-                machbase_class_name = 'HYGAS.%s.%s'%(string_area.upper(), resource)
-
-
-                ## DB에 저장.
-                db_session.add(DataTable(period=period, machbase_name=machbase_class_name, file_path=new_name, purpose=purpose, resource=resource, location=area, save_path=model_save_path))
-                db_session.commit()
-
-            except Exception as e:
-                return jsonify(e)
-
-        return jsonify(True)
-
-    except Exception as e:
-        return jsonify(False)
-
-@data_apis.route('/filestest', methods=['POST'])
-def file_createtest():
-    try:
-        print("file_create")
-        req = request.get_json()
-        jsonString = json.dumps(req)
-        data = json.loads(jsonString)
-        print(data['file-key'])
-        # 한개만 받아올때 리스트 씌워서 작업.
-        file_key = [data['file-key']]
-
-        try:
-            area = data['location']
-        except:
-            area = 1
-
-        try:
-            ## todo: resource 값에 따라 저장되는 모델용 폴더명 확인.
-            resource = data['resource']
-            if resource == '13001.1':
-                resource = 'insu'
-            elif resource == '30005.0':
-                resource = 'sub'
-            elif resource =='3303.0':
-                resource = 'temp'
-            else:
-                resource = 'insu'
-        except:
-            resource = 'insu'
-
-        try:
-            purpose = data['purpose']
-        except:
-            purpose = 'prediction'
-
-        # print("file_key: ",file_key)
-        ## temp 붙은거 삭제.
-        for name in file_key:
-            tempfilepath = folder_path3 + 'tempfile/' + name
-            new_name = folder_path3 + name
-
-            try:
-                # temp 에서 실 저장소로 이동.
-                shutil.copy(tempfilepath, new_name)
-                # print("name: ", name)
-                # print("new_name: ", new_name)
-
-                ## 파일 읽어서 년도 정보 2014 획득.
-                ## 첫날짜, 마지막 날짜 DB에 저장.
-                ##########################################################
-                with open(new_name, 'r') as f:
-                    date_get = f.readlines()
-                # 파일 year 정보.
-                date_start_value = date_get[1].split(' ')
-                date_start_year = int(date_start_value[0])
-                date_start_month = int(date_start_value[1])
-                date_start_day = int(date_start_value[2])
-                date_end_value = date_get[-1].split(' ')
-                date_end_year = int(date_end_value[0])
-                date_end_month = int(date_end_value[1])
-                date_end_day = int(date_end_value[2])
-
-                period = "%04d-%02d-%02d~%04d-%02d-%02d" % (
-                date_start_year, date_start_month, date_start_day, date_end_year, date_end_month, date_end_day)
-
-                ###########################################################
-                ## /home/uk/PredictionServer/prediction/data/insu/naju_insu_2014
-                ## 모델용에 맞춰 저장.
+                    ## resource 테이블 이외의 key 값을 받을 경우 key=2인 insu 값 기본으로.
+                    ## todo: 사용자 입력에러(400) 리턴을 원할 경우 abort(400)으로 바꾸면됨.
+                    string_resource = 'insu'
+                    mach_resource = '30001.1'
 
                 try:
                     quer = db_session.query(LocationTable.id).filter(LocationTable.key == area)
                     records = db_session.execute(quer)
-                    result = []
                     for i in records:
+                        ## 'naju
                         for x,y in i.items():
                             string_area = y
                 except:
+                    ## location 테이블 이외의 key 값을 받을 경우 기본 key=1인 naju 지역을 기본으로.
+                    ## todo: 사용자 입력에러(400) 리턴을 원할 경우 abort(400)으로 바꾸면됨.
                     string_area = 'naju'
 
-
+                # print("string_rr: ", string_resource)
+                # print(mach_resource)
+                # print(string_area)
 
                 ## todo: resource에 따라 해당 폴더로 들어감. (폴더명과 변수명 일치 여부 확인)
-                model_save_path = folder_path + "data/%s/%s_%s_%d" % (resource, string_area, resource, date_start_year)
+                model_save_path = folder_path + "data/%s/%s_%s_%d" % (string_resource, string_area, string_resource, date_start_year)
                 ## DB 모델용 저장 파일. (파일복사)
                 ## shutil 사용.
+                # print(model_save_path)
                 shutil.copy(new_name,model_save_path)
                 # print("model_s_path: ",model_save_path)
 
-                if resource == 'insu':
-                    resource = '30001.1'
-                elif resource == 'sub':
-                    resource = '30005.0'
-                elif resource == 'temp':
-                    resource = '3303.0'
-                else:
-                    resource = '30001.1'
+                # if resource == 'insu':
+                #     resource = '30001.1'
+                # elif resource == 'sub':
+                #     resource = '30005.0'
+                # elif resource == 'temp':
+                #     resource = '3303.0'
+                # else:
+                #     resource = '30001.1'
 
                 ## 마크 베이스 입력---------------------------
-                machbase_input(new_name, string_area, resource, date_start_year)
+                machbase_input(new_name, string_area, mach_resource, date_start_year)
                 ## 마크 베이스 입력 --------------------------
 
                 ## HYGAS.NAJU.30001.1
-                machbase_class_name = 'HYGAS.%s.%s'%(string_area.upper(), resource)
+                machbase_class_name = 'HYGAS.%s.%s'%(string_area.upper(), mach_resource)
 
+                # print(period)
+                # print(machbase_class_name)
+                # print(new_name)
+                # print(purpose)
+                # print(resource)
+                # print(area)
+                # print(model_save_path)
 
                 ## DB에 저장.
                 db_session.add(DataTable(period=period, machbase_name=machbase_class_name, file_path=new_name, purpose=purpose, resource=resource, location=area, save_path=model_save_path))
@@ -341,6 +260,7 @@ def file_createtest():
 
     except Exception as e:
         return jsonify(False)
+
 
 ## ReadAll files info
 @data_apis.route('/datasets', methods=['GET'])
@@ -359,7 +279,7 @@ def api_file_search():
         for x,y in i.items():
             # print(x,y)
             if x == 'file_path':
-                x = 'file-key'
+                x = 'fileKey'
                 y = y.split('/')[-1]
 
             result_dict.update({x:y})
@@ -371,11 +291,16 @@ def api_file_search():
     fresult = {"dataset": result, "total": count}
     return jsonify(fresult)
 
+@data_apis.route('/datasets/statics', methods=['GET'])
+def smartCity_datasetlist():
+    dlist = [name for name in dbsearch1.table_names() if name.startswith('dataset_')]
+    return jsonify({"resources": dlist})
+
+
 ## Read
 @data_apis.route('/datasets/<int:key>', methods=['GET'])
 def api_data_search(key):
     try:
-
         query = "select key, inserted, location, purpose, resource, period, file_path from data WHERE key =%d" % (key)
         records = db_session.execute(query)
         result = []
@@ -385,7 +310,7 @@ def api_data_search(key):
             for x, y in i.items():
                 # print(x,y)
                 if x == 'file_path':
-                    x = 'file-key'
+                    x = 'fileKey'
                     y = y.split('/')[-1]
 
                 result_dict.update({x: y})
@@ -408,124 +333,10 @@ def api_data_delete(key):
     except:
         return jsonify(False)
 
-@data_apis.route('/locations', methods=['GET'])
-def datasets_locations_get():
-    query = "select * from location ORDER BY key"
-    records = db_session.execute(query)
-    # location_list = ["gwangju", "naju", "jangsung", "damyang"]
-
-    result = []
-    for i in records:
-        result.append(dict(i))
-
-    return response_json_list(result)
-
-@data_apis.route('/locations/<int:key>', methods=['GET'])
-def datasets_locations_get_key(key):
-    query = "select * from location where key=%d"%(key)
-    records = db_session.execute(query)
-    # location_list = ["gwangju", "naju", "jangsung", "damyang"]
-
-    result = []
-    for i in records:
-        result.append(dict(i))
-
-    return response_json_value(result)
-'''
-{
-  "id": "naju",
-  "name":"나주",
-  "name_en":"Naju"
-}
-{
-  "id": "gwangju",
-  "name":"광주",
-  "name_en":"Gwangju"
-}
-{
-  "id": "jangsung",
-  "name":"장성",
-  "name_en":"Jangsung"
-}
-{
-  "id": "damyang",
-  "name":"담양",
-  "name_en":"Damyang"
-}
-'''
-@data_apis.route('/locations', methods=['POST'])
-def datasets_locations_post():
-    try:
-        data = post_request()
-        ## id, name, name_en
-        try:
-            id = data['id']
-        except:
-            id = 'naju'
-
-        try:
-            name = data['name']
-        except:
-            name = None
-
-        try:
-            name_en = data['name_en']
-        except:
-            name_en = None
-
-        db_session.add(LocationTable(id=id, name=name, name_en=name_en))
-        db_session.commit()
-
-        return jsonify(True)
-
-    except:
-        return jsonify(False)
-
-@data_apis.route('/locations/<int:key>', methods=['DELETE'])
-def datasets_locations_delete(key):
-    try:
-        db_session.query(LocationTable).filter(LocationTable.key == key).delete()
-        db_session.commit()
-        return jsonify(True)
-    except:
-        return jsonify(False)
-
-@data_apis.route('/locations/<int:key>', methods=['PUT'])
-def datasets_locations_put(key):
-    try:
-        data = post_request()
-        ## id, name, name_en
-        try:
-            id = data['id']
-        except:
-            id = 'naju'
-
-        try:
-            name = data['name']
-        except:
-            name = None
-
-        try:
-            name_en = data['name_en']
-        except:
-            name_en = None
-
-        value = db_session.query(LocationTable).get(key)
-        value.id = id
-        value.name = name
-        value.name_en = name_en
-        db_session.commit()
-        return jsonify(True)
-
-    except:
-        return jsonify(False)
-
-
 @data_apis.route('/datasets/dbtest', methods=['GET'])
 def api_data_get_smart_city():
     # query = "select * from login"
     # records = dbsearch.execute(query)
-
 
     # query = "select * from UPPER('GWANJUCHALLENGE')_acc_inflow"
     query = "select * from dataset_acc_outflow"
@@ -578,13 +389,27 @@ Post(문화전당)
          {
             "source":" hygas",
             "location": "naju",
-            "useKind": "house",
             "resource": "30001.1"
         }, {
             "source":" hygas",
             "location": "naju",
-            "useKind": "house",
             "resource": "30001.2"
+        }
+	]
+}
+{
+  "period":"2017-11-06 1 ~ 2017-12-30 1 ",
+  "dataset": [
+		"static/acc-inflow",
+        "static/acc-outflow",
+         {
+            "source":" hygas",
+            "location": 1,
+            "resource": 2
+        }, {
+            "source":" hygas",
+            "location": 1,
+            "resource": 2
         }
 	]
 }
@@ -608,42 +433,22 @@ def api_data_values():
     data = json.loads(jsonString)
 
     try:
-        period = data['period']
-        ## 날짜시간 [2018, 3, 10, 1, 0, 0, 2019, 3, 6, 1, 0, 0] -> 리스트 len = 12
-        period_value = get_period_value(str(period))
-        print(period_value)
-        datestart = '%04d-%02d-%02d' % (period_value[0], period_value[1], period_value[2])
-        dateend = '%04d-%02d-%02d' % (period_value[6], period_value[7], period_value[8])
-
-        ## 해양도시 insu값 무조건 다 출력.
-        datestart_hy = 2014
-        dateend_hy = 2019
-        # print(datestart)
-        datelist = []
-        import glob
-        filecount = folder_path + 'data/insu/'
-        filecountvalue = len(glob.glob1(filecount, "naju_insu*"))
-        # for i in range(dateend - datestart + 1):
-        ## range=6 (2014_2019)
-        for i in range(filecountvalue):
-            datelist.append(datestart_hy)
-            datestart_hy += 1
-
-    except:
-        period = None
-        datestart_hy = 2014
-        dateend_hy = 2019
-        datelist = []
-        # for i in range(dateend - datestart + 1):
-        for i in range(6):
-            datelist.append(datestart_hy)
-            datestart_hy += 1
-
-    try:
         dataset = data['dataset']
     except Exception as e:
         print('212: ',e)
         abort(400)
+
+
+    try:
+        period = data['period']
+        ## 날짜시간 [2018, 3, 10, 1, 0, 0, 2019, 3, 6, 1, 0, 0] -> 리스트 len = 12
+        period_value = get_period_value(str(period))
+        # print(period_value)
+        datestart = '%04d-%02d-%02d' % (period_value[0], period_value[1], period_value[2])
+        dateend = '%04d-%02d-%02d' % (period_value[6], period_value[7], period_value[8])
+
+    except:
+        period = None
 
     #------------------------------------------------------------
     total_value = dict()
@@ -652,11 +457,13 @@ def api_data_values():
     meta_get_list = list()
     for i in dataset:
         meta_get2 = []
-        print(i)
+        # print(i)
+
+        ## 스마트시티 string #####################################################################
         if isinstance(i, str):
             if 'static' in i:
                 datasetvalue = dataset_check(str(i))
-                print(period)
+                # print(period)
 
                 try:
                     if period:
@@ -699,11 +506,11 @@ def api_data_values():
                         # result.append(row_n)
 
                     dateend = result[-1][0]
-                    print(dateend)
+                    # print(dateend)
 
                     result.insert(0, keyaa)
                     # print(result)
-                    print("result: ",result)
+                    # print("result: ",result)
                     ss = {}
                     ss[i] = result
                     total_value.update(ss)
@@ -712,7 +519,7 @@ def api_data_values():
                     meta_get2.append({"beginDate": datestart, "endDate":dateend})
                     meta_get.update({str(i): meta_get2})
                     meta_get_list.extend(meta_get2)
-                    print("meta_get: ",meta_get)
+                    # print("meta_get: ",meta_get)
 
                 except Exception as e:
                     print(e)
@@ -731,41 +538,112 @@ def api_data_values():
                 meta_get_list.append([])
                 pass
 
+        ## 해양에너지 dict #####################################################################
         elif isinstance(i,dict):
             try:
                 # argument = data['arguments']
                 resource = i['resource']
                 area = i['location']
-                ## 지역이 나주가 아니면 naju로 강제 변환.
-                if not area == 'naju':
-                    area = 'naju'
+                ## todo: 현재 폴더에 naju 데이터 뿐이기 때문에, 추후에 다른 지역 데이터 오면 해당 영역 open 여기 수정.
+                if not area == 1:
+                    area = 1
+                '''
+                "location": "naju",
+                "resource": "30001.1"
+                '''
+
+                try:
+                    # todo: 현재 resource(2,3)은 인수량,검침량으로 이 두개는 name=insu값을 가짐(검침량도 인수량으로 대체하라는 오더).
+                    ## 그런데 나머지 resource(1,4)는 temp, sub 값을 가지는데, insu데이터와 파일 구조가 달라서 얻는 값들을 따로 정의 해줘야함.
+                    ## 현재는 1,4도 name을 insu로 지정해 주겠음.
+                    if resource == 1 or resource == 4:
+                        resource = 2
+
+                    quer = db_session.query(ResourceTable.name,ResourceTable.id).filter(ResourceTable.key == resource)
+                    records = db_session.execute(quer)
+                    for i in records:
+                        for x, y in i.items():
+                            ## insu
+                            if x == 'resource_name':
+                                string_resource = y
+                            ##30001.1
+                            if x == 'resource_id':
+                                mach_resource = y
+
+                    print(string_resource)
+                    print(mach_resource)
+
+                except:
+                    ## resource(1,2,3,4)를 제외한 값도 일단은 가장 기본 값인 resource(1)의  insu, 30001.1 지정.
+                    string_resource = 'insu'
+                    mach_resource = '30001.1'
+
+                try:
+                    quer = db_session.query(LocationTable.id).filter(LocationTable.key == area)
+                    records = db_session.execute(quer)
+                    for i in records:
+                        ## 'naju
+                        for x,y in i.items():
+                            string_area = y
+                except:
+                    string_area = 'naju'
+
+
+                try:
+                    source = i['source']
+                except:
+                    source = 'HYGAS'
+
+                if not period:
+                    ## todo: 현재있는 data/insu의 파일내용 모두 출력인데, 나중에 기간에 따라 출력 바뀌게 될시 여기 수정.
+                    datelist = []
+                    import glob
+                    ## 저장된 데이터셋 개수(filecountvalue) , 가장작은 년도(file_start_year), filelist리스트=[2014,2015, .. ,2019]
+                    filecount = folder_path + 'data/%s/'%(string_resource)
+                    filecountvalue = len(glob.glob1(filecount, "%s_%s*"%(string_area,string_resource)))
+                    file_start_year = sorted(glob.glob1(filecount, "%s_%s*"%(string_area,string_resource)))[0]
+                    file_start_year = int(file_start_year.split("_")[-1])
+                    # for i in range(dateend - datestart + 1):
+                    ## range=6 (2014_2019)
+                    for i in range(filecountvalue):
+                        datelist.append(file_start_year)
+                        file_start_year += 1
+                else:
+                    ## 해양도시 insu값 무조건 다 출력.
+                    # datestart_hy = 2014
+                    # dateend_hy = 2019
+                    # print(datestart)
+                    datelist = []
+                    import glob
+                    ## 저장된 데이터셋 개수(filecountvalue) , 가장작은 년도(file_start_year), filelist리스트=[2014,2015, .. ,2019]
+                    filecount = folder_path + 'data/%s/'%(string_resource)
+                    filecountvalue = len(glob.glob1(filecount, "%s_%s*" % (string_area, string_resource)))
+                    file_start_year = sorted(glob.glob1(filecount, "%s_%s*" % (string_area, string_resource)))[0]
+                    file_start_year = int(file_start_year.split("_")[-1])
+                    # for i in range(dateend - datestart + 1):
+                    ## range=6 (2014_2019)
+                    for i in range(filecountvalue):
+                        datelist.append(file_start_year)
+                        file_start_year += 1
+
 
             except Exception as e:
                 print(e)
                 return abort(400)
 
-            try:
-                source = i['source']
-            except:
-                source = 'HYGAS'
-
-            try:
-                kind = i['useKind']
-            except:
-                kind = 'house'
 
                 # todo: csv 파일로 가져왔을때, 문제가 있는거 같다. 같은 값인데, 에러가 난다.
             else:
                 dataname = str()
                 # print(resource.count('.'))
-                if resource.count('.') == 1:
+                if mach_resource.count('.') == 1:
                     final_value_list = []
                     # print("datelist: ",datelist)
                     for ddstart in datelist:
 
                         # print("ddstart: ",ddstart)
 
-                        path = folder_path + 'data/insu/%s_insu_%d' % (area.lower(), ddstart)
+                        path = folder_path + 'data/%s/%s_%s_%d' % (string_resource, string_area.lower(), string_resource, ddstart)
                         # print(path)
                         dataname = 'insu_sum'
                         ## '/home/uk/PredictionServer/prediction/prediction_ETRI/data/insu/naju_insu_2019'
@@ -822,40 +700,38 @@ def api_data_values():
                                   int(data_end_date[0]), int(data_end_date[1]), int(data_end_date[2]))})
 
                 final_value_list.insert(0, ['date', 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12])
-                meta_get.update({str(source).upper() + '.' + str(resource): meta_get2})
+                # meta_get.update({str(source).upper() + '.' + str(resource): meta_get2})
                 meta_get_list.extend(meta_get2)
 
-            total_value.update({str(source).upper()+'.'+str(resource):final_value_list})
+            # total_value.update({str(source).upper()+'.'+str(resource):final_value_list})
             total_value2.append(final_value_list)
 
         else:
-            ss = {}
-            ss[str(i)] = None
-            total_value.update(ss)
+            # ss = {}
+            # ss[str(i)] = None
+            # total_value.update(ss)
             total_value2.append([])
             meta_get_list.append([])
 
 
-        meta = {}
-            # print(final_result2)
-        meta["meta"] = meta_get
+        # meta = {}
+        # meta["meta"] = meta_get
 
         # total_value.update(meta)
 
 
     # dataset_value = get_HYGAS_dataset_value(key, dataset, period_value)
-    print(total_value)
-    print(type(total_value))
-    kk={'dataset':total_value}
-    kk.update(meta)
 
-    sdsd={"dataset":total_value2,"meta":meta_get_list}
+    # kk={'dataset':total_value}
+    # kk.update(meta)
+
+    final_json_value={"dataset":total_value2,"meta":meta_get_list}
 
     # kk = {}
     # kk['datasets'] = total_value
     # total_value.update(kk)
     # print(total_value)
-    return jsonify(sdsd)
+    return jsonify(final_json_value)
 
 @data_apis.route('/analysis', methods=['POST'])
 def api_analysis():
@@ -873,42 +749,22 @@ def api_analysis():
     data = json.loads(jsonString)
 
     try:
-        period = data['period']
-        ## 날짜시간 [2018, 3, 10, 1, 0, 0, 2019, 3, 6, 1, 0, 0] -> 리스트 len = 12
-        period_value = get_period_value(str(period))
-        print(period_value)
-        datestart = '%04d-%02d-%02d' % (period_value[0], period_value[1], period_value[2])
-        dateend = '%04d-%02d-%02d' % (period_value[6], period_value[7], period_value[8])
-
-        ## 해양도시 insu값 무조건 다 출력.
-        datestart_hy = 2014
-        dateend_hy = 2019
-        # print(datestart)
-        datelist = []
-        import glob
-        filecount = folder_path + 'data/insu/'
-        filecountvalue = len(glob.glob1(filecount, "naju_insu*"))
-        # for i in range(dateend - datestart + 1):
-        ## range=6 (2014_2019)
-        for i in range(filecountvalue):
-            datelist.append(datestart_hy)
-            datestart_hy += 1
-
-    except:
-        period = None
-        datestart_hy = 2014
-        dateend_hy = 2019
-        datelist = []
-        # for i in range(dateend - datestart + 1):
-        for i in range(6):
-            datelist.append(datestart_hy)
-            datestart_hy += 1
-
-    try:
         dataset = data['dataset']
     except Exception as e:
         print('212: ',e)
         abort(400)
+
+
+    try:
+        period = data['period']
+        ## 날짜시간 [2018, 3, 10, 1, 0, 0, 2019, 3, 6, 1, 0, 0] -> 리스트 len = 12
+        period_value = get_period_value(str(period))
+        # print(period_value)
+        datestart = '%04d-%02d-%02d' % (period_value[0], period_value[1], period_value[2])
+        dateend = '%04d-%02d-%02d' % (period_value[6], period_value[7], period_value[8])
+
+    except:
+        period = None
 
     #------------------------------------------------------------
     total_value = dict()
@@ -917,11 +773,13 @@ def api_analysis():
     meta_get_list = list()
     for i in dataset:
         meta_get2 = []
-        print(i)
+        # print(i)
+
+        ## 스마트시티 string #####################################################################
         if isinstance(i, str):
             if 'static' in i:
                 datasetvalue = dataset_check(str(i))
-                print(period)
+                # print(period)
 
                 try:
                     if period:
@@ -930,6 +788,7 @@ def api_analysis():
                         query = "select * from %s%s" % (datasetvalue, datasetdate)
                     else:
                         query = "select * from %s" % (datasetvalue)
+
 
                     # if datasetvalue == 'dataset_acc_inflow':
                     #     query = "select	date, dow as week, sum(in_flow) as flow from dataset_acc_inflow " + datasetdate + " group by date, dow order by date"
@@ -947,7 +806,6 @@ def api_analysis():
                         key_count = 0
                         keyaa = []
 
-
                         for x, y in row_n.items():
                             valueaa.extend([y])
 
@@ -964,11 +822,11 @@ def api_analysis():
                         # result.append(row_n)
 
                     dateend = result[-1][0]
-                    print(dateend)
+                    # print(dateend)
 
                     result.insert(0, keyaa)
                     # print(result)
-                    print("result: ",result)
+                    # print("result: ",result)
                     ss = {}
                     ss[i] = result
                     total_value.update(ss)
@@ -977,7 +835,7 @@ def api_analysis():
                     meta_get2.append({"beginDate": datestart, "endDate":dateend})
                     meta_get.update({str(i): meta_get2})
                     meta_get_list.extend(meta_get2)
-                    print("meta_get: ",meta_get)
+                    # print("meta_get: ",meta_get)
 
                 except Exception as e:
                     print(e)
@@ -996,41 +854,101 @@ def api_analysis():
                 meta_get_list.append([])
                 pass
 
+        ## 해양에너지 dict #####################################################################
         elif isinstance(i,dict):
             try:
                 # argument = data['arguments']
                 resource = i['resource']
                 area = i['location']
                 ## 지역이 나주가 아니면 naju로 강제 변환.
-                if not area == 'naju':
-                    area = 'naju'
+                # if not area == 'naju':
+                #     area = 'naju'
+                '''
+                "location": "naju",
+                "resource": "30001.1"
+                '''
+
+                try:
+                    quer = db_session.query(ResourceTable.name,ResourceTable.id).filter(ResourceTable.key == resource)
+                    records = db_session.execute(quer)
+                    for i in records:
+                        for x, y in i.items():
+                            ## insu
+                            if x == 'resource_name':
+                                string_resource = y
+                            ##30001.1
+                            if x == 'resource_id':
+                                mach_resource = y
+                except:
+                    string_resource = 'insu'
+                    mach_resource = '30001.1'
+
+                try:
+                    quer = db_session.query(LocationTable.id).filter(LocationTable.key == area)
+                    records = db_session.execute(quer)
+                    for i in records:
+                        ## 'naju
+                        for x,y in i.items():
+                            string_area = y
+                except:
+                    string_area = 'naju'
+
+
+                try:
+                    source = i['source']
+                except:
+                    source = 'HYGAS'
+
+                if not period:
+                    ## todo: 현재있는 data/insu의 파일내용 모두 출력인데, 나중에 기간에 따라 출력 바뀌게 될시 여기 수정.
+                    datelist = []
+                    import glob
+                    ## 저장된 데이터셋 개수(filecountvalue) , 가장작은 년도(file_start_year), filelist리스트=[2014,2015, .. ,2019]
+                    filecount = folder_path + 'data/%s/'%(string_resource)
+                    filecountvalue = len(glob.glob1(filecount, "%s_%s*"%(string_area,string_resource)))
+                    file_start_year = sorted(glob.glob1(filecount, "%s_%s*"%(string_area,string_resource)))[0]
+                    file_start_year = int(file_start_year.split("_")[-1])
+                    # for i in range(dateend - datestart + 1):
+                    ## range=6 (2014_2019)
+                    for i in range(filecountvalue):
+                        datelist.append(file_start_year)
+                        file_start_year += 1
+                else:
+                    ## 해양도시 insu값 무조건 다 출력.
+                    # datestart_hy = 2014
+                    # dateend_hy = 2019
+                    # print(datestart)
+                    datelist = []
+                    import glob
+                    ## 저장된 데이터셋 개수(filecountvalue) , 가장작은 년도(file_start_year), filelist리스트=[2014,2015, .. ,2019]
+                    filecount = folder_path + 'data/%s/'%(string_resource)
+                    filecountvalue = len(glob.glob1(filecount, "%s_%s*" % (string_area, string_resource)))
+                    file_start_year = sorted(glob.glob1(filecount, "%s_%s*" % (string_area, string_resource)))[0]
+                    file_start_year = int(file_start_year.split("_")[-1])
+                    # for i in range(dateend - datestart + 1):
+                    ## range=6 (2014_2019)
+                    for i in range(filecountvalue):
+                        datelist.append(file_start_year)
+                        file_start_year += 1
+
 
             except Exception as e:
                 print(e)
                 return abort(400)
 
-            try:
-                source = i['source']
-            except:
-                source = 'HYGAS'
-
-            try:
-                kind = i['useKind']
-            except:
-                kind = 'house'
 
                 # todo: csv 파일로 가져왔을때, 문제가 있는거 같다. 같은 값인데, 에러가 난다.
             else:
                 dataname = str()
                 # print(resource.count('.'))
-                if resource.count('.') == 1:
+                if mach_resource.count('.') == 1:
                     final_value_list = []
                     # print("datelist: ",datelist)
                     for ddstart in datelist:
 
                         # print("ddstart: ",ddstart)
 
-                        path = folder_path + 'data/insu/%s_insu_%d' % (area.lower(), ddstart)
+                        path = folder_path + 'data/%s/%s_%s_%d' % (string_resource, string_area.lower(), string_resource, ddstart)
                         # print(path)
                         dataname = 'insu_sum'
                         ## '/home/uk/PredictionServer/prediction/prediction_ETRI/data/insu/naju_insu_2019'
@@ -1087,40 +1005,38 @@ def api_analysis():
                                   int(data_end_date[0]), int(data_end_date[1]), int(data_end_date[2]))})
 
                 final_value_list.insert(0, ['date', 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12])
-                meta_get.update({str(source).upper() + '.' + str(resource): meta_get2})
+                # meta_get.update({str(source).upper() + '.' + str(resource): meta_get2})
                 meta_get_list.extend(meta_get2)
 
-            total_value.update({str(source).upper()+'.'+str(resource):final_value_list})
+            # total_value.update({str(source).upper()+'.'+str(resource):final_value_list})
             total_value2.append(final_value_list)
 
         else:
-            ss = {}
-            ss[str(i)] = None
-            total_value.update(ss)
+            # ss = {}
+            # ss[str(i)] = None
+            # total_value.update(ss)
             total_value2.append([])
             meta_get_list.append([])
 
 
-        meta = {}
-            # print(final_result2)
-        meta["meta"] = meta_get
+        # meta = {}
+        # meta["meta"] = meta_get
 
         # total_value.update(meta)
 
 
     # dataset_value = get_HYGAS_dataset_value(key, dataset, period_value)
-    print(total_value)
-    print(type(total_value))
-    kk={'dataset':total_value}
-    kk.update(meta)
 
-    sdsd={"dataset":total_value2,"meta":meta_get_list}
+    # kk={'dataset':total_value}
+    # kk.update(meta)
+
+    final_json_value={"dataset":total_value2,"meta":meta_get_list}
 
     # kk = {}
     # kk['datasets'] = total_value
     # total_value.update(kk)
     # print(total_value)
-    return jsonify(sdsd)
+    return jsonify(final_json_value)
 
 '''
 cjr-tourist: 관광객 현황

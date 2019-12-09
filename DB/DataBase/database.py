@@ -4,7 +4,6 @@ import os
 from sqlalchemy import create_engine, MetaData
 from sqlalchemy.orm import scoped_session, sessionmaker, joinedload
 
-
 from flask import jsonify
 
 
@@ -41,4 +40,5 @@ db_session = scoped_session(sessionmaker(autocommit=False,
 
 def create_tables():
     Base.metadata.create_all(bind=engine)
+
 
