@@ -7,7 +7,7 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import warnings
-from API.api_helper.user_directory import folder_path, root_path
+from API.api_helper.user_directory import folder_prediction_path, root_path
 import os
 import itertools # parameter search 할 때 사용
 
@@ -18,13 +18,13 @@ def main(area, year, start_date, user_key, detectkey):
     print("----yearly_start----")
     # 이건 이후에 argment나 입력 변수로 받아야됨.
     # result_path = '/home/uk/PredictionServer/prediction/prediction_ETRI/result/yearly/'
-    if not os.path.isdir(folder_path + 'result/%d' % (user_key)):
-        os.mkdir(folder_path + 'result/%d' % (user_key))
+    if not os.path.isdir(folder_prediction_path + 'result/%d' % (user_key)):
+        os.mkdir(folder_prediction_path + 'result/%d' % (user_key))
 
-    if not os.path.isdir(folder_path + 'result/%d/yearly' % (user_key)):
-        os.mkdir(folder_path + 'result/%d/yearly' % (user_key))
+    if not os.path.isdir(folder_prediction_path + 'result/%d/yearly' % (user_key)):
+        os.mkdir(folder_prediction_path + 'result/%d/yearly' % (user_key))
 
-    result_path = folder_path + 'result/%d/yearly/' % (user_key)
+    result_path = folder_prediction_path + 'result/%d/yearly/' % (user_key)
     print(result_path)
     # area = 'naju'
     # current_year = 2019
@@ -35,7 +35,7 @@ def main(area, year, start_date, user_key, detectkey):
 
         for tyear in range(current_year - 5, current_year):
             print('target_years: ', tyear)
-            insu_data_tmp = pd.read_csv(folder_path + 'data/tmp_for_pred/insu/%s_insu_%d' % (area, tyear),
+            insu_data_tmp = pd.read_csv(folder_prediction_path + 'data/tmp_for_pred/insu/%s_insu_%d' % (area, tyear),
                                         delim_whitespace=True)
             print(insu_data_tmp.shape)
             insu_data_past_5years = insu_data_past_5years.append(

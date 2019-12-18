@@ -1,6 +1,6 @@
 import numpy as np
 import sys
-from API.api_helper.user_directory import folder_path
+from API.api_helper.user_directory import folder_prediction_path
 
 from bs4 import BeautifulSoup
 import pandas as pd

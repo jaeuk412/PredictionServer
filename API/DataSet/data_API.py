@@ -21,7 +21,7 @@ from werkzeug.datastructures import FileStorage
 '''directory'''
 from DB.DataBase.database import db_session, dbsearch, dbsearch1
 from DB.DataBase.models import Login, DataTable, LocationTable, ResourceTable
-from API.api_helper.user_directory import folder_path3, folder_path
+from API.api_helper.user_directory import folder_dataupload_path, folder_prediction_path
 from API.api_helper.api_helper import response_json_value, response_json_list, post_request
 import collections
 from sqlalchemy import func
@@ -76,10 +76,10 @@ def file_attach():
         strtime = nowDate + nowTime + '_'
         file_list = list()
 
-        if not os.path.isdir(folder_path3):
-            os.mkdir(folder_path3)
+        if not os.path.isdir(folder_dataupload_path):
+            os.mkdir(folder_dataupload_path)
 
-        tempfilepath = folder_path3 + 'tempfile/'
+        tempfilepath = folder_dataupload_path + 'tempfile/'
 
         if not os.path.isdir(tempfilepath):
             os.mkdir(tempfilepath)
@@ -151,8 +151,8 @@ def file_create():
         # print("file_key: ",file_key)
         ## temp 붙은거 삭제.
         for name in file_key:
-            tempfilepath = folder_path3 + 'tempfile/' + name
-            new_name = folder_path3 + name
+            tempfilepath = folder_dataupload_path + 'tempfile/' + name
+            new_name = folder_dataupload_path + name
 
             try:
                 # temp 에서 실 저장소로 이동.
@@ -218,7 +218,7 @@ def file_create():
                 # print(string_area)
 
                 ## todo: resource에 따라 해당 폴더로 들어감. (폴더명과 변수명 일치 여부 확인)
-                model_save_path = folder_path + "data/%s/%s_%s_%d" % (string_resource, string_area, string_resource, date_start_year)
+                model_save_path = folder_prediction_path + "data/%s/%s_%s_%d" % (string_resource, string_area, string_resource, date_start_year)
                 ## DB 모델용 저장 파일. (파일복사)
                 ## shutil 사용.
                 # print(model_save_path)
@@ -291,11 +291,54 @@ def api_file_search():
     fresult = {"dataset": result, "total": count}
     return jsonify(fresult)
 
-@data_apis.route('/datasets/statics', methods=['GET'])
-def smartCity_datasetlist():
-    dlist = [name for name in dbsearch1.table_names() if name.startswith('dataset_')]
-    return jsonify({"resources": dlist})
+# @data_apis.route('/datasets/statics', methods=['GET'])
+# def smartCity_datasetlist():
+#     print('---------------1----------')
+#     dlist = [name for name in dbsearch1.table_names() if name.startswith('dataset_')]
+#     result=list()
+#     for i in dlist:
+#         result.append("static/%s"%(i.replace("dataset_","")))
+#
+#     return jsonify({"resources": result})
 
+
+# @data_apis.route('/datasets/staticstest', methods=['GET'])
+# def smartCity_datasetlisttest():
+#     dlist = [name for name in dbsearch1.table_names() if name.startswith('dataset_')]
+#     result = list()
+#     for i in dlist:
+#         result.append("static/%s" % (i.replace("dataset_", "")))
+#
+#     # req = request.get_json()
+#     # jsonString = json.dumps(req)
+#     # data = json.loads(jsonString)
+#
+#     # datatable = data['resource']
+#
+#     total_value = dict()
+#     total_value2 = list()
+#
+#     query = "select * from %s" % ('dataset_acc_inflow')
+#
+#     # if datasetvalue == 'dataset_acc_inflow':
+#     #     query = "select	date, dow as week, sum(in_flow) as flow from dataset_acc_inflow " + datasetdate + " group by date, dow order by date"
+#     #
+#     # # query = "select	date, dow as week, sum(in_flow) as flow from "+datasetvalue+" group by date, dow order by date limit 100"
+#     # elif datasetvalue == 'dataset_acc_outflow':
+#     #     query = "select	date, dow as week, sum(out_flow) as flow from dataset_acc_outflow " + datasetdate + " group by date, dow order by date"
+#     records = dbsearch1.execute(query)
+#     result = []
+#     for i in records:
+#         # print(i)
+#         result_dict = dict()
+#         for x, y in i.items():
+#             result_dict.update({x: y})
+#         # print(result_dict)
+#
+#         result.append(result_dict)
+#
+#
+#     return response_json_list(result)
 
 ## Read
 @data_apis.route('/datasets/<int:key>', methods=['GET'])
@@ -473,7 +516,7 @@ def api_data_values():
                     else:
                         query = "select * from %s" % (datasetvalue)
 
-
+                    print("query: ", query)
                     # if datasetvalue == 'dataset_acc_inflow':
                     #     query = "select	date, dow as week, sum(in_flow) as flow from dataset_acc_inflow " + datasetdate + " group by date, dow order by date"
                     #
@@ -588,7 +631,6 @@ def api_data_values():
                 except:
                     string_area = 'naju'
 
-
                 try:
                     source = i['source']
                 except:
@@ -599,7 +641,7 @@ def api_data_values():
                     datelist = []
                     import glob
                     ## 저장된 데이터셋 개수(filecountvalue) , 가장작은 년도(file_start_year), filelist리스트=[2014,2015, .. ,2019]
-                    filecount = folder_path + 'data/%s/'%(string_resource)
+                    filecount = folder_prediction_path + 'data/%s/' % (string_resource)
                     filecountvalue = len(glob.glob1(filecount, "%s_%s*"%(string_area,string_resource)))
                     file_start_year = sorted(glob.glob1(filecount, "%s_%s*"%(string_area,string_resource)))[0]
                     file_start_year = int(file_start_year.split("_")[-1])
@@ -616,7 +658,7 @@ def api_data_values():
                     datelist = []
                     import glob
                     ## 저장된 데이터셋 개수(filecountvalue) , 가장작은 년도(file_start_year), filelist리스트=[2014,2015, .. ,2019]
-                    filecount = folder_path + 'data/%s/'%(string_resource)
+                    filecount = folder_prediction_path + 'data/%s/' % (string_resource)
                     filecountvalue = len(glob.glob1(filecount, "%s_%s*" % (string_area, string_resource)))
                     file_start_year = sorted(glob.glob1(filecount, "%s_%s*" % (string_area, string_resource)))[0]
                     file_start_year = int(file_start_year.split("_")[-1])
@@ -631,8 +673,7 @@ def api_data_values():
                 print(e)
                 return abort(400)
 
-
-                # todo: csv 파일로 가져왔을때, 문제가 있는거 같다. 같은 값인데, 에러가 난다.
+                # todo: pandas->csv 파일로 가져왔을때, 문제가 있는거 같다. 같은 값인데, 에러가 난다. open()으로 읽어서 처리.
             else:
                 dataname = str()
                 # print(resource.count('.'))
@@ -643,7 +684,7 @@ def api_data_values():
 
                         # print("ddstart: ",ddstart)
 
-                        path = folder_path + 'data/%s/%s_%s_%d' % (string_resource, string_area.lower(), string_resource, ddstart)
+                        path = folder_prediction_path + 'data/%s/%s_%s_%d' % (string_resource, string_area.lower(), string_resource, ddstart)
                         # print(path)
                         dataname = 'insu_sum'
                         ## '/home/uk/PredictionServer/prediction/prediction_ETRI/data/insu/naju_insu_2019'
@@ -904,7 +945,7 @@ def api_analysis():
                     datelist = []
                     import glob
                     ## 저장된 데이터셋 개수(filecountvalue) , 가장작은 년도(file_start_year), filelist리스트=[2014,2015, .. ,2019]
-                    filecount = folder_path + 'data/%s/'%(string_resource)
+                    filecount = folder_prediction_path + 'data/%s/' % (string_resource)
                     filecountvalue = len(glob.glob1(filecount, "%s_%s*"%(string_area,string_resource)))
                     file_start_year = sorted(glob.glob1(filecount, "%s_%s*"%(string_area,string_resource)))[0]
                     file_start_year = int(file_start_year.split("_")[-1])
@@ -921,7 +962,7 @@ def api_analysis():
                     datelist = []
                     import glob
                     ## 저장된 데이터셋 개수(filecountvalue) , 가장작은 년도(file_start_year), filelist리스트=[2014,2015, .. ,2019]
-                    filecount = folder_path + 'data/%s/'%(string_resource)
+                    filecount = folder_prediction_path + 'data/%s/' % (string_resource)
                     filecountvalue = len(glob.glob1(filecount, "%s_%s*" % (string_area, string_resource)))
                     file_start_year = sorted(glob.glob1(filecount, "%s_%s*" % (string_area, string_resource)))[0]
                     file_start_year = int(file_start_year.split("_")[-1])
@@ -948,7 +989,7 @@ def api_analysis():
 
                         # print("ddstart: ",ddstart)
 
-                        path = folder_path + 'data/%s/%s_%s_%d' % (string_resource, string_area.lower(), string_resource, ddstart)
+                        path = folder_prediction_path + 'data/%s/%s_%s_%d' % (string_resource, string_area.lower(), string_resource, ddstart)
                         # print(path)
                         dataname = 'insu_sum'
                         ## '/home/uk/PredictionServer/prediction/prediction_ETRI/data/insu/naju_insu_2019'

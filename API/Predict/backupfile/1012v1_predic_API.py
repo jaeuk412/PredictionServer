@@ -38,7 +38,7 @@ from DB.DataBase.database import dbsearch
 ## api helper
 from API.api_helper.api_helper import crossdomain, get_query_string, get_query_key, file_remove, devide_date, get_user_pkey
 from API.api_helper.api_helper import post_request, response_json_list, response_json_value, date_time
-from API.api_helper.user_directory import folder_path, root_path
+from API.api_helper.user_directory import folder_prediction_path, root_path
 from API.Predict.set_data_class import set_predic_data
 from API.Predict.get_data_class import get_predic_data, get_train_model
 from flask_sse import sse
@@ -1097,7 +1097,7 @@ def predict_daily(sort,area,model,start_date,user_pkey):
         start_year, start_month, start_day = devide_date(start_date)
         print('-------11------------')
 
-    daily_output_file = folder_path + 'result/%s/predict_%s_%d_%d_%d_daily' % (user_pkey, area, start_year, start_month, start_day)
+    daily_output_file = folder_prediction_path + 'result/%s/predict_%s_%d_%d_%d_daily' % (user_pkey, area, start_year, start_month, start_day)
 
     try:
         print("200000: ",start_year, start_month, start_day)
@@ -1143,8 +1143,8 @@ def predict_monthly1(sort, area, model, start_date, temp_mode, sub_mode, user_pk
         3-3 20181005 날짜로 실행, (2018-10-01 ~ 2019-09-30) 데이터. okay. result/20191005/past~~ 저장.
         3-4 결론적으로 start_year에 -1로 시작했음.
         '''
-        daily_output_file = folder_path + 'result/%d/past_%s_%d_%d_%d_T%d_S%d_daily' % (user_pkey, area, start_year, start_month, 12, temp_mode, sub_mode)
-        monthly_output_file = folder_path + 'result/%d/past_%s_%d_%d_%d_T%d_S%d_monthly' % (user_pkey, area, start_year, start_month, 12, temp_mode, sub_mode)
+        daily_output_file = folder_prediction_path + 'result/%d/past_%s_%d_%d_%d_T%d_S%d_daily' % (user_pkey, area, start_year, start_month, 12, temp_mode, sub_mode)
+        monthly_output_file = folder_prediction_path + 'result/%d/past_%s_%d_%d_%d_T%d_S%d_monthly' % (user_pkey, area, start_year, start_month, 12, temp_mode, sub_mode)
 
         # db_session.add(MonthlyTable1(resource=sort, location=area, model_name=model, start_date=start_date, temp_option=temp_mode, sub_option=sub_mode, save_daily=daily_output_file, save_monthly=monthly_output_file))
         db_session.add(ResultTable(resource=sort, location=area, model_name=model, start_date=start_date, temp_option=temp_mode, sub_option=sub_mode, save_file2=daily_output_file, save_file1=monthly_output_file))
@@ -1180,8 +1180,8 @@ def predict_monthly2(sort,area,model,start_date,user_pkey):
     ## DB에 키가 없을 경우. except로 넘어감.
     try:
 
-        daily_output_file = folder_path + 'result/%d/coming_%s_%d_%d_%d_daily' % (user_pkey, area, start_year, start_month, 24)
-        monthly_output_file = folder_path + 'result/%d/coming_%s_%d_%d_%d_monthly' % (user_pkey, area, start_year, start_month, 24)
+        daily_output_file = folder_prediction_path + 'result/%d/coming_%s_%d_%d_%d_daily' % (user_pkey, area, start_year, start_month, 24)
+        monthly_output_file = folder_prediction_path + 'result/%d/coming_%s_%d_%d_%d_monthly' % (user_pkey, area, start_year, start_month, 24)
 
         db_session.add(ResultTable(resource=sort, location=area, model_name=model, start_date=start_date, save_file1=monthly_output_file, save_file2=daily_output_file))
         db_session.commit()
@@ -1216,7 +1216,7 @@ def predict_yearly(sort,area,model,start_date, user_pkey):
 
     ## DB에 키가 없을 경우. except로 넘어감.
     try:
-        result_path = folder_path + 'result/%d/yearly/' % (user_pkey)
+        result_path = folder_prediction_path + 'result/%d/yearly/' % (user_pkey)
         monthly_save = result_path + 'coming_' + area + '_' + str(start_year) + '_to_' + str(start_year + 5) + '_monthly' + '.csv'
         yearly_save = result_path + 'coming_' + area + '_' + str(start_year) + '_to_' + str(start_year + 5) + '_yearly' + '.csv'
         print(monthly_save)

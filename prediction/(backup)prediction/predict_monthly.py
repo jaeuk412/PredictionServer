@@ -1,6 +1,6 @@
 import pandas as pd
 import numpy as np
-from API.api_helper.user_directory import folder_path
+from API.api_helper.user_directory import folder_prediction_path
 
 import os
 import re
@@ -39,7 +39,7 @@ def check_and_prepare_data(area, op_mode, temp_mode, sub_mode):
 			insu_year_list.append(insu_number[0])
 	insu_latest_year = int(max(insu_year_list))
 	# - find the latest month of insu data
-	insu_latest_data = pd.read_csv(folder_path+'data/insu/%s_insu_%d'%(area, insu_latest_year), delim_whitespace=True)
+	insu_latest_data = pd.read_csv(folder_prediction_path + 'data/insu/%s_insu_%d' % (area, insu_latest_year), delim_whitespace=True)
 	insu_latest_month = 0
 	for tmon in range(1, 13):
 		same_month = insu_latest_data[insu_latest_data['month']== tmon]
@@ -56,7 +56,7 @@ def check_and_prepare_data(area, op_mode, temp_mode, sub_mode):
 			sub_year_list.append(sub_number[0])
 	sub_latest_year = int(max(sub_year_list))
 	# - find the latest month of sub data
-	sub_latest_data = pd.read_csv(folder_path+'data/sub/%s_sub_%d'%(area, sub_latest_year), delim_whitespace=True)
+	sub_latest_data = pd.read_csv(folder_prediction_path + 'data/sub/%s_sub_%d' % (area, sub_latest_year), delim_whitespace=True)
 	sub_latest_month = 0
 	for tmon in range(1, 13):
 		same_month = sub_latest_data[sub_latest_data['month']== tmon]
@@ -88,14 +88,14 @@ def check_and_prepare_data(area, op_mode, temp_mode, sub_mode):
 	if op_mode == 1 :
 		# - check temp files. the required files include the data of recent 4 years (input for prediction of latest_year) and the data of latest_year (predictio target. we need this to calculate prediction accuracy)
 		for tyear in range(latest_year-4, latest_year+1):
-			if not os.path.isfile(folder_path+'data/temperature/%s_temp_%d'%(area, tyear)):
+			if not os.path.isfile(folder_prediction_path + 'data/temperature/%s_temp_%d' % (area, tyear)):
 				print ("The required file [./data/temperature/%s_temp_%d] does not exist"%(area, tyear))
 				predict_common.gen_temp_file(area, tyear)
 				print ("The required file [./data/temperature/%s_temp_%d] is generated"%(area, tyear))
 
 		# - check date files
 		for tyear in range(latest_year-4, latest_year+1):
-			if not os.path.isfile(folder_path+'data/date/date_info_Y%d'%(tyear)):
+			if not os.path.isfile(folder_prediction_path + 'data/date/date_info_Y%d' % (tyear)):
 				print ("The required file [./data/date/date_info_Y%d] does not exist"%(tyear))
 				predict_common.gen_date_file(tyear)
 				print ("The required file [./data/date/date_info_Y%d] is generated"%(tyear))
@@ -126,13 +126,13 @@ def check_and_prepare_data(area, op_mode, temp_mode, sub_mode):
 		# for each considered year
 		for current_year in year_list:
 			# - check availability of date file and generate if required
-			if not os.path.isfile(folder_path+'data/date/date_info_Y%d'%(current_year)):
+			if not os.path.isfile(folder_prediction_path + 'data/date/date_info_Y%d' % (current_year)):
 				print ("The required file [./data/date/date_info_Y%d] does not exist"%(current_year))
 				predict_common.gen_date_file(current_year)
 				print ("The required file [./data/date/date_info_Y%d] is generated"%(current_year))
 
 		# - remove the previously used files if any
-		used_files_if_any = "rm -rf " + folder_path + "data/tmp_for_pred/*"
+		used_files_if_any = "rm -rf " + folder_prediction_path + "data/tmp_for_pred/*"
 		os.system(used_files_if_any)
 
 		# - copy the available files to use them temporarily

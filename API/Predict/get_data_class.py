@@ -11,7 +11,7 @@ import pandas as pd
 import numpy as np
 '''directory'''
 from API.Predict.set_data_class import set_predic_data
-from API.api_helper.user_directory import folder_path, folder_path2
+from API.api_helper.user_directory import folder_prediction_path, folder_prediction2_path
 from API.api_helper.api_helper import devide_date
 ''' '''
 
@@ -39,7 +39,7 @@ class get_predic_data(object):
         # start_month = int(start_date[4:6])
         # start_day = int(start_date[6:8])
 
-        path = folder_path + 'result/%d/predict_%s_%s_%s_%s_daily' % (user_key, predicArea, start_year, start_month, start_day)
+        path = folder_prediction_path + 'result/%d/predict_%s_%s_%s_%s_daily' % (user_key, predicArea, start_year, start_month, start_day)
         # file = '/home/uk/PredictionServer/prediction/result/predict_naju_2019_1_1_daily'
         print(path)
         if not os.path.isfile(path):
@@ -110,7 +110,7 @@ class get_predic_data(object):
     ## set에서 실행 시킨후 get에서 value 얻으면 됨.
 
     def get_Monthly_latest_12months_daily_value(self, predicArea, start_year, start_month, temp_mode, sub_mode, user_key):
-        path = folder_path+'result/%d/past_%s_%d_%d_%d_T%d_S%d_daily'%(user_key, predicArea, start_year, start_month, 12, temp_mode, sub_mode)
+        path = folder_prediction_path + 'result/%d/past_%s_%d_%d_%d_T%d_S%d_daily' % (user_key, predicArea, start_year, start_month, 12, temp_mode, sub_mode)
         # file = '/home/uk/PredictionServer/prediction/prediction_ETRI/result/predict_naju_2019_1_1_daily'
         print(path)
         if not os.path.isfile(path):
@@ -156,7 +156,7 @@ class get_predic_data(object):
 
 
     def get_Monthly_latest_12months_monthly_value(self, predicArea, start_year, start_month, temp_mode, sub_mode, user_key):
-        path = folder_path+'result/%d/past_%s_%d_%d_%d_T%d_S%d_monthly'%(user_key, predicArea, start_year, start_month, 12, temp_mode, sub_mode)
+        path = folder_prediction_path + 'result/%d/past_%s_%d_%d_%d_T%d_S%d_monthly' % (user_key, predicArea, start_year, start_month, 12, temp_mode, sub_mode)
         # file = '/home/uk/PredictionServer/prediction/prediction_ETRI/result/predict_naju_2019_1_1_daily'
         # print("=========================123====================================")
         # print(path)
@@ -240,7 +240,7 @@ class get_predic_data(object):
 
     ## set 실행 후, get으로 value 얻음.
     def get_Monthly_coming_24months_daily_value(self, predicArea, start_year, start_month, user_key):
-        path = folder_path + 'result/%d/coming_%s_%d_%d_%d_daily' % (
+        path = folder_prediction_path + 'result/%d/coming_%s_%d_%d_%d_daily' % (
             user_key, predicArea, start_year, start_month, 24)
         # file = '/home/uk/PredictionServer/prediction/prediction_ETRI/result/predict_naju_2019_1_1_daily'
         print(path)
@@ -289,7 +289,7 @@ class get_predic_data(object):
         return final_result
 
     def get_Monthly_coming_24months_monthly_value(self, predicArea, start_year, start_month,start_date):
-        path = folder_path + 'result/%d/coming_%s_%d_%d_%d_monthly' % (
+        path = folder_prediction_path + 'result/%d/coming_%s_%d_%d_%d_monthly' % (
         start_date, predicArea, start_year, start_month, 24)
         # file = '/home/uk/PredictionServer/prediction/prediction_ETRI/result/predict_naju_2019_1_1_daily'
         print(path)
@@ -352,7 +352,7 @@ class get_predic_data(object):
 
     #####################################################################
     def get_Yearly_coming_5years_month(self, predicArea, start_year, start_date):
-        path = folder_path + 'result/%d/yearly/coming_%s_%d_to_%d_monthly.csv' % (
+        path = folder_prediction_path + 'result/%d/yearly/coming_%s_%d_to_%d_monthly.csv' % (
             start_date, predicArea, start_year, start_year+5)
         # file = '/home/uk/PredictionServer/prediction/prediction_ETRI/result/predict_naju_2019_1_1_daily'
         print(path)
@@ -406,7 +406,7 @@ class get_predic_data(object):
 
 
     def get_Yearly_coming_5years_year(self, predicArea, start_year, start_date):
-        path = folder_path + 'result/%d/yearly/coming_%s_%d_to_%d_yearly.csv' % (
+        path = folder_prediction_path + 'result/%d/yearly/coming_%s_%d_to_%d_yearly.csv' % (
             start_date, predicArea, start_year, start_year + 5)
         # file = '/home/uk/PredictionServer/prediction/prediction_ETRI/result/predict_naju_2019_1_1_daily'
         # print(path)
@@ -480,7 +480,7 @@ class get_train_model(object):
     def train_model_result(self, filename):
 
         # 모델 결과 읽기.
-        file_path = folder_path2 + 'result/%d/%s.csv' % (self._key, filename)
+        file_path = folder_prediction2_path + 'result/%d/%s.csv' % (self._key, filename)
         # with open(file_path,'r') as f:
         #     result = f.read().splitlines()
 
@@ -646,13 +646,13 @@ def model_create(filename, period_start, period_end, period_start_time, period_e
 
 
     # print(final_result)
-    if not os.path.isdir(folder_path2 + 'result/%d' % (key)):
-        os.makedirs(folder_path2 + 'result/%d' % (key))
+    if not os.path.isdir(folder_prediction2_path + 'result/%d' % (key)):
+        os.makedirs(folder_prediction2_path + 'result/%d' % (key))
         pass
 
-    print(folder_path2 + 'result/%d/%s.csv' % (key, filename))
+    print(folder_prediction2_path + 'result/%d/%s.csv' % (key, filename))
 
-    with open(folder_path2 + 'result/%d/%s.csv' % (key, filename), 'w') as f:
+    with open(folder_prediction2_path + 'result/%d/%s.csv' % (key, filename), 'w') as f:
         f.write(str(final_result))
 
 

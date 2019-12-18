@@ -1,4 +1,3 @@
-
 import asyncio
 import websockets
 import datetime
@@ -8,7 +7,9 @@ from API.api_helper.user_directory import root_path
 from async_timeout import timeout
 from DB.DataBase.models import ResultTable
 from DB.DataBase.database import db_session, dbsearch
+from DB.DataBase.models import LocationTable, ModelTable
 from API.api_helper.api_helper import devide_date
+import time
 
 
 async def SendMsg1(websocket, path, result):
@@ -19,21 +20,14 @@ async def SendMsg2(websocket, path, result):
     await websocket.send(json.dumps(result))
 
 def db_query(data):
-    query = "SELECT model_name, location, start_date, user_key, temp_option, sub_option FROM result_save where key=%d" % (
+    query = "SELECT model, location, start_date, user_key, temp_option, sub_option FROM result_save where key=%d" % (
         int(data))
+    print(query)
     query_value = db_session.execute(query)
 
-    # ## 데이터 모델 종료 시간 -> 각 모델 마지막 종점에
-    # try:
-    #     put_key = db_session.query(ResultTable).get(int(data))
-    #     put_key.finished = datetime.datetime.now()
-    #
-    #     db_session.commit()
-    # except:
-    #     pass
 
-    # save_monthly
-    model_name = str()
+
+
 
     value = []
     for y1 in query_value:
@@ -41,17 +35,22 @@ def db_query(data):
         for x, y in y1.items():
             value.extend([y])
 
-    # print(value)
-    # print(type(value))
+    key_model = value[0]
+    model_value = db_session.query(ModelTable).get(key_model)
+    model_name = model_value.id
 
-    model_name = value[0]
+    key_area = value[1]
+    location_value = db_session.query(LocationTable).get(key_area)
+    area = location_value.id
 
-    area = value[1]
     start_date = value[2]
     start_year, start_month, start_day = devide_date(start_date)
     user_key = value[3]
     temp_option = value[4]
     sub_option = value[5]
+
+    print("model_name: ",model_name)
+    print("area: ",area)
 
     datass = []
     from API.Predict.get_data_class import get_predic_data
@@ -89,6 +88,7 @@ async def main(websocket, path):
         try:
             ## 생성된 파일 있으면 웹으로 send.
             files = os.listdir(root_path + '/detectkey')
+            # print("files: ",files)
             if files:
                 for i in files:
                     try:
@@ -113,6 +113,7 @@ async def main(websocket, path):
                 # jsonString = json.dumps(name)
                 data = json.loads(name)
                 print(data)
+                print(type(data))
 
                 if isinstance(data, dict):
                     data = data['dataset']
@@ -134,8 +135,11 @@ async def main(websocket, path):
             ## 종료된 소켓은 disconnect.
             if str(type(e)) == "<class 'websockets.exceptions.ConnectionClosed'>":
                 break
+        # time.sleep(5)
 
-print("web-socket")
+
+
+# print("web-socket")
 start_server = websockets.serve(main, "0.0.0.0", 10308)
 loop = asyncio.get_event_loop()
 loop.run_until_complete(start_server)

@@ -127,44 +127,54 @@ def api_auth_login():
 @user_apis.route('/auth/logout', methods=['GET', 'POST'])
 @crossdomain(origin='*')
 def api_auth_logout():
-    # form = LoginForm.from_json(request.json)
+    if request.method == 'GET':
+        try:
+            session.pop('logger')
+            return jsonify(True)
+        except:
+            return jsonify(False)
 
-    req = request.get_json()
-    jsonString = json.dumps(req)
-    data = json.loads(jsonString)
+    elif request.method == 'POST':
+        # form = LoginForm.from_json(request.json)
 
-    try:
-        userName = data['id']
-    except:
-        abort(400)
+        req = request.get_json()
+        jsonString = json.dumps(req)
+        data = json.loads(jsonString)
 
-    if userName:
+        try:
+            userName = data['id']
+        except:
+            abort(400)
 
-        userno = db_session.query(Login.key).filter(Login.id == userName).all()
+        if userName:
 
-        if userno:
-            userno = userno[0]
-            userno = userno[0]
+            userno = db_session.query(Login.key).filter(Login.id == userName).all()
 
-            user = db_session.query(Login).get(userno)
+            if userno:
+                userno = userno[0]
+                userno = userno[0]
 
-            if user.id == userName:
-                session.pop('logger')
+                user = db_session.query(Login).get(userno)
 
-                # for key in session.keys():
-                #     session.pop(key)
+                if user.id == userName:
+                    session.pop('logger')
 
-                return jsonify(True)
+                    # for key in session.keys():
+                    #     session.pop(key)
+
+                    return jsonify(True)
+
+                else:
+                    return jsonify(False)
 
             else:
                 return jsonify(False)
 
         else:
-            return jsonify(False)
+            for i in session:
+                session.pop(i)
 
-    else:
-        for i in session:
-            session.pop(i)
+
 
 '''
 {
@@ -230,24 +240,53 @@ def api_auth_restore():
 
 
 
-@user_apis.route('/users', methods=['GET'])
+@user_apis.route('/users', methods=['GET','PUT'])
 @crossdomain(origin='*')
 def api_users():
-    # print session
-    # query = db_session.query(Login).order_by(Login.id.asc())
-    query = "select * from login ORDER BY key"
-    records = db_session.execute(query)
+    if request.method =='GET':
+        # print session
+        # query = db_session.query(Login).order_by(Login.id.asc())
+        query = "select * from login ORDER BY key"
+        records = db_session.execute(query)
 
-    count = db_session.query(func.count('*')).select_from(Login).scalar()
-    print(count)
+        count = db_session.query(func.count('*')).select_from(Login).scalar()
+        print(count)
+
+        result = []
+        for i in records:
+            result.append(dict(i))
+
+        fresult = {"data": result, "total": count}
+        return jsonify(fresult)
+    elif request.method =='PUT':
+        req = request.get_json()
+        jsonString = json.dumps(req)
+        data = json.loads(jsonString)
+
+        try:
+            # form = LoginForm.from_json(request.json)
+
+            id = data['id']
+            pw = data['password']
+
+            # 2019-11-11 16:57:49.54101
+            key = db_session.query(Login.key).filter(Login.id == str(id))
+            print(key)
+            login = db_session.query(Login).get(key)
+            print('==========')
+            print(login)
+
+            login.id = id
+            login.password = pw
+            db_session.commit()
+
+            return jsonify(True)
+
+        except Exception as e:
+            print(e)
+            abort(400)
 
 
-    result=[]
-    for i in records:
-        result.append(dict(i))
-
-    fresult = {"data":result,"total":count}
-    return jsonify(fresult)
 
 
 @user_apis.route('/users/<string:userid>', methods=['GET'])
@@ -321,12 +360,13 @@ def api_useredit(userid):
         abort(400)
 
 
-@user_apis.route('/users/<int:userid>/exists', methods=['GET'])
+@user_apis.route('/users/idcheck/<string:userid>', methods=['GET'])
 @crossdomain(origin='*')
 def api_userexist(userid):
 
     try:
-        query = db_session.query(Login).filter(Login.id == str(userid))
+        # query = db_session.query(Login).filter(Login.id == str(userid))
+        query = "select * from login where id='%s'" % (str(userid))
         result = db_session.execute(query)
 
         rect = []
@@ -344,7 +384,7 @@ def api_userexist(userid):
 
 
 
-@user_apis.route('/users/<int:userid>', methods=['DELETE'])
+@user_apis.route('/users/<string:userid>', methods=['DELETE'])
 def api_userDel(userid):
     key = db_session.query(Login.key).filter(Login.id == str(userid))
     login = db_session.query(Login).get(key)

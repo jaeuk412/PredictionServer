@@ -2,10 +2,16 @@
 
 import sys, os
 import threading
-import queue
 from multiprocessing import current_process
 from celery import Celery
 from API.api_helper.user_directory import root_path
+
+
+## 큐 처리.
+from threading import Thread
+from queue import Queue
+import time
+
 from celery.exceptions import SoftTimeLimitExceeded
 from celery import task
 from flask_sse import sse
@@ -38,6 +44,31 @@ filepath = root_path+'/detectkey/'
 # 	print('shut')
 
 ################################################################################
+# 큐
+in_queue = Queue()
+
+# thread = Thread(target=work).start()
+
+def work(name):
+    try:
+        while 1:
+            if in_queue.empty() == True:
+                break
+            else:
+                time.sleep(1)
+                print('work3while')
+                print(in_queue.empty())
+                pass
+        print('work3')
+        in_queue.put_nowait(name)   # 큐를 넣는다.
+        ## 실행.
+        in_queue.get_nowait() ## 큐 완료되면 뺴냄.
+
+        print('work-done3')
+    except:
+        print('work3 pass')
+        pass
+################################################################################
 
 
 
@@ -55,6 +86,8 @@ def daily_exe(predicArea, start_year, start_month, start_day, date, user_key, de
     sys.path.insert(0, root_path)
     from prediction.predict_daily import main
     main(str(predicArea), int(start_year), int(start_month), int(start_day), int(date), user_key, detectkey)
+
+    print('dddddddddddddddddddddddddddddddddddddddddddddddd')
     # message="daily_" + str(detectkey)
     #
     # if not os.path.isdir(filepath):

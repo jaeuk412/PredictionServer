@@ -1,6 +1,6 @@
 import pandas as pd
 import numpy as np
-from API.api_helper.user_directory import folder_path
+from API.api_helper.user_directory import folder_prediction_path
 
 # # # # # # # # # # # # # # # # # # # # # # # #
 #              F u n c t i o n s              #

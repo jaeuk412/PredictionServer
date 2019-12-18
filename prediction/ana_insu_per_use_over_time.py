@@ -1,7 +1,7 @@
 from calendar import monthrange
 import pandas as pd
 import numpy as np
-from API.api_helper.user_directory import folder_path
+from API.api_helper.user_directory import folder_prediction_path
 
 def ana_insu_per_use_over_time(area, start_year, end_year):
 

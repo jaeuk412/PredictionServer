@@ -84,6 +84,14 @@ class ModelTable(Base):
     id = Column(String(100), unique=True, nullable=False)
     name = Column(String(500), nullable=True)
 
+class SmartcityTable(Base):
+    __tablename__ = 'smartcity'
+    key = Column(Integer, primary_key=True, autoincrement=True)
+    inserted = Column(DateTime, default=datetime.datetime.now())
+    icon = Column(String(100), nullable=True)
+    title = Column(String(500), nullable=True)
+    path = Column(String(500), unique=True, nullable=True)
+
 # class DailyTable(Base):
 #     __tablename__ = 'daily'
 #     pkey = Column(Integer, primary_key=True, autoincrement=True)

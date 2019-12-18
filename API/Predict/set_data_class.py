@@ -8,7 +8,7 @@ import requests
 import pandas as pd
 import json# 현재 예측 단기/중기 .csv 저장소 -> 'naju_mid_term_2019_10_03' 형식으로
 '''directory'''
-from API.api_helper.user_directory import folder_path
+from API.api_helper.user_directory import folder_prediction_path
 from API.api_helper.api_helper import response_json_list, response_json_value
 
 # pd 리스트 모두 출력.
@@ -31,6 +31,12 @@ class set_predic_data(object):
     def set_Daily_coming_30days(self, predicArea, start_year, start_month, start_day, user_key, detectkey):
         # set_Daily_coming_30day_short_trem_save, set_Daily_coming_30day_mid_trem_save 로 단기3일, 중기 8일 예측 저장하고
         # set_Daily_coming_30day 함수로 모델링 하는거 까지. (결과 불러오는 거는 중간에 계속 불러올 수 있으니 따로 함수)
+        print(predicArea)
+        print(start_year)
+        print(start_month)
+        print(start_day)
+        print(user_key)
+        print(detectkey)
 
         ## todo: 유민씨 API 받아오는 곳 아침 7시를 기준으로 그날 7시가 안되면 전날짜로 요청, 7시 넘으면 해당 날짜로.
         ## TODO: 수정해야함. start_day(20191007) 받으면 11일기록 받는 함수로 유민씨 API---------------------------
@@ -48,11 +54,13 @@ class set_predic_data(object):
         weather = set_weather_data(predicArea)
         json_data = weather.set_predict_short_mid_term(date)
 
-        # print("json_data", json_data)
+
+
+        print("json_data", json_data)
         # 데이터 저장.
         ## 받아온 json 값에서 short/mid로 나눈다.
 
-        short_mid_folder = folder_path + 'data/forecast/%s/' % (date)
+        short_mid_folder = folder_prediction_path + 'data/forecast/%s/' % (date)
         print("shomid_folder: ",short_mid_folder)
 
         result_value = dict()
@@ -88,7 +96,7 @@ class set_predic_data(object):
                 # print(short_value)
                 if not os.path.isdir(short_mid_folder):
                     os.makedirs(short_mid_folder)
-                with open(folder_path + 'data/forecast/%s/%s_short_term' % (date, predicArea), 'w') as s:
+                with open(folder_prediction_path + 'data/forecast/%s/%s_short_term' % (date, predicArea), 'w') as s:
                     s.write(str(short_value))
                 result_value = dict()
                 max_dict = dict()
@@ -100,31 +108,29 @@ class set_predic_data(object):
 
 
         mid_value = pd.DataFrame(result_value)
-
         # print(mid_value)
+
         if not os.path.isdir(short_mid_folder):
             os.makedirs(short_mid_folder)
-        with open(folder_path + 'data/forecast/%s/%s_mid_term' % (date, predicArea), 'w') as s:
+        with open(folder_prediction_path + 'data/forecast/%s/%s_mid_term' % (date, predicArea), 'w') as s:
             s.write(str(mid_value))
-
         # ## todo : Date로 저장한곳 찾아서 실행.
         #
         # ## /data/weather, insu, sub에 오늘보다 이전 데이터가 있어야함.
-
         # print("start backtask of api")
-
         from backtasks import daily
+        # daily.apply_async((predicArea, start_year, start_month, start_day, date, user_key, detectkey), queue='lopri', countdown=10)
+        ## lopri라는 큐에 task를 전송하고 10초 후 실행.
         daily.delay(predicArea, start_year, start_month, start_day, date, user_key, detectkey)
-
         # from prediction.prediction_ETRI.predict_daily import main
         # main(predicArea, start_year, start_month, start_day, date)
 
-        return 0
+        return
 
     ## short term save
     def set_Daily_coming_30day_short_trem_save(self, predicArea, date):
         # 해당 날짜 or 시간을 기입해 파일생성. 하루 이기 떄문에 시간은 0000, 2400 고정
-        short_term_path = folder_path + 'data/forecast/%s/%s_short_term' % (date, predicArea)
+        short_term_path = folder_prediction_path + 'data/forecast/%s/%s_short_term' % (date, predicArea)
         print("short_path: ", short_term_path)
         get_weather = set_weather_data(predicArea)
         get_list = ["t3h","tmn","tmx"]
@@ -138,7 +144,7 @@ class set_predic_data(object):
 
     ## mid_term save
     def set_Daily_coming_30day_mid_trem_save(self, predicArea, date):
-        mid_term_path = folder_path + 'data/forecast/%s/%s_mid_term' % (date, predicArea)
+        mid_term_path = folder_prediction_path + 'data/forecast/%s/%s_mid_term' % (date, predicArea)
         print("mid_path: ",mid_term_path)
         get_weather = set_weather_data(predicArea)
         get_list = ["maxTemp","minTemp","avgTemp"]
@@ -316,10 +322,18 @@ class set_weather_data(object):
 
         Date = '%d.%d.%d' % (start_year, start_month, start_day)
 
-        # http://192.168.0.139:19480/api/weather/58,74/autoenergy?baseDate=2019.10.07
-        query = 'http://192.168.0.139:19480/api/weather/%s/autoenergy?baseDate=%s' % (
-            self._area_grid, Date)
-        r = requests.get(query).json()
+        try:
+
+            # http://192.168.0.139:19480/api/weather/58,74/autoenergy?baseDate=2019.10.07
+            query = 'http://192.168.0.139:19480/api/weather/%s/autoenergy?baseDate=%s' % (
+                self._area_grid, Date)
+            r = requests.get(query).json()
+        except Exception as e:
+            print(e)
+            print("weather_error")
+
+
+        print('--2323232----')
         # print(r)
         # r = '[%s]' % (r)
         # json_data = pd.read_json(r)

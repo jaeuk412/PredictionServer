@@ -3,7 +3,7 @@ import numpy as np
 import resource
 
 # sys.path.insert(0, '/home/uk/PredictionServer')
-from API.api_helper.user_directory import folder_path, root_path
+from API.api_helper.user_directory import folder_prediction_path, root_path
 from DB.DataBase.models import ResultTable
 from DB.DataBase.database import db_session
 from functools import wraps
@@ -19,7 +19,7 @@ from sklearn.model_selection import RandomizedSearchCV
 
 _, hard = resource.getrlimit(resource.RLIMIT_DATA)
 resource.setrlimit(resource.RLIMIT_DATA, (12000, hard))
-# resource.setrlimit(resource.RLIMIT_NPROC, (1,1))
+# resource.setrlimit(resource.RLIMIT_NPROC, (8,8))
 # resource.setrlimit(resource.RLIMIT_CPU, (1,2))
 # param = {
 #         'num_leaves': 7,
@@ -117,7 +117,7 @@ def get_test_data(area, pred_mode, start_year, start_month, start_day, date):
 
     # get the number of subscribers from the latest sub data
     # - find the latest year of available sub data
-    sub_file_list = os.listdir(folder_path + 'data/sub')
+    sub_file_list = os.listdir(folder_prediction_path + 'data/sub')
     sub_year_list = []
     for sub_file in sub_file_list:
         sub_number = re.findall("\d+", sub_file)
@@ -126,7 +126,7 @@ def get_test_data(area, pred_mode, start_year, start_month, start_day, date):
     sub_latest_year = int(max(sub_year_list))
 
     # - load the identified latest sub data
-    sub_data = pd.read_csv(folder_path + 'data/sub/%s_sub_%d' % (area, sub_latest_year), delim_whitespace=True)
+    sub_data = pd.read_csv(folder_prediction_path + 'data/sub/%s_sub_%d' % (area, sub_latest_year), delim_whitespace=True)
     last_sub_data = sub_data.tail(1)
     sub_same_date_data = last_sub_data.filter(regex=("sub.*"))
 
@@ -139,7 +139,7 @@ def get_test_data(area, pred_mode, start_year, start_month, start_day, date):
         # - load the short-term forecast data
         # TODO: need to crawl forecast data and store the forecast into the following location
         # short_term_data = pd.read_csv(folder_path+'data/forecast/%s_%s_short_term'%(area, date_vaule), delim_whitespace=True)
-        short_term_data = pd.read_csv(folder_path + 'data/forecast/%s/%s_short_term' % (date, area),
+        short_term_data = pd.read_csv(folder_prediction_path + 'data/forecast/%s/%s_short_term' % (date, area),
                                       delim_whitespace=True)
         # print("short_term_data: ",short_term_data)
         for index, row in short_term_data.iterrows():
@@ -159,7 +159,7 @@ def get_test_data(area, pred_mode, start_year, start_month, start_day, date):
         # - load the mid-term forecast data
         # TODO: need to crawl forecast data and store the forecast into the following location
         # mid_term_data = pd.read_csv(folder_path+'data/forecast/%s_%s_mid_term'%(area, date_vaule), delim_whitespace=True)
-        mid_term_data = pd.read_csv(folder_path + 'data/forecast/%s/%s_mid_term' % (date, area),
+        mid_term_data = pd.read_csv(folder_prediction_path + 'data/forecast/%s/%s_mid_term' % (date, area),
                                     delim_whitespace=True)
         for index, row in mid_term_data.iterrows():
             avgTemp = row['avgTemp']
@@ -185,7 +185,6 @@ def get_train_data(area, start_year, start_month):
         start_year: int, target year of prediction
         start_month: int, target month of prediction
     '''
-
     # true data before start_year.start_month should be used
     target = datetime.date(start_year, start_month, 1)
     target = target - datetime.timedelta(days=25)
@@ -193,28 +192,28 @@ def get_train_data(area, start_year, start_month):
     for tyear in range(target.year - 4, target.year + 1):
 
         # load the weather data
-        temp_data_tmp = pd.read_csv(folder_path + 'data/weather/%s_weather_%d' % (area, tyear), delim_whitespace=True)
+        temp_data_tmp = pd.read_csv(folder_prediction_path + 'data/weather/%s_weather_%d' % (area, tyear), delim_whitespace=True)
         if tyear == target.year - 4:
             temp_data = temp_data_tmp
         else:
             temp_data = temp_data.append(temp_data_tmp)
 
         # load the insu data
-        insu_data_tmp = pd.read_csv(folder_path + 'data/insu/%s_insu_%d' % (area, tyear), delim_whitespace=True)
+        insu_data_tmp = pd.read_csv(folder_prediction_path + 'data/insu/%s_insu_%d' % (area, tyear), delim_whitespace=True)
         if tyear == target.year - 4:
             insu_data = insu_data_tmp
         else:
             insu_data = insu_data.append(insu_data_tmp)
 
         # load the sub data
-        sub_data_tmp = pd.read_csv(folder_path + 'data/sub/%s_sub_%d' % (area, tyear), delim_whitespace=True)
+        sub_data_tmp = pd.read_csv(folder_prediction_path + 'data/sub/%s_sub_%d' % (area, tyear), delim_whitespace=True)
         if tyear == target.year - 4:
             sub_data = sub_data_tmp
         else:
             sub_data = sub_data.append(sub_data_tmp)
 
         # load the daily insu data
-        insu_data_tmp = pd.read_csv(folder_path + 'data/insu/%s_insu_%d' % (area, tyear), delim_whitespace=True)
+        insu_data_tmp = pd.read_csv(folder_prediction_path + 'data/insu/%s_insu_%d' % (area, tyear), delim_whitespace=True)
         if tyear == target.year - 4:
             insu_data = insu_data_tmp
         else:
@@ -370,13 +369,13 @@ def main(area, start_year, start_month, start_day, date, user_key, detectkey):
     # print(kwda)
     # print(type(kwda))
 
-    folder = folder_path + 'result/%d' % (user_key)
+    folder = folder_prediction_path + 'result/%d' % (user_key)
     if not os.path.isdir(folder):
         os.makedirs(folder)
 
     # print("main_start_day: ", start_day)
 
-    daily_output_file = folder_path + 'result/%d/predict_%s_%d_%d_%d_daily' % (user_key, area, start_year, start_month, start_day)
+    daily_output_file = folder_prediction_path + 'result/%d/predict_%s_%d_%d_%d_daily' % (user_key, area, start_year, start_month, start_day)
     daily_f = open(daily_output_file, 'w')
 
     daily_f.write(str(pred_all))

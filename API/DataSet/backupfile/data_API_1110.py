@@ -20,7 +20,7 @@ from werkzeug.datastructures import FileStorage
 '''directory'''
 from DB.DataBase.database import db_session, dbsearch, dbsearch1
 from DB.DataBase.models import DailyTable, MonthlyTable1, MonthlyTable2, YearlyTable, Login
-from API.api_helper.user_directory import folder_path3, folder_path
+from API.api_helper.user_directory import folder_dataupload_path, folder_prediction_path
 from API.api_helper.api_helper import response_json_value, response_json_list
 import collections
 from sqlalchemy import func
@@ -44,11 +44,11 @@ def file_attach():
         strtime = 'temp_'+ nowDate + nowTime+'_'
         file_list = list()
 
-        if not os.path.isdir(folder_path3):
-            os.mkdir(folder_path3)
+        if not os.path.isdir(folder_dataupload_path):
+            os.mkdir(folder_dataupload_path)
 
         for f in request.files.getlist('file-key'):
-            f.save(folder_path3 + secure_filename(strtime+f.filename))
+            f.save(folder_dataupload_path + secure_filename(strtime + f.filename))
             file_list.append(strtime+f.filename)
 
         result = {"file-key":file_list}
@@ -82,7 +82,7 @@ def file_create():
         datacount = 0
         for i in data:
 
-            data[datacount] = folder_path3 + i
+            data[datacount] = folder_dataupload_path + i
             datacount += 1
 
         ## temp 붙은거 삭제.
@@ -97,13 +97,13 @@ def file_create():
             except:
                 pass
 
-        files = os.listdir(folder_path3)
+        files = os.listdir(folder_dataupload_path)
 
         ## temp 붙은 파일 삭제 (추후 자동 업데이트로)
         for i in files:
             if 'temp' in i:
                 try:
-                    os.remove(folder_path3 + i)
+                    os.remove(folder_dataupload_path + i)
                 except:
                     pass
 
@@ -115,7 +115,7 @@ def file_create():
 ## ReadAll files
 @data_apis.route('/filelist', methods=['GET'])
 def api_file_search():
-    files = os.listdir(folder_path3)
+    files = os.listdir(folder_dataupload_path)
 
     return jsonify(files)
 
@@ -206,7 +206,7 @@ def api_data_search_all():
                 final_value_list=[]
                 for ddstart in datelist:
                     final_result = dict()
-                    path = folder_path + 'data/insu/%s_insu_%d' % (area.lower(), ddstart)
+                    path = folder_prediction_path + 'data/insu/%s_insu_%d' % (area.lower(), ddstart)
                     print(path)
                     dataname = 'insu_sum'
                     ## '/home/uk/PredictionServer/prediction/data/insu/naju_insu_2019'

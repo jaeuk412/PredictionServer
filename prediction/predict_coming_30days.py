@@ -1,7 +1,7 @@
 import pandas as pd
 import numpy as np
 import prediction.predict_common as predict_common
-from API.api_helper.user_directory import folder_path
+from API.api_helper.user_directory import folder_prediction_path
 
 # # # # # # # # # # # # # # # # # # # # # # # #
 #              F u n c t i o n s              #
@@ -60,7 +60,7 @@ def predict_temp(area, target_year, target_mon, target_day):
 	for tyear in range(target_year-4, target_year):
 
 		# read the temp data
-		temp_data_tmp = pd.read_csv(folder_path+'data/temp/%s_temp_%d'%(area, tyear), delim_whitespace=True)
+		temp_data_tmp = pd.read_csv(folder_prediction_path + 'data/temp/%s_temp_%d' % (area, tyear), delim_whitespace=True)
 		# merge the read data into one data for easy processing
 		if tyear == target_year-4:
 			temp_data = temp_data_tmp	
@@ -112,7 +112,7 @@ def predict_sub_num(area, cat, target_year, target_mon, target_day):
 	# load the insu and sub data of recent 4 years
 	for tyear in range(target_year-4, target_year):
 		# read the insu and sub ddata
-		sub_data_tmp = pd.read_csv(folder_path+'data/sub/%s_sub_%d'%(area, tyear), delim_whitespace=True)
+		sub_data_tmp = pd.read_csv(folder_prediction_path + 'data/sub/%s_sub_%d' % (area, tyear), delim_whitespace=True)
 		# merge the read data into one data for easy processing
 		if tyear == target_year-4:
 			sub_data = sub_data_tmp	
@@ -178,20 +178,20 @@ def predict_avg_insu_by_temp_regression(area, cat, target_year, target_mon, targ
 	# use the data of recent 4 years for curve fitting
 	for tyear in range(target_year-4, target_year+1):
 
-		if not os.path.isfile(folder_path+'data/insu/%s_insu_%d'%(area, tyear)):
+		if not os.path.isfile(folder_prediction_path + 'data/insu/%s_insu_%d' % (area, tyear)):
 			continue
 
 		# read the temperature data
-		temp_data = pd.read_csv(folder_path+'data/temp/%s_temp_%d'%(area, tyear), delim_whitespace=True)
+		temp_data = pd.read_csv(folder_prediction_path + 'data/temp/%s_temp_%d' % (area, tyear), delim_whitespace=True)
 
 		# read the insu data
-		insu_data = pd.read_csv(folder_path+'data/insu/%s_insu_%d'%(area, tyear), delim_whitespace=True)
+		insu_data = pd.read_csv(folder_prediction_path + 'data/insu/%s_insu_%d' % (area, tyear), delim_whitespace=True)
 
 		# read the subscriber data
-		sub_data = pd.read_csv(folder_path+'data/sub/%s_sub_%d'%(area, tyear), delim_whitespace=True)
+		sub_data = pd.read_csv(folder_prediction_path + 'data/sub/%s_sub_%d' % (area, tyear), delim_whitespace=True)
 
 		# read the date data
-		date_data = pd.read_csv(folder_path+'data/date/date_info_Y%d'%(tyear), delim_whitespace=True)
+		date_data = pd.read_csv(folder_prediction_path + 'data/date/date_info_Y%d' % (tyear), delim_whitespace=True)
 
 		# extract data realted to mon_list
 		for tmon in mon_list: 
@@ -247,7 +247,7 @@ def predict_avg_insu_by_temp_regression(area, cat, target_year, target_mon, targ
 
 
 	# get the date info of target_year.target_mon
-	date_data = pd.read_csv(folder_path+'data/date/date_info_Y%d'%(target_year), delim_whitespace=True)
+	date_data = pd.read_csv(folder_prediction_path + 'data/date/date_info_Y%d' % (target_year), delim_whitespace=True)
 
 	target = datetime.date(target_year, target_mon, target_day)
 	target_date_list = []
@@ -291,7 +291,7 @@ def predict_avg_insu_by_averaging(area, cat, target_year, target_mon, target_day
 	for tyear in range(target_year-3, target_year):
 
 		# read the insu data
-		insu_data_tmp = pd.read_csv(folder_path+'data/insu/%s_insu_%d'%(area, tyear), delim_whitespace=True)
+		insu_data_tmp = pd.read_csv(folder_prediction_path + 'data/insu/%s_insu_%d' % (area, tyear), delim_whitespace=True)
 		# - merge the read data into one data for easy processing
 		if tyear == target_year-3:
 			insu_data = insu_data_tmp	
@@ -299,7 +299,7 @@ def predict_avg_insu_by_averaging(area, cat, target_year, target_mon, target_day
 			insu_data = insu_data.append(insu_data_tmp)
 
 		# read the sub data
-		sub_data_tmp = pd.read_csv(folder_path+'data/sub/%s_sub_%d'%(area, tyear), delim_whitespace=True)
+		sub_data_tmp = pd.read_csv(folder_prediction_path + 'data/sub/%s_sub_%d' % (area, tyear), delim_whitespace=True)
 		# - merge the read data into one data for easy processing
 		if tyear == target_year-3:
 			sub_data = sub_data_tmp	
@@ -307,7 +307,7 @@ def predict_avg_insu_by_averaging(area, cat, target_year, target_mon, target_day
 			sub_data = sub_data.append(sub_data_tmp)
 
 		# read the date data
-		date_data_tmp = pd.read_csv(folder_path+'data/date/date_info_Y%d'%(tyear), delim_whitespace=True)
+		date_data_tmp = pd.read_csv(folder_prediction_path + 'data/date/date_info_Y%d' % (tyear), delim_whitespace=True)
 		# - merge the read data into one data for easy processing
 		if tyear == target_year-3:
 			date_data = date_data_tmp	
@@ -319,7 +319,7 @@ def predict_avg_insu_by_averaging(area, cat, target_year, target_mon, target_day
 	mon_days = monthrange(target_year, target_mon)[1] 
 	
 	# read the date data of the target_year
-	target_date_data = pd.read_csv(folder_path+'data/date/date_info_Y%d'%(target_year), delim_whitespace=True)
+	target_date_data = pd.read_csv(folder_prediction_path + 'data/date/date_info_Y%d' % (target_year), delim_whitespace=True)
 
 	prev_avg_insu = []
 	target = datetime.date(target_year, target_mon, target_day)
@@ -416,7 +416,7 @@ def predict_avg_insu_by_curve_fitting(area, cat, target_year, target_mon, target
 	for tyear in range(target_year-3, target_year):
 
 		# load the insu data
-		insu_data_tmp = pd.read_csv(folder_path+'data/insu/%s_insu_%d'%(area, tyear), delim_whitespace=True)
+		insu_data_tmp = pd.read_csv(folder_prediction_path + 'data/insu/%s_insu_%d' % (area, tyear), delim_whitespace=True)
 		# - merge the read data into one data for easy handling
 		if tyear == target_year-3:
 			insu_data = insu_data_tmp	
@@ -424,7 +424,7 @@ def predict_avg_insu_by_curve_fitting(area, cat, target_year, target_mon, target
 			insu_data = insu_data.append(insu_data_tmp)
 
 		# load the sub data
-		sub_data_tmp = pd.read_csv(folder_path+'data/sub/%s_sub_%d'%(area, tyear), delim_whitespace=True)
+		sub_data_tmp = pd.read_csv(folder_prediction_path + 'data/sub/%s_sub_%d' % (area, tyear), delim_whitespace=True)
 		# - merge the read data into one data for easy handling
 		if tyear == target_year-3:
 			sub_data = sub_data_tmp	
@@ -432,7 +432,7 @@ def predict_avg_insu_by_curve_fitting(area, cat, target_year, target_mon, target
 			sub_data = sub_data.append(sub_data_tmp)
 		
 		# date data
-		date_data_tmp = pd.read_csv(folder_path+'data/date/date_info_Y%d'%(tyear), delim_whitespace=True)
+		date_data_tmp = pd.read_csv(folder_prediction_path + 'data/date/date_info_Y%d' % (tyear), delim_whitespace=True)
 		# - merge the read data into one data for easy handling
 		if tyear == target_year-3:
 			date_data = date_data_tmp	
@@ -443,7 +443,7 @@ def predict_avg_insu_by_curve_fitting(area, cat, target_year, target_mon, target
 	mon_days = monthrange(target_year, target_mon)[1] 
 
 	# read the date data of the target_year
-	target_date_data = pd.read_csv(folder_path+'data/date/date_info_Y%d'%(target_year), delim_whitespace=True)
+	target_date_data = pd.read_csv(folder_prediction_path + 'data/date/date_info_Y%d' % (target_year), delim_whitespace=True)
 
 	prev_avg_insu = []
 	target = datetime.date(target_year, target_mon, target_day)

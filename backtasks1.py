@@ -1,121 +1,110 @@
-import sys, os
-import threading
-from celery import Celery
-import gc
-#import tensorflow as tf
-from celery.signals import worker_init, worker_shutdown
+from threading import Thread
+from queue import Queue
+import time
 
-
-# celery = Celery('task', broker='pyamqp://uk:0000@localhost:5672/doky_host')
-celery = Celery('task', broker='pyamqp://uk:0000@localhost:5672')
-
-# worker_max_memory_per_child = 3000000  # 3000MB
-# broker_trainsport_options = {'visibility_timeout':18000}
-# CUDA_VISIBLE_DEVICES = ''
-
-
-#워커가 초기화됬을때
-@worker_init.connect
-def init_worker(**kwargs):
-	print('init')
-
-#워커가 종료됬을때
-@worker_shutdown.connect
-def shutdown_worker(**kwargs):
-	print('shut')
-################################################################################
-
-@celery.task(name='task')
-def daily(predicArea, start_year, start_month, start_day, date):
-    print("celery")
-    Thread = threading.Thread(target=daily_exe, args=(predicArea, start_year, start_month, start_day, date))
-    Thread.start()
-
-
-def daily_exe(predicArea, start_year, start_month, start_day, date):
-    print("celery_exe")
-    print("=============================================")
-    print("=============================================")
-    from prediction.predict_daily import main
-    main(str(predicArea), int(start_year), int(start_month), int(start_day), int(date))
-    return 0
-
-################################################################################
-
-
-@celery.task(name='psycho_2_7.backtasks.thread_prepro')
-def thread_prepro(dpath, cpath, dataNum2):
-    Thread = threading.Thread(target=preprocessing, args=(dpath, cpath, dataNum2))
-    # Thread = threading.Thread(target=preprocessing, args=())
-    Thread.start()
-
-# max_calls_per_worker=1
-
-# @cached_property
-@celery.task(name='psycho_2_7.backtasks.thread_training')
-def thread_training(dataid,modelid,tname,epochs, batch):
-    # Thread = threading.Thread(target=training, args=(dataid,modelid,tname,epochs, batch))
-    # Thread.start()
-    return 0
-
-
-@celery.task(name='psycho_2_7.backtasks.thread_tests')
-def thread_tests(dataid,modelid,testid,trainname):
-    Thread = threading.Thread(target=tests, args=(dataid,modelid,testid,trainname))
-    Thread.start()
-
-
-# Original functions ==================================================================================================
-def preprocessing(dpath, cpath, dataNum2):
-    # sys.path.insert(0, '/home/imr-ai/psycho_2_7/ProjectEn/backend_test')
-    # from preprocess_MFCC import preprocessing
-
-    # preprocessing(dpath, cpath, dataNum2)
-    return 0
-
-# @cached_property
-@celery.task(name='psycho_2_7.backtasks.trainings')
-def trainings(dataid, modelid, tname, epochs, batch):
-    #sys.path.insert(0, '/home/imr-ai/psycho_2_7/ProjectEn/backend_test')
-    # from train_anomaly2 import training
-
-    #reset_keras()
-    #with tf.device("/job:local/task:0"):
-
-    # training(dataid, modelid, tname, epochs, batch)
-    # tf.reset_default_graph()
-
-    # sys.path.insert(0, '/home/imr-ai/psycho_2_7/ProjectEn/backend_test')
-    # from train_anomaly2 import training
-    #
-    # training(dataid, modelid, tname, epochs, batch)
-    return 0
-
-
-    # K.clear_session()
+in_queue = Queue()  # 크기가 1인 버퍼
 
 
 
+def consumer():
+    print('Consumer 1waiting')
+    work = in_queue.get()  # 두 번째로 완료
+    print('Consumer 3working')
+    # 작업 수행
+    # ...
+    print('Consumer 4done')
+    in_queue.task_done()  # 세 번째로 완려
+
+def work():
+    try:
+        print('work1')
+
+        while 1:
+            if in_queue.empty() == True:
+                break
+            else:
+                time.sleep(1)
+                print('work1while')
+                print(in_queue.empty())
+                pass
+
+        in_queue.put_nowait('work1') ## 큐를 비운다.
+        time.sleep(5)
+        in_queue.get_nowait()
+        # in_queue.task_done()  # 세 번째로 완려
+        print('work-done11')
+    except:
+        print('work1 pass')
+        pass
+
+def work2():
+    # try:
+    print('work2')
+    print(in_queue.empty())
+
+    while 1:
+        if in_queue.empty() == True:
+            break
+        else:
+            time.sleep(1)
+            print('work2while')
+            print(in_queue.empty())
+            pass
+
+    print('----------')
+
+    in_queue.put_nowait('work2')  # 큐를 넣는다.
+    time.sleep(6)
+    in_queue.get_nowait()
+    # in_queue.task_done()  # 세 번째로 완려
 
 
-    # sess = tf.Session(config=tf.ConfigProto(log_device_placement=True))
-    # with tf.device('/gpu:1'):
-    #     training(dataid, modelid, tname, epochs, batch)
+
+    print('work-done2')
+    # except:
+    #     print('work2 pass')
+    #     pass
 
 
-    # with tf.Graph().as_default():
-    #     gpu_options = tf.GPUOptions(allow_growth=True)
+def work3():
+    try:
+        while 1:
+            if in_queue.empty() == True:
+                break
+            else:
+                time.sleep(1)
+                print('work3while')
+                print(in_queue.empty())
+                pass
+        print('work3')
+        in_queue.put_nowait('work3')   # 큐를 넣는다.
+        # in_queue.join()
+        time.sleep(7)
+        in_queue.get_nowait()
+        # in_queue.task_done()  # 세 번째로 완려
+        print('work-done3')
+    except:
+        print('work3 pass')
+        pass
 
+def queuecheck():
+    for i in range(10):
+        print(in_queue.empty())
+        time.sleep(1)
 
+thread = Thread(target=work).start()
+time.sleep(1)
+# work2()
+thread2 = Thread(target=work2).start()
+thread3 = Thread(target=work3).start()
+# thread3 = Thread(target=queuecheck).start()
 
-    print("finished")
-    #tf.Session().reset("grpc://localhost:2222")
+# thread3 = Thread(target=work3).start()
 
+""" 이제 생산자는 조인으로 소비 스레드를 대기하거나 폴링하지 않아도 됨. 그냥 Queue 인스턴스의 join을 호출해 in_queue가 완료하기를
+기다리면 됨 심지어 큐가 비더라도 in_queue의 join메서드는 이미 큐에 추가된 모든 아이템에 task_done을 호출할 때까지 완료하지 않음"""
 
-
-def tests(dataid,modelid,testid,trainname):
-    # sys.path.insert(0, '/home/imr-ai/psycho_2_7/ProjectEn/anomaly_check')
-    # from anomaly_check3 import test
-    #
-    # test(dataid,modelid,testid,trainname)
-    return 0
+# in_queue.put(object())  # 첫 번째로 완료
+# print('Producer 2waiting')
+# in_queue.join()  # 네 번째로 완료
+# print('Producer 5done')
