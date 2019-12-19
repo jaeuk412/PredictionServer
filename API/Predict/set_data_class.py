@@ -118,10 +118,12 @@ class set_predic_data(object):
         #
         # ## /data/weather, insu, sub에 오늘보다 이전 데이터가 있어야함.
         # print("start backtask of api")
-        from backtasks import daily
+        from backtasks import daily, work
         # daily.apply_async((predicArea, start_year, start_month, start_day, date, user_key, detectkey), queue='lopri', countdown=10)
         ## lopri라는 큐에 task를 전송하고 10초 후 실행.
         daily.delay(predicArea, start_year, start_month, start_day, date, user_key, detectkey)
+        # work(predicArea, start_year, start_month, start_day, date, user_key, detectkey)
+
         # from prediction.prediction_ETRI.predict_daily import main
         # main(predicArea, start_year, start_month, start_day, date)
 

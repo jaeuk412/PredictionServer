@@ -698,12 +698,11 @@ def conduct_prediction(area, start_year, start_month, month_range, temp_mode, su
             # calculate prediction errors (only when there is true data)
             daily_mape, monthly_mape = predict_common.calc_errors(true_insu, est_insu)
 
-            print("%.1f %.1f %.1f " % (np.sum(est_insu), np.sum(true_insu), monthly_mape), end='')
+            # print("%.1f %.1f %.1f " % (np.sum(est_insu), np.sum(true_insu), monthly_mape), end='')
 
             output_data += "%.1f %.1f %.1f " % (np.sum(est_insu), np.sum(true_insu), monthly_mape)
 
-        print("%.1f %.1f %.2f" % (
-        monthly_pred_sum, monthly_true_sum, abs(monthly_true_sum - monthly_pred_sum) * 100 / monthly_true_sum))
+        # print("%.1f %.1f %.2f" % (monthly_pred_sum, monthly_true_sum, abs(monthly_true_sum - monthly_pred_sum) * 100 / monthly_true_sum))
         output_data += "%.1f %.1f %.2f\n" % (
         monthly_pred_sum, monthly_true_sum, abs(monthly_true_sum - monthly_pred_sum) * 100 / monthly_true_sum)
 

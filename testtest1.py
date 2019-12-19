@@ -1,32 +1,21 @@
-import datetime
-from pytz import timezone, utc
+import os
+from API.api_helper.user_directory import root_path, folder_detectkey_path
+import time
 
-KST = timezone('Asia/Seoul')
 
-now = datetime.datetime.utcnow()
-# UTC 기준 naive datetime : datetime.datetime(2019, 2, 15, 4, 18, 28, 805879)
 
-utc.localize(now)
-# UTC 기준 aware datetime : datetime.datetime(2019, 2, 15, 4, 18, 28, 805879, tzinfo=<UTC>)
+w_break = 0
+while 1:
+    if w_break == 1:
+        break
 
-KST.localize(now)
-# UTC 시각, 시간대만 KST : datetime.datetime(2019, 2, 15, 4, 18, 28, 805879, tzinfo=<DstTzInfo 'Asia/Seoul' KST+9:00:00 STD>)
-
-utc.localize(now).astimezone(KST)
-# KST 기준 aware datetime : datetime.datetime(2019, 2, 15, 13, 18, 28, 805879, tzinfo=<DstTzInfo 'Asia/Seoul' KST+9:00:00 STD>)
-
-KST = timezone('Asia/Seoul')
-TW = timezone('Asia/Taipei')
-
-date = datetime.datetime.now()
-# datetime.datetime(2019, 2, 15, 13, 59, 44, 872224)
-print(date)
-date.replace(hour=10) # hour만 변경
-# datetime.datetime(2019, 2, 15, 10, 59, 44, 872224)
-
-print(date.replace(tzinfo=KST)) # tzinfo만 변경
-# datetime.datetime(2019, 2, 15, 13, 59, 44, 872224, tzinfo=<DstTzInfo 'Asia/Seoul' LMT+8:28:00 STD>)
-
-print(date.replace(tzinfo=TW)) # tzinfo만 변경
-# datetime.datetime(2019, 2, 15, 13, 59, 44, 872224, tzinfo=<DstTzInfo 'Asia/Taipei' LMT+8:06:00 STD>)
-
+    ## temp 붙은 파일 삭제 (추후 자동 업데이트로)
+    files = os.listdir(folder_detectkey_path)
+    print(files)
+    for i in files:
+        if 'temp' in i:
+            print('in_temp')
+            w_break=1
+        else:
+            print('pass')
+            pass

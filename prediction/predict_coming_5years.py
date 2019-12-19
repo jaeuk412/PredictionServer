@@ -28,7 +28,7 @@ def main(area, year, start_date, user_key, detectkey):
         os.mkdir(folder_prediction_path + 'result/%d/yearly' % (user_key))
 
     result_path = folder_prediction_path + 'result/%d/yearly/' % (user_key)
-    print(result_path)
+    # print(result_path)
     # area = 'naju'
     # current_year = 2019
     current_year = year
@@ -37,22 +37,22 @@ def main(area, year, start_date, user_key, detectkey):
         insu_data_past_5years = pd.DataFrame()
 
         for tyear in range(current_year - 5, current_year):
-            print('target_years: ', tyear)
+            # print('target_years: ', tyear)
             insu_data_tmp = pd.read_csv(folder_prediction_path + 'data/tmp_for_pred/insu/%s_insu_%d' % (area, tyear),
                                         delim_whitespace=True)
-            print(insu_data_tmp.shape)
+            # print(insu_data_tmp.shape)
             insu_data_past_5years = insu_data_past_5years.append(
                 insu_data_tmp)  # concat 쓸수도 있는데, 본래 코드에서 append를 주로 사용하셔서 통일함.
 
         return insu_data_past_5years
 
     insu_data_past_5years = load_insu_data(area, current_year)
-    print(insu_data_past_5years.head(10))
-    print(insu_data_past_5years.shape)
+    # print(insu_data_past_5years.head(10))
+    # print(insu_data_past_5years.shape)
 
     insu_data_past_5years_sum = insu_data_past_5years[['year', 'month', 'date', 'insu_sum']]
-    print(insu_data_past_5years_sum.head(10))
-    print(insu_data_past_5years_sum.shape)
+    # print(insu_data_past_5years_sum.head(10))
+    # print(insu_data_past_5years_sum.shape)
 
     print(insu_data_past_5years_sum.loc[
           (insu_data_past_5years_sum['year'] == 2014) & (insu_data_past_5years_sum['month'] == 1), :])
@@ -61,14 +61,14 @@ def main(area, year, start_date, user_key, detectkey):
     # print(insu_month)
 
     for year in range(current_year - 5, current_year):
-        print('Year: ', year)
+        # print('Year: ', year)
         for month in range(1, 12 + 1):
-            print('Month: ', month)
+            # print('Month: ', month)
             insu_monthly = insu_data_past_5years_sum.loc[
                            (insu_data_past_5years_sum['year'] == year) & (insu_data_past_5years_sum['month'] == month),
                            :]
             insu_monthly_sum = insu_monthly['insu_sum'].sum()
-            print('sum: ', insu_monthly_sum)
+            # print('sum: ', insu_monthly_sum)
             date_index = str(year) + '-' + str(month)
             # insu_month = insu_month.append(pd.DataFrame([[date_index, year, month, insu_monthly_sum]], columns=['Datetime', 'year', 'month', 'insu']), ignore_index=True)
             insu_month = insu_month.append(
@@ -81,9 +81,9 @@ def main(area, year, start_date, user_key, detectkey):
     insu_month = insu_month.set_index('Datetime')
     # https://stackoverflow.com/questions/27032052/how-do-i-properly-set-the-datetimeindex-for-a-pandas-datetime-object-in-a-datafr
 
-    print(insu_month)
-    print(insu_month.shape)
-    print(insu_month.dtypes)
+    # print(insu_month)
+    # print(insu_month.shape)
+    # print(insu_month.dtypes)
 
     # 2월 윤달로 인해 365일인 해가 있고, 366일인 해가 있는데, 현재는 년간 총량을 보는 거라 우선 이 부분은 배제, 이후에 필요하면 휴일 체크하듯이 체크해서 년별로 고려해줘야함.
 
@@ -157,7 +157,7 @@ def main(area, year, start_date, user_key, detectkey):
 
     # print('train data:', train_data)
     model_fit = model.fit()
-    print('len_traindata:', len(train_data))
+    # print('len_traindata:', len(train_data))
     # print(train_data_x.tail(10))
     # print(train_data_x.describe())
 
@@ -170,24 +170,24 @@ def main(area, year, start_date, user_key, detectkey):
     yhat_confidence = yhat.conf_int()  # confidence interval
     yhat = yhat.predicted_mean
 
-    print('prediction:', yhat)
-    print('prediction_shape:', yhat.shape)
-
-    print('prediction_conf_int:', yhat_confidence)
+    # print('prediction:', yhat)
+    # print('prediction_shape:', yhat.shape)
+    #
+    # print('prediction_conf_int:', yhat_confidence)
 
     MSE = ((yhat.head(prediction_range_past) - train_data.tail(prediction_range_past)) ** 2).mean()
-    print('MSE:', MSE)
+    # print('MSE:', MSE)
 
     RMSE = np.sqrt(MSE)
-    print('RMSE:', RMSE)
+    # print('RMSE:', RMSE)
 
-    print('max:', train_data.max())
-    print('min:', train_data.min())
-    print('range:', train_data.max() - train_data.min())
+    # print('max:', train_data.max())
+    # print('min:', train_data.min())
+    # print('range:', train_data.max() - train_data.min())
 
     error_rate = RMSE / (train_data.max() - train_data.min()) * 100
     error_rate = round(error_rate, 2)
-    print('error_rate:' + str(error_rate) + ' %')
+    # print('error_rate:' + str(error_rate) + ' %')
 
     error_total.append(error_rate)
 
@@ -206,18 +206,18 @@ def main(area, year, start_date, user_key, detectkey):
     # plt.show()
     plt.savefig(result_path + '5years_Gas-insu_prediction' + '.png')
 
-    print('error_total:')
-    print(error_total)
-    print('error_total_len:')
-    print(len(error_total))
+    # print('error_total:')
+    # print(error_total)
+    # print('error_total_len:')
+    # print(len(error_total))
     error_total = [x for x in error_total if ~np.isnan(x)]  # nan 걸러네기.
-    print('error_total_without Nan:')
-    print(error_total)
-    print('error_total_without Nan_len:')
-    print(len(error_total))
+    # print('error_total_without Nan:')
+    # print(error_total)
+    # print('error_total_without Nan_len:')
+    # print(len(error_total))
 
     error_mean = np.mean(error_total)
-    print('error_mean:' + str(error_mean) + ' %')
+    # print('error_mean:' + str(error_mean) + ' %')
 
     # train_data.iloc[:, 0:10].plot()
     # plt.show()
@@ -230,8 +230,8 @@ def main(area, year, start_date, user_key, detectkey):
     insu_coming_5years_monthly = pd.DataFrame(columns=['year', 'month', 'pred_monthly_insu'])
     output_monthly = yhat.iloc[-(prediction_range_future + 1):]
     i = 0
-    print(output_monthly)
-    print(output_monthly.shape)
+    # print(output_monthly)
+    # print(output_monthly.shape)
     for year in range(current_year, current_year + 5, 1):
         for month in range(1, 12 + 1, 1):
             insu_coming_5years_monthly = insu_coming_5years_monthly.append(
@@ -240,8 +240,8 @@ def main(area, year, start_date, user_key, detectkey):
                 ignore_index=True)
             i = i + 1
 
-    print(insu_coming_5years_monthly)
-    print(insu_coming_5years_monthly.shape)
+    # print(insu_coming_5years_monthly)
+    # print(insu_coming_5years_monthly.shape)
 
     insu_coming_5years_monthly.to_csv(
         result_path + 'coming_' + area + '_' + str(current_year) + '_to_' + str(current_year + 5) + '_monthly' + '.csv',
@@ -252,8 +252,8 @@ def main(area, year, start_date, user_key, detectkey):
     prediction_year = current_year
     for one_year in range(1, 60, 12):
         sum_one_year = output_monthly.iloc[:one_year].sum()
-        print(one_year)
-        print(sum_one_year)
+        # print(one_year)
+        # print(sum_one_year)
         insu_coming_5years_yearly = insu_coming_5years_yearly.append(
             pd.DataFrame([[str(prediction_year), float(sum_one_year)]], columns=['year', 'pred_yearly_insu']),
             ignore_index=True)
@@ -263,11 +263,13 @@ def main(area, year, start_date, user_key, detectkey):
     # 현재는 입력한 년도부터 향후 5년에 대해 1월부터 12월까지를 기준으로 년간 데이터 합산 결과 만듬.
     output_yearly = insu_coming_5years_yearly
     # output_yearly = output_yearly.set_index('year')
-    print(output_yearly)
-    print(output_yearly.shape)
+    # print(output_yearly)
+    # print(output_yearly.shape)
     output_yearly.to_csv(
         # result_path + 'coming_' + area + '_' + str(current_year) + '_to_' + str(current_year + 5) + '_yearly' + '.csv',
         mode='w', index=False, sep=' ')
+
+    import datetime
 
     try:
         put_key = db_session.query(ResultTable).get(int(detectkey))

@@ -89,22 +89,32 @@ def api_auth_login():
                 # print(userkey)
                 # print(type(userkey))
 
-                query = "select * from login where key=%d"%(userkey)
-                query = db_session.execute(query)
+                query = "select id, key, level, inserted from login where key=%d"%(userkey)
+                records = db_session.execute(query)
 
                 ## db_session.query(Login).filter(Login.key == userkey)
 
-                records = []
-                for row in query:
-                    records.append(dict(row))
-                # print("======================")
-                # print("records: ",records)
-                # print(login.password)
-                # print(userPw)
+                result = []
+                for row in records:
+                    result.append(dict(row))
+                # result = []
+                #
+                # for i in records:
+                #     # print(i)
+                #     result_dict = dict()
+                #     for x, y in i.items():
+                #         # print(x,y)
+                #         if x == 'password':
+                #             y = True
+                #
+                #         result_dict.update({x: y})
+                #     # print(result_dict)
+                #
+                #     result.append(result_dict)
                 if userPw:
                     if login.password == userPw:
                         session['logger'] = userId
-                        return response_json_value(records)
+                        return response_json_value(result)
                     else:
                         return jsonify(False)
                 else:
@@ -194,7 +204,7 @@ def api_auth_restore():
 
     userName = data['id']
     # print(userName)
-    # print(session)
+    print(session)
 
     try:
         key = session['logger']
@@ -210,7 +220,7 @@ def api_auth_restore():
                 userno = userno[0]
                 userno = userno[0]
 
-                query = "select * from login where key=%s"%(userno)
+                query = "select id, key, level, inserted from login where key=%s"%(userno)
                 query = db_session.execute(query)
                 ##db_session.query(Login).filter(Login.key == userno)
                 records = []
@@ -220,7 +230,7 @@ def api_auth_restore():
                 user = db_session.query(Login).get(userno)
 
                 if user.id == userName:
-                    return jsonify(records[0])
+                    return response_json_value(records)
 
                 else:
                     # print('3')
@@ -246,11 +256,26 @@ def api_users():
     if request.method =='GET':
         # print session
         # query = db_session.query(Login).order_by(Login.id.asc())
-        query = "select * from login ORDER BY key"
+        query = "select id, key, level, inserted from login ORDER BY key"
         records = db_session.execute(query)
 
         count = db_session.query(func.count('*')).select_from(Login).scalar()
         print(count)
+
+        # result = []
+        #
+        # for i in records:
+        #     # print(i)
+        #     result_dict = dict()
+        #     for x, y in i.items():
+        #         # print(x,y)
+        #         if x == 'password':
+        #             y = True
+        #
+        #         result_dict.update({x: y})
+        #     # print(result_dict)
+        #
+        #     result.append(result_dict)
 
         result = []
         for i in records:
@@ -293,17 +318,31 @@ def api_users():
 @crossdomain(origin='*')
 def api_usersid(userid):
     # query = db_session.query(Login).filter(Login.id == str(userid))
-    query = "select * from login where id='%s'"%(str(userid))
-    result = db_session.execute(query)
+    query = "select id, key, level, inserted from login where id='%s'"%(str(userid))
+    records = db_session.execute(query)
 
-    rect = []
+    result = []
 
-    for row in result:
-        rect.append(row)
+    for row in records:
+        result.append(row)
+    # result = []
+    #
+    # for i in records:
+    #     # print(i)
+    #     result_dict = dict()
+    #     for x, y in i.items():
+    #         # print(x,y)
+    #         if x == 'password':
+    #             y = True
+    #
+    #         result_dict.update({x: y})
+    #     # print(result_dict)
+    #
+    #     result.append(result_dict)
 
     # dict1 = [dict(record) for record in rect]
 
-    return response_json_value(rect)
+    return response_json_value(result)
 
 
 @user_apis.route('/users', methods=['POST'])
@@ -317,16 +356,24 @@ def api_userAdd():
 
     print(data)
 
-    try:
-        ids = data['id']
-        pw = data['password']
+    # try:
+    ids = data['id']
+    pw = data['password']
 
-        db_session.add(Login(id=ids, password=pw))
-        db_session.commit()
+    db_session.add(Login(id=ids, password=pw))
+    db_session.commit()
 
-        return jsonify(True)
-    except:
-        return jsonify(False)
+    query = "select id, key, level, inserted from login where id='%s'" % (str(ids))
+    records = db_session.execute(query)
+
+    result = []
+
+    for row in records:
+        result.append(row)
+
+    return response_json_value(result)
+    # except:
+    #     return jsonify(False)
 
 
 @user_apis.route('/users/<string:userid>', methods=['PUT'])
@@ -344,16 +391,21 @@ def api_useredit(userid):
 
         #2019-11-11 16:57:49.54101
         key = db_session.query(Login.key).filter(Login.id == str(userid))
-        print(key)
         login = db_session.query(Login).get(key)
-        print('==========')
-        print(login)
 
         login.id = id
         login.password = pw
         db_session.commit()
 
-        return jsonify(True)
+        query = "select id, key, level, inserted from login where id='%s'" % (str(id))
+        records = db_session.execute(query)
+
+        result = []
+
+        for row in records:
+            result.append(row)
+
+        return response_json_value(result)
 
     except Exception as e:
         print(e)
@@ -367,20 +419,34 @@ def api_userexist(userid):
     try:
         # query = db_session.query(Login).filter(Login.id == str(userid))
         query = "select * from login where id='%s'" % (str(userid))
-        result = db_session.execute(query)
+        records = db_session.execute(query)
 
-        rect = []
-        for row in result:
-            rect.append(row)
+        result = []
 
-        if not rect:
-            return jsonify(False)
+        for i in records:
+            # print(i)
+            result_dict = dict()
+            for x, y in i.items():
+                # print(x,y)
+                if x == 'password':
+                    y = True
+
+                result_dict.update({x: y})
+            # print(result_dict)
+
+            result.append(result_dict)
+        # rect = []
+        # for row in result:
+        #     rect.append(row)
+
+        if not result:
+            return jsonify(True)
         else:
-            return response_json_value(rect)
+            return jsonify(False)
 
     except Exception as e:
         print(e)
-        return jsonify(False)
+        abort(400)
 
 
 

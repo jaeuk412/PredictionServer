@@ -3,12 +3,12 @@ import websockets
 import datetime
 import os
 import json
-from API.api_helper.user_directory import root_path
 from async_timeout import timeout
 from DB.DataBase.models import ResultTable
 from DB.DataBase.database import db_session, dbsearch
 from DB.DataBase.models import LocationTable, ModelTable
 from API.api_helper.api_helper import devide_date
+from API.api_helper.user_directory import folder_detectkey_path
 import time
 
 
@@ -24,10 +24,6 @@ def db_query(data):
         int(data))
     print(query)
     query_value = db_session.execute(query)
-
-
-
-
 
     value = []
     for y1 in query_value:
@@ -87,20 +83,22 @@ async def main(websocket, path):
     while True:
         try:
             ## 생성된 파일 있으면 웹으로 send.
-            files = os.listdir(root_path + '/detectkey')
+            files = os.listdir(folder_detectkey_path)
             # print("files: ",files)
             if files:
                 for i in files:
-                    try:
-                        datass = db_query(i)
-                        # result = {"data": {"dataset": i}}
-                        result = {"type": "predicted", "dataset": {"id": int(i), "dataset": datass}}
-                        Send1 = asyncio.ensure_future((SendMsg2(websocket, path, result)))
-                        asyncio.as_completed(Send1)
-                        ## send된 파일 제거.
-                        os.remove(root_path + '/detectkey/' + i)
-                    except:
-                        pass
+                    if 'DONE' in i:
+                        try:
+                            queryi = i.split('_')[1]
+                            datass = db_query(queryi)
+                            # result = {"data": {"dataset": i}}
+                            result = {"type": "predicted", "dataset": {"id": int(queryi), "dataset": datass}}
+                            Send1 = asyncio.ensure_future((SendMsg2(websocket, path, result)))
+                            asyncio.as_completed(Send1)
+                            ## send된 파일 제거.
+                            os.remove(folder_detectkey_path + i)
+                        except:
+                            pass
 
             # if count == 0:
             #     websocket.recv()

@@ -5,75 +5,31 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="997b5422-ce25-402f-99ae-daebf021415c" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/DataSet/backupfile/data_API_1110.py" beforeDir="false" afterPath="$PROJECT_DIR$/API/DataSet/backupfile/data_API_1110.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/DataSet/data_API.py" beforeDir="false" afterPath="$PROJECT_DIR$/API/DataSet/data_API.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/API/Login/login_API.py" beforeDir="false" afterPath="$PROJECT_DIR$/API/Login/login_API.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Predict/backupfile/1011get_data_class.py" beforeDir="false" afterPath="$PROJECT_DIR$/API/Predict/backupfile/1011get_data_class.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Predict/backupfile/1012v1_predic_API.py" beforeDir="false" afterPath="$PROJECT_DIR$/API/Predict/backupfile/1012v1_predic_API.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Predict/get_data_class.py" beforeDir="false" afterPath="$PROJECT_DIR$/API/Predict/get_data_class.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/API/Predict/predic_API.py" beforeDir="false" afterPath="$PROJECT_DIR$/API/Predict/predic_API.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/API/Predict/set_data_class.py" beforeDir="false" afterPath="$PROJECT_DIR$/API/Predict/set_data_class.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/API/api_helper/user_directory.py" beforeDir="false" afterPath="$PROJECT_DIR$/API/api_helper/user_directory.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DB/DataBase/model_API.py" beforeDir="false" afterPath="$PROJECT_DIR$/DB/DataBase/model_API.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/DB/DataBase/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/DB/DataBase/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/aaaaa" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/backtasks.py" beforeDir="false" afterPath="$PROJECT_DIR$/backtasks.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backtasks1.py" beforeDir="false" afterPath="$PROJECT_DIR$/backtasks1.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/lib/python3.5/site-packages/lightgbm-2.2.3.dist-info/INSTALLER" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/lib/python3.5/site-packages/lightgbm-2.2.3.dist-info/LICENSE" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/lib/python3.5/site-packages/lightgbm-2.2.3.dist-info/METADATA" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/lib/python3.5/site-packages/lightgbm-2.2.3.dist-info/RECORD" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/lib/python3.5/site-packages/lightgbm-2.2.3.dist-info/WHEEL" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/lib/python3.5/site-packages/lightgbm-2.2.3.dist-info/top_level.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/lib/python3.5/site-packages/lightgbm/VERSION.txt" beforeDir="false" afterPath="$PROJECT_DIR$/bin/lib/python3.5/site-packages/lightgbm/VERSION.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/lib/python3.5/site-packages/lightgbm/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/bin/lib/python3.5/site-packages/lightgbm/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/lib/python3.5/site-packages/lightgbm/basic.py" beforeDir="false" afterPath="$PROJECT_DIR$/bin/lib/python3.5/site-packages/lightgbm/basic.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/lib/python3.5/site-packages/lightgbm/callback.py" beforeDir="false" afterPath="$PROJECT_DIR$/bin/lib/python3.5/site-packages/lightgbm/callback.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/lib/python3.5/site-packages/lightgbm/compat.py" beforeDir="false" afterPath="$PROJECT_DIR$/bin/lib/python3.5/site-packages/lightgbm/compat.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/lib/python3.5/site-packages/lightgbm/engine.py" beforeDir="false" afterPath="$PROJECT_DIR$/bin/lib/python3.5/site-packages/lightgbm/engine.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/lib/python3.5/site-packages/lightgbm/lib_lightgbm.so" beforeDir="false" afterPath="$PROJECT_DIR$/bin/lib/python3.5/site-packages/lightgbm/lib_lightgbm.so" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/lib/python3.5/site-packages/lightgbm/plotting.py" beforeDir="false" afterPath="$PROJECT_DIR$/bin/lib/python3.5/site-packages/lightgbm/plotting.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/lib/python3.5/site-packages/lightgbm/sklearn.py" beforeDir="false" afterPath="$PROJECT_DIR$/bin/lib/python3.5/site-packages/lightgbm/sklearn.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/pip-selfcheck.json" beforeDir="false" afterPath="$PROJECT_DIR$/bin/pip-selfcheck.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/detectkey/1" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/detectkey/14" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/detectkey/2" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/detectkey/3" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/detectkey/36" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/detectkey/None" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/(backup)prediction/Model_test.py" beforeDir="false" afterPath="$PROJECT_DIR$/prediction/(backup)prediction/Model_test.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/(backup)prediction/ana_insu_per_use_over_time.py" beforeDir="false" afterPath="$PROJECT_DIR$/prediction/(backup)prediction/ana_insu_per_use_over_time.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/(backup)prediction/crawling_temp.py" beforeDir="false" afterPath="$PROJECT_DIR$/prediction/(backup)prediction/crawling_temp.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/(backup)prediction/get_date_info.py" beforeDir="false" afterPath="$PROJECT_DIR$/prediction/(backup)prediction/get_date_info.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/(backup)prediction/predict_coming_24months.py" beforeDir="false" afterPath="$PROJECT_DIR$/prediction/(backup)prediction/predict_coming_24months.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/(backup)prediction/predict_coming_30days.py" beforeDir="false" afterPath="$PROJECT_DIR$/prediction/(backup)prediction/predict_coming_30days.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/(backup)prediction/predict_coming_5years.py" beforeDir="false" afterPath="$PROJECT_DIR$/prediction/(backup)prediction/predict_coming_5years.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/(backup)prediction/predict_common.py" beforeDir="false" afterPath="$PROJECT_DIR$/prediction/(backup)prediction/predict_common.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/(backup)prediction/predict_daily.py" beforeDir="false" afterPath="$PROJECT_DIR$/prediction/(backup)prediction/predict_daily.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/(backup)prediction/predict_monthly.py" beforeDir="false" afterPath="$PROJECT_DIR$/prediction/(backup)prediction/predict_monthly.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/(backup)prediction/predict_past_12months.py" beforeDir="false" afterPath="$PROJECT_DIR$/prediction/(backup)prediction/predict_past_12months.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/Model_test.py" beforeDir="false" afterPath="$PROJECT_DIR$/prediction/Model_test.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/ana_insu_per_use_over_time.py" beforeDir="false" afterPath="$PROJECT_DIR$/prediction/ana_insu_per_use_over_time.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/crawling_temp.py" beforeDir="false" afterPath="$PROJECT_DIR$/prediction/crawling_temp.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/get_date_info.py" beforeDir="false" afterPath="$PROJECT_DIR$/prediction/get_date_info.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/predict_coming_24months.py" beforeDir="false" afterPath="$PROJECT_DIR$/prediction/predict_coming_24months.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/predict_coming_30days.py" beforeDir="false" afterPath="$PROJECT_DIR$/prediction/predict_coming_30days.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/detectkey/24" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/detectkey/25" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/detectkey/27" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/detectkey/28" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/detectkey/[{'date': '2019-12-17 00:00:00', 'value': 143}]" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/prediction/data/tmp_for_pred/insu/naju_insu_2019" beforeDir="false" afterPath="$PROJECT_DIR$/prediction/data/tmp_for_pred/insu/naju_insu_2019" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/prediction/data/tmp_for_pred/insu/naju_insu_2020" beforeDir="false" afterPath="$PROJECT_DIR$/prediction/data/tmp_for_pred/insu/naju_insu_2020" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/prediction/data/tmp_for_pred/insu/naju_insu_2021" beforeDir="false" afterPath="$PROJECT_DIR$/prediction/data/tmp_for_pred/insu/naju_insu_2021" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/prediction/data/tmp_for_pred/sub/naju_sub_2019" beforeDir="false" afterPath="$PROJECT_DIR$/prediction/data/tmp_for_pred/sub/naju_sub_2019" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/prediction/data/tmp_for_pred/sub/naju_sub_2020" beforeDir="false" afterPath="$PROJECT_DIR$/prediction/data/tmp_for_pred/sub/naju_sub_2020" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/prediction/data/tmp_for_pred/sub/naju_sub_2021" beforeDir="false" afterPath="$PROJECT_DIR$/prediction/data/tmp_for_pred/sub/naju_sub_2021" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/prediction/predict_coming_5years.py" beforeDir="false" afterPath="$PROJECT_DIR$/prediction/predict_coming_5years.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/predict_common.py" beforeDir="false" afterPath="$PROJECT_DIR$/prediction/predict_common.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/predict_daily.py" beforeDir="false" afterPath="$PROJECT_DIR$/prediction/predict_daily.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/predict_monthly.py" beforeDir="false" afterPath="$PROJECT_DIR$/prediction/predict_monthly.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/prediction/predict_past_12months.py" beforeDir="false" afterPath="$PROJECT_DIR$/prediction/predict_past_12months.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/result/0/coming_naju_2019_10_24_daily" beforeDir="false" afterPath="$PROJECT_DIR$/prediction/result/0/coming_naju_2019_10_24_daily" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/result/0/coming_naju_2019_10_24_monthly" beforeDir="false" afterPath="$PROJECT_DIR$/prediction/result/0/coming_naju_2019_10_24_monthly" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/result/0/past_naju_2018_10_12_T0_S0_daily" beforeDir="false" afterPath="$PROJECT_DIR$/prediction/result/0/past_naju_2018_10_12_T0_S0_daily" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/prediction/result/0/predict_naju_2019_10_3_daily" beforeDir="false" afterPath="$PROJECT_DIR$/prediction/result/0/predict_naju_2019_10_3_daily" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/result/1/predict_naju_2019_10_30_daily" beforeDir="false" afterPath="$PROJECT_DIR$/prediction/result/1/predict_naju_2019_10_30_daily" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction2/result/0/daily_30001_1.csv" beforeDir="false" afterPath="$PROJECT_DIR$/prediction2/result/0/daily_30001_1.csv" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ssocket.py" beforeDir="false" afterPath="$PROJECT_DIR$/ssocket.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/static" beforeDir="false" afterPath="$PROJECT_DIR$/static" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/static/assets/development-environment.json" beforeDir="false" afterPath="$PROJECT_DIR$/static/assets/development-environment.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/testtest1.py" beforeDir="false" afterPath="$PROJECT_DIR$/testtest1.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -89,11 +45,11 @@
     <SUITE FILE_PATH="coverage/PredictionServer$jsonparsing2.coverage" NAME="jsonparsing2 Coverage Results" MODIFIED="1573722680619" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/prediction2/JSONparser/JSONparser" />
     <SUITE FILE_PATH="coverage/PredictionServer$sockettest.coverage" NAME="sockettest Coverage Results" MODIFIED="1573212403711" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/PredictionServer$machbase1.coverage" NAME="machbase1 Coverage Results" MODIFIED="1574832053717" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/DB/DataBase" />
-    <SUITE FILE_PATH="coverage/PredictionServer$testtest1.coverage" NAME="testtest1 Coverage Results" MODIFIED="1575955802436" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/PredictionServer$testtest1.coverage" NAME="testtest1 Coverage Results" MODIFIED="1576718961415" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/PredictionServer$data_API.coverage" NAME="data_API Coverage Results" MODIFIED="1573263499084" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/API/DataSet" />
     <SUITE FILE_PATH="coverage/PredictionServer$Jsonparsing.coverage" NAME="Jsonparsing Coverage Results" MODIFIED="1573709098494" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/prediction2/JSONparser/JSONparser" />
     <SUITE FILE_PATH="coverage/PredictionServer$predict_daily__1_.coverage" NAME="predict_daily (1) Coverage Results" MODIFIED="1576657515492" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/prediction" />
-    <SUITE FILE_PATH="coverage/PredictionServer$PredictionServer.coverage" NAME="PredictionServer Coverage Results" MODIFIED="1576659350512" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/PredictionServer$PredictionServer.coverage" NAME="PredictionServer Coverage Results" MODIFIED="1576730535734" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/PredictionServer$WebsocketServer.coverage" NAME="WebsocketServer Coverage Results" MODIFIED="1573129222616" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/PredictionServer$predict_daily.coverage" NAME="predict_daily Coverage Results" MODIFIED="1574641805606" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/prediction/prediction_ETRI" />
     <SUITE FILE_PATH="coverage/PredictionServer$backtasks1.coverage" NAME="backtasks1 Coverage Results" MODIFIED="1576657948089" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
@@ -103,7 +59,7 @@
     <SUITE FILE_PATH="coverage/PredictionServer$test.coverage" NAME="test Coverage Results" MODIFIED="1573387442470" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/API" />
     <SUITE FILE_PATH="coverage/PredictionServer$machbase.coverage" NAME="machbase Coverage Results" MODIFIED="1575248105336" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/DB/DataBase" />
     <SUITE FILE_PATH="coverage/PredictionServer$predict_common.coverage" NAME="predict_common Coverage Results" MODIFIED="1576657503283" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/prediction" />
-    <SUITE FILE_PATH="coverage/PredictionServer$ssocket.coverage" NAME="ssocket Coverage Results" MODIFIED="1576220139710" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/PredictionServer$ssocket.coverage" NAME="ssocket Coverage Results" MODIFIED="1576728218229" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/PredictionServer$socket.coverage" NAME="socket Coverage Results" MODIFIED="1573123793468" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
   <component name="DatabaseView">
@@ -122,11 +78,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/API/Predict/predic_API.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="200">
-              <caret line="262" column="23" lean-forward="true" selection-start-line="262" selection-start-column="23" selection-end-line="262" selection-end-column="23" />
+            <state relative-caret-position="514">
+              <caret line="622" column="21" selection-start-line="622" selection-start-column="21" selection-end-line="622" selection-end-column="21" />
               <folding>
                 <element signature="e#63#74#0" expanded="true" />
               </folding>
@@ -135,22 +91,10 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/backtasks.py">
+        <entry file="file://$PROJECT_DIR$/prediction/predict_past_12months.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="300">
-              <caret line="81" lean-forward="true" selection-start-line="81" selection-end-line="81" />
-              <folding>
-                <element signature="e#25#39#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/prediction/predict_daily.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="509">
-              <caret line="406" column="30" lean-forward="true" selection-start-line="406" selection-start-column="30" selection-end-line="406" selection-end-column="30" />
+            <state relative-caret-position="383">
+              <caret line="719" column="29" selection-start-line="719" selection-start-column="29" selection-end-line="719" selection-end-column="29" />
               <folding>
                 <element signature="e#0#19#0" expanded="true" />
               </folding>
@@ -159,33 +103,34 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/backtasks1.py">
+        <entry file="file://$PROJECT_DIR$/ssocket.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="683">
-              <caret line="61" lean-forward="true" selection-start-line="61" selection-end-line="61" />
+            <state relative-caret-position="480">
+              <caret line="63" column="79" selection-start-line="63" selection-start-column="79" selection-end-line="63" selection-end-column="79" />
               <folding>
-                <element signature="e#0#28#0" expanded="true" />
+                <element signature="e#0#14#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/queue_task.py">
+        <entry file="file://$PROJECT_DIR$/prediction/predict_daily.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-537">
+            <state relative-caret-position="49">
+              <caret line="383" column="4" selection-start-line="383" selection-start-column="4" selection-end-line="389" selection-end-column="12" />
               <folding>
-                <element signature="e#0#16#0" expanded="true" />
+                <element signature="e#0#19#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/ssocket.py">
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/API/Predict/set_data_class.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="180">
-              <caret line="9" column="56" lean-forward="true" selection-start-line="9" selection-start-column="56" selection-end-line="9" selection-end-column="56" />
+            <state relative-caret-position="414">
+              <caret line="169" column="126" selection-start-line="169" selection-start-column="126" selection-end-line="169" selection-end-column="126" />
             </state>
           </provider>
         </entry>
@@ -202,10 +147,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>data_start_date</find>
-      <find>ddstart</find>
-      <find>tmp_for_pred/temp</find>
-      <find>temperature</find>
       <find>useKind</find>
       <find>kind</find>
       <find>data</find>
@@ -232,6 +173,10 @@
       <find>session</find>
       <find>lightgbm</find>
       <find>Lightgbm</find>
+      <find>runningTime</find>
+      <find>detectkey</find>
+      <find>root</find>
+      <find>datetime</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -271,26 +216,26 @@
         <option value="$PROJECT_DIR$/prediction/predict_coming_30days.py" />
         <option value="$PROJECT_DIR$/prediction/Model_test.py" />
         <option value="$PROJECT_DIR$/prediction/crawling_temp.py" />
-        <option value="$PROJECT_DIR$/prediction/predict_past_12months.py" />
         <option value="$PROJECT_DIR$/prediction/predict_coming_24months.py" />
-        <option value="$PROJECT_DIR$/prediction/predict_coming_5years.py" />
         <option value="$PROJECT_DIR$/DB/DataBase/machbase.py" />
         <option value="$PROJECT_DIR$/DB/DataBase/database.py" />
         <option value="$PROJECT_DIR$/app.py" />
-        <option value="$PROJECT_DIR$/testtest1.py" />
-        <option value="$PROJECT_DIR$/DB/DataBase/models.py" />
         <option value="$PROJECT_DIR$/DB/DataBase/model_API.py" />
         <option value="$PROJECT_DIR$/API/DataSet/data_API.py" />
-        <option value="$PROJECT_DIR$/API/api_helper/user_directory.py" />
         <option value="$PROJECT_DIR$/API/Predict/get_data_class.py" />
-        <option value="$PROJECT_DIR$/ssocket.py" />
-        <option value="$PROJECT_DIR$/API/Predict/set_data_class.py" />
-        <option value="$PROJECT_DIR$/API/Login/login_API.py" />
-        <option value="$PROJECT_DIR$/API/Predict/predic_API.py" />
         <option value="$PROJECT_DIR$/backtasks1.py" />
         <option value="$PROJECT_DIR$/prediction/predict_common.py" />
-        <option value="$PROJECT_DIR$/backtasks.py" />
         <option value="$PROJECT_DIR$/prediction/predict_daily.py" />
+        <option value="$PROJECT_DIR$/API/api_helper/user_directory.py" />
+        <option value="$PROJECT_DIR$/API/Login/login_API.py" />
+        <option value="$PROJECT_DIR$/API/Predict/set_data_class.py" />
+        <option value="$PROJECT_DIR$/testtest1.py" />
+        <option value="$PROJECT_DIR$/ssocket.py" />
+        <option value="$PROJECT_DIR$/DB/DataBase/models.py" />
+        <option value="$PROJECT_DIR$/API/Predict/predic_API.py" />
+        <option value="$PROJECT_DIR$/prediction/predict_coming_5years.py" />
+        <option value="$PROJECT_DIR$/prediction/predict_past_12months.py" />
+        <option value="$PROJECT_DIR$/backtasks.py" />
       </list>
     </option>
   </component>
@@ -330,6 +275,13 @@
               <item name="PredictionServer" type="462c0819:PsiDirectoryNode" />
               <item name="API" type="462c0819:PsiDirectoryNode" />
               <item name="DataSet" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="PredictionServer" type="b2602c69:ProjectViewProjectNode" />
+              <item name="PredictionServer" type="462c0819:PsiDirectoryNode" />
+              <item name="API" type="462c0819:PsiDirectoryNode" />
+              <item name="DataSet" type="462c0819:PsiDirectoryNode" />
+              <item name="backupfile" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="PredictionServer" type="b2602c69:ProjectViewProjectNode" />
@@ -385,7 +337,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Flask server.PredictionServer">
+  <component name="RunManager" selected="Python.ssocket">
     <configuration name="backtasks1" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="PredictionServer" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -526,11 +478,11 @@
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.ssocket" />
+        <item itemvalue="Python.testtest1" />
         <item itemvalue="Python.backtasks1" />
         <item itemvalue="Python.predict_daily (1)" />
         <item itemvalue="Python.predict_common" />
-        <item itemvalue="Python.ssocket" />
-        <item itemvalue="Python.testtest1" />
       </list>
     </recent_temporary>
   </component>
@@ -557,23 +509,22 @@
       <workItem from="1574415674428" duration="6531000" />
       <workItem from="1574670199740" duration="146987000" />
       <workItem from="1575507271687" duration="108306000" />
-      <workItem from="1576474412586" duration="29934000" />
+      <workItem from="1576474412586" duration="52225000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="579741000" />
+    <option name="totallyTimeSpent" value="602032000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1975" y="-4" width="1865" height="1204" extended-state="6" />
-    <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.14474408" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.25591636" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32992566" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49972484" visible="true" weight="0.29832715" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.49972484" visible="true" weight="0.29832715" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.39962825" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -595,68 +546,8 @@
     <option name="version" value="1" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/prediction/data/sub/naju_sub_2018">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/prediction/__init__.py">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/prediction/ana_insu_per_use_over_time.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="250">
-          <caret line="14" column="19" lean-forward="true" selection-start-line="14" selection-start-column="19" selection-end-line="14" selection-end-column="19" />
-          <folding>
-            <element signature="e#0#31#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/prediction/crawling_temp.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="135">
-          <caret line="33" lean-forward="true" selection-start-line="33" selection-end-line="33" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/prediction/get_date_info.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="150">
-          <caret line="9" column="17" lean-forward="true" selection-start-line="9" selection-start-column="17" selection-end-line="9" selection-end-column="17" />
-          <folding>
-            <element signature="e#0#18#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/prediction/Model_test.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2080">
-          <caret line="114" column="20" lean-forward="true" selection-start-line="114" selection-start-column="20" selection-end-line="114" selection-end-column="20" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/prediction/Modeltest2.py">
       <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/prediction/predict_coming_5years.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="280">
-          <caret line="14" column="43" selection-start-line="14" selection-start-column="43" selection-end-line="14" selection-end-column="43" />
-          <folding>
-            <element signature="e#138#157#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/prediction/predict_coming_24months.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="443">
-          <caret line="754" column="12" selection-start-line="754" selection-start-column="12" selection-end-line="754" selection-end-column="12" />
-          <folding>
-            <element signature="e#0#19#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/bin/lib/python3.5/site-packages/lightgbm/basic.py">
       <provider selected="true" editor-type-id="text-editor">
@@ -674,16 +565,6 @@
           <caret line="193" column="46" selection-start-line="193" selection-start-column="46" selection-end-line="193" selection-end-column="46" />
           <folding>
             <element signature="e#1806#1817#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/API/api_helper/api_helper.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="360">
-          <caret line="18" column="16" selection-start-line="18" selection-start-column="4" selection-end-line="18" selection-end-column="16" />
-          <folding>
-            <element signature="e#25#36#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -765,16 +646,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/testtest1.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="543">
-          <caret line="32" selection-start-line="32" selection-end-line="32" />
-          <folding>
-            <element signature="e#0#15#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/bin/lib/python3.5/site-packages/lightgbm/sklearn.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="565">
@@ -789,23 +660,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/prediction/predict_past_12months.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="60">
-          <caret line="3" column="50" selection-start-line="3" selection-start-column="50" selection-end-line="3" selection-end-column="50" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/prediction/predict_monthly.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="165">
-          <caret line="29" column="95" selection-start-line="29" selection-start-column="95" selection-end-line="29" selection-end-column="95" />
-          <folding>
-            <element signature="e#0#19#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/DB/DataBase/model_API.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="2956">
@@ -813,13 +667,6 @@
           <folding>
             <element signature="e#24#88#0" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/API/api_helper/user_directory.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="220">
-          <caret line="11" selection-start-line="11" selection-end-line="11" />
         </state>
       </provider>
     </entry>
@@ -840,20 +687,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/API/Login/login_API.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4603">
-          <caret line="341" column="23" lean-forward="true" selection-start-line="341" selection-start-column="23" selection-end-line="341" selection-end-column="23" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/API/Predict/set_data_class.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="220">
-          <caret line="59" column="8" selection-start-line="59" selection-start-column="8" selection-end-line="59" selection-end-column="8" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/control_popout.png">
       <provider selected="true" editor-type-id="images" />
     </entry>
@@ -862,23 +695,6 @@
         <state relative-caret-position="-537">
           <folding>
             <element signature="e#0#16#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/DB/DataBase/models.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1288">
-          <caret line="82" column="54" selection-start-line="82" selection-start-column="54" selection-end-line="82" selection-end-column="54" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/API/DataSet/data_API.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="503">
-          <caret line="233" column="23" lean-forward="true" selection-start-line="233" selection-start-column="23" selection-end-line="233" selection-end-column="23" />
-          <folding>
-            <element signature="e#63#74#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -906,48 +722,174 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/backtasks1.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="683">
-          <caret line="61" lean-forward="true" selection-start-line="61" selection-end-line="61" />
+        <state relative-caret-position="1920">
+          <caret line="96" column="9" selection-start-line="96" selection-start-column="9" selection-end-line="96" selection-end-column="9" />
           <folding>
             <element signature="e#0#28#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/backtasks.py">
+    <entry file="file://$PROJECT_DIR$/API/api_helper/api_helper.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="300">
-          <caret line="81" lean-forward="true" selection-start-line="81" selection-end-line="81" />
+        <state relative-caret-position="220">
+          <caret line="21" column="29" selection-start-line="21" selection-start-column="28" selection-end-line="21" selection-end-column="29" />
           <folding>
-            <element signature="e#25#39#0" expanded="true" />
+            <element signature="e#25#36#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/prediction/predict_daily.py">
+    <entry file="file://$PROJECT_DIR$/prediction/predict_monthly.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="509">
-          <caret line="406" column="30" lean-forward="true" selection-start-line="406" selection-start-column="30" selection-end-line="406" selection-end-column="30" />
+        <state relative-caret-position="-3151">
+          <caret line="29" column="95" selection-start-line="29" selection-start-column="95" selection-end-line="29" selection-end-column="95" />
           <folding>
             <element signature="e#0#19#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/API/Predict/predic_API.py">
+    <entry file="file://$PROJECT_DIR$/testtest1.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="200">
-          <caret line="262" column="23" lean-forward="true" selection-start-line="262" selection-start-column="23" selection-end-line="262" selection-end-column="23" />
+        <state relative-caret-position="120">
+          <caret line="6" selection-start-line="6" selection-end-line="20" selection-end-column="16" />
+          <folding>
+            <element signature="e#0#9#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/API/Login/login_API.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1423">
+          <caret line="443" column="13" selection-start-line="443" selection-start-column="13" selection-end-line="443" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/API/DataSet/backupfile/data_API_1110.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="360">
+          <caret line="84" column="14" lean-forward="true" selection-start-line="84" selection-start-column="14" selection-end-line="84" selection-end-column="14" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/DB/DataBase/models.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="548">
+          <caret line="45" column="12" selection-start-line="45" selection-start-column="12" selection-end-line="45" selection-end-column="12" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/API/DataSet/data_API.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-440">
+          <caret line="156" column="16" selection-start-line="156" selection-start-column="16" selection-end-line="156" selection-end-column="16" />
           <folding>
             <element signature="e#63#74#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/API/api_helper/user_directory.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="40">
+          <caret line="2" selection-start-line="2" selection-end-line="2" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/API/Predict/set_data_class.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="414">
+          <caret line="169" column="126" selection-start-line="169" selection-start-column="126" selection-end-line="169" selection-end-column="126" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/prediction/result/2/coming_naju_2019_10_24_monthly">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/prediction/result/2/coming_naju_2019_10_24_daily">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/prediction/result/2/past_naju_2018_10_12_T0_S0_monthly">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/prediction/result/2/past_naju_2018_10_12_T0_S0_daily">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/prediction/result/1/yearly/coming_naju_2019_to_2024_yearly.csv">
+      <provider selected="true" editor-type-id="csv-text-editor" />
+      <provider editor-type-id="csv-table-editor">
+        <state showInfoPanel="true" fixedHeaders="false" rowLines="3" />
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/ssocket.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="9" column="56" lean-forward="true" selection-start-line="9" selection-start-column="56" selection-end-line="9" selection-end-column="56" />
+        <state relative-caret-position="480">
+          <caret line="63" column="79" selection-start-line="63" selection-start-column="79" selection-end-line="63" selection-end-column="79" />
+          <folding>
+            <element signature="e#0#14#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/prediction/predict_daily.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="49">
+          <caret line="383" column="4" selection-start-line="383" selection-start-column="4" selection-end-line="389" selection-end-column="12" />
+          <folding>
+            <element signature="e#0#19#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/prediction/predict_past_12months.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="383">
+          <caret line="719" column="29" selection-start-line="719" selection-start-column="29" selection-end-line="719" selection-end-column="29" />
+          <folding>
+            <element signature="e#0#19#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/prediction/predict_coming_5years.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="374">
+          <caret line="282" column="40" selection-start-line="282" selection-start-column="40" selection-end-line="282" selection-end-column="40" />
+          <folding>
+            <element signature="e#138#157#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/prediction/predict_coming_24months.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="683">
+          <caret line="754" column="12" selection-start-line="754" selection-start-column="12" selection-end-line="754" selection-end-column="12" />
+          <folding>
+            <element signature="e#0#19#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/backtasks.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3869">
+          <caret line="335" column="16" selection-start-line="335" selection-start-column="16" selection-end-line="335" selection-end-column="16" />
+          <folding>
+            <element signature="e#25#39#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/API/Predict/predic_API.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="514">
+          <caret line="622" column="21" selection-start-line="622" selection-start-column="21" selection-end-line="622" selection-end-column="21" />
+          <folding>
+            <element signature="e#63#74#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

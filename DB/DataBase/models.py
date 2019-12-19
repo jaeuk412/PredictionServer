@@ -42,6 +42,9 @@ class ResultTable(Base):
 
     user_key = Column(Integer, nullable=True)
 
+    name = Column(String(100), nullable=True)
+    descript = Column(String(100), nullable=True)
+
 ## 저장만 따로 마크베이스로. 실파일저장위치(파일명:najuaaaa)(DataSet/uploadfiles), 모델돌리려는 파일저장위치(파일명:naju_insu_2015)(prediction/data) 연결
 class DataTable(Base):
     __tablename__ = 'data'
