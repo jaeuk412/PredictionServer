@@ -1,0 +1,1 @@
+year month date house_pred house_true houseCooking_pred houseCooking_true houseJHeating_pred houseJHeating_true salesOne_pred salesOne_true salesTwo_pred salesTwo_true bizHeating_pred bizHeating_true bizCooling_pred bizCooling_true industry_pred industry_true heatFacility_pred heatFacility_true heatCombined_pred heatCombined_true CNG_pred CNG_true pred_sum true_sum

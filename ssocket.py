@@ -19,10 +19,29 @@ async def SendMsg1(websocket, path, result):
 async def SendMsg2(websocket, path, result):
     await websocket.send(json.dumps(result))
 
+def key_time(key):
+    query = "SELECT inserted FROM result_save where key=%d" % (int(key))
+    records = db_session.execute(query)
+
+    for i in records:
+        for x, y in i.items():
+            insert_time = y
+
+    from datetime import timedelta, datetime
+    finished = datetime.now()
+    ## 종료-시작 ( 종료가 안됐다면 None값)
+    exe_time = (finished - insert_time).seconds
+    # print(finished)
+    # print(insert_time)
+    # print('-------------------------')
+
+    return exe_time
+
+
 def db_query(data):
     query = "SELECT model, location, start_date, user_key, temp_option, sub_option FROM result_save where key=%d" % (
         int(data))
-    print(query)
+    # print(query)
     query_value = db_session.execute(query)
 
     value = []
@@ -47,15 +66,15 @@ def db_query(data):
 
     print("model_name: ",model_name)
     print("area: ",area)
+    print("user_key: ",user_key)
 
     datass = []
     from API.Predict.get_data_class import get_predic_data
     get_class = get_predic_data()
 
-    print("model_name:", model_name)
 
     if model_name == 'daily':
-        print("-------------------------")
+        # print("-------------------------")
         # datass = get_class.get_Daily_coming_30days_vaule(area, start_date, user_key)
         datass = get_class.get_Daily_coming_30days_vaule(area, 20191003, user_key)
     elif model_name == 'monthly1':
@@ -80,12 +99,15 @@ ws://localhost:10308/websocket
 async def main(websocket, path):
     print('----websocket----')
     print(websocket)
+    count = 0
     while True:
         try:
             ## 생성된 파일 있으면 웹으로 send.
             files = os.listdir(folder_detectkey_path)
             # print("files: ",files)
             if files:
+
+                time_result = {}
                 for i in files:
                     if 'DONE' in i:
                         try:
@@ -99,6 +121,25 @@ async def main(websocket, path):
                             os.remove(folder_detectkey_path + i)
                         except:
                             pass
+                    elif "ING" in i:
+                        try:
+
+                            key = i.split('_')[1]
+                            exe_time = key_time(key)
+                            each_time_value = {int(key): exe_time}
+                            time_result.update(each_time_value)
+
+                        except:
+                            time_result = {}
+
+                if time_result:
+                    if count > 600:
+                        final_time_result = {"type": "process", "dataset": time_result}
+                        Send2 = asyncio.ensure_future((SendMsg2(websocket, path, final_time_result)))
+                        asyncio.as_completed(Send2)
+                        count = 0
+                    count += 1
+
 
             # if count == 0:
             #     websocket.recv()
@@ -110,13 +151,13 @@ async def main(websocket, path):
                 print('----recv----')
                 # jsonString = json.dumps(name)
                 data = json.loads(name)
-                print(data)
-                print(type(data))
+                # print(data)
+                # print(type(data))
 
                 if isinstance(data, dict):
                     data = data['dataset']
                     data = data['id']
-                    print("id: ", data)
+                    # print("id: ", data)
 
                     ## 데이터 쿼리.
                     datass = db_query(data)

@@ -25,7 +25,7 @@ class ResultTable(Base):
     ## 고유 식별
     key = Column(Integer, primary_key=True, autoincrement=True)
     ## finished-inserted로 test 시간 측정.
-    inserted = Column(DateTime, default=datetime.datetime.now())
+    inserted = Column(DateTime, nullable=True)
     finished = Column(DateTime, nullable=True)
     ## 인수/검침, 나주/../광주, 시작날짜, 옵션(0,1), 모델이름, 저장경로2.
     # resource = Column(String(100), nullable=False)
@@ -39,9 +39,7 @@ class ResultTable(Base):
     model = Column(Integer, ForeignKey('model.key'))
     save_file1 = Column(String(300), nullable=True)
     save_file2 = Column(String(300), nullable=True)
-
     user_key = Column(Integer, nullable=True)
-
     name = Column(String(100), nullable=True)
     descript = Column(String(100), nullable=True)
 

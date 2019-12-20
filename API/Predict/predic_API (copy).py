@@ -12,7 +12,6 @@ import string
 ## flask(REST-API)
 from flask import Blueprint, jsonify, send_from_directory, abort, session, send_file
 from flask import make_response, request, current_app, Response
-from sqlalchemy import func
 ##  check format of data
 import wtforms_json
 
@@ -78,6 +77,18 @@ HYGAS.NAJU_C_HOUSE.30001.2 - 나주_하우스_가스검침량.
                 }
         ]
 }
+{
+        "period": "2019-10-03 10:23:45",
+        "dataset": [
+                {
+                        "trainedModel": "daily",
+                        "arguments": {
+                                "location":"naju",
+                                "resource": "30001.1"
+                        }
+                }
+        ]
+}
 '''
 @predic_apis.route('/infer/predicts', methods=['POST'])
 @crossdomain(origin='*')
@@ -124,7 +135,6 @@ def api_infer_predict_API():
     # print("dataset: ",dataset)
     for data_value in dataset:
         filename = str()
-        # print('--------------2---------------')
 
         try:
             # trainedmodel은 필수. <스마트:'water+temp'>,<해양:'daily','monthly'..>
@@ -135,13 +145,13 @@ def api_infer_predict_API():
             resource = argument['resource']
 
             try:
-                ##todo: key 값으로 추출.
+                ##todo: string으로 바뀜.
                 area = argument['location']
                 # todo: 현재 폴더에 naju 데이터 뿐이기 때문에, 추후에 다른 지역 데이터 오면 해당 영역 open 여기 수정.
-                if not area == 1:
-                    area = 1
+                if not area == 'naju':
+                    area = 'naju'
             except:
-                area = 1
+                area = 'naju'
 
             ## monthly1 경우에 temp, sub 모드.
             ## temp_mode (default = 0)
@@ -159,10 +169,11 @@ def api_infer_predict_API():
             # print("resource: ", resource)
             # print("area: ",area)
 
-
             # 현재 스마트경우 받은 모델이 없어서, 임시폴더로 이름 만들어서 임의 값 저장중. (filename)
-            if isinstance(trained_model, str):
-                if isinstance(resource, int):
+            # if isinstance(trained_model, str):
+            if '+' in trained_model:
+                # if isinstance(resource, int):
+                if '.' in resource:
                     abort(400)
                 else:
                     file_name_get_model = trained_model.replace('+', '_')
@@ -177,18 +188,16 @@ def api_infer_predict_API():
                     ## 출력이 long term 이면 결과 파일을 따로 읽는 API 새로 작성.
                     final_result.append(value)
 
-            elif isinstance(trained_model, int):
-                print('------------1----------------')
+            else:
 
-                try:
-                    quer = db_session.query(ModelTable.id).filter(ModelTable.key == trained_model)
-                    records = db_session.execute(quer)
-                    for i in records:
-                        ## 'naju
-                        for x, y in i.items():
-                            string_model = y
-                except:
-                    string_model = 'daily'
+
+                model_key = model_define(trained_model)
+                resource_name, resource_key = resource_define(resource_define)
+                area_name, area_key = area_define(area)
+
+                print("model_key: ",model_key)
+                print("resource_key: ",resource_key)
+                print("area_key: ",area_key)
 
                 ## resource가 해양가스 일 때.
                 # print("Hygas")
@@ -198,7 +207,7 @@ def api_infer_predict_API():
                 # print(period_start_date)
                 dt = datetime.datetime.now()
                 date_check = int(dt.strftime('%Y%m%d'))
-                if string_model == 'daily':
+                if trained_model == 'daily':
                     ## todo: 인수, 검침량 데이터를 읽어서 해당 날짜에 가능한 모델링을 하도록 자동화.
                     '''
                     -오늘에 해당하는 달을 기준으로 한달전 데이터가 모두 있어여함.
@@ -213,9 +222,9 @@ def api_infer_predict_API():
                     if int(period_start_date) > 20191030:
                         period_start_date = 20191028
                         # abort(400)
-                    result = predict_daily(resource, area, trained_model, int(period_start_date), user_key, name, descript)
+                    result = predict_daily(resource_key, area_key, model_key, int(period_start_date), user_key, name, descript)
                     final_result.append(result)
-                elif string_model == 'monthly1':
+                elif trained_model == 'monthly1':
                     '''
                     인수, 검침량 데이터를 읽어서 해당 날짜에 가능한 모델링을 하도록 자동화.  
                     20191005 날짜로 실행 -> (2018-10-01 ~ 2019-09-30 얻음.) 
@@ -225,22 +234,22 @@ def api_infer_predict_API():
                     if int(period_start_date) > 20191005 or int(period_start_date) < 20150101:
                         period_start_date = 20191005
                         # abort(400)
-                    result = predict_monthly1(resource, area, trained_model, int(period_start_date), temp_mode,
+                    result = predict_monthly1(resource_key, area_key, model_key, int(period_start_date), temp_mode,
                                               sub_mode, user_key, name, descript)
                     final_result.append(result)
-                elif string_model == 'monthly2':
+                elif trained_model == 'monthly2':
                     ## todo: 인수, 검침량 데이터를 읽어서 해당 날짜에 가능한 모델링을 하도록 자동화.
                     if int(period_start_date) > 20191005 or int(period_start_date) < 20170101:
                         period_start_date = 20191005
                         # abort(400)
-                    result = predict_monthly2(resource, area, trained_model, int(period_start_date), user_key, name, descript)
+                    result = predict_monthly2(resource_key, area_key, model_key, int(period_start_date), user_key, name, descript)
                     final_result.append(result)
-                elif string_model == 'yearly':
+                elif trained_model == 'yearly':
                     ## todo: 인수, 검침량 데이터를 읽어서 해당 날짜에 가능한 모델링을 하도록 자동화.
                     if int(period_start_date) > 20191005 or int(period_start_date) < 20190101:
                         period_start_date = 20191005
                         # abort(400)
-                    result = predict_yearly(resource, area, trained_model, int(period_start_date), user_key, name, descript)
+                    result = predict_yearly(resource_key, area_key, model_key, int(period_start_date), user_key, name, descript)
                     # print(result)
                     final_result.append(result)
 
@@ -248,12 +257,12 @@ def api_infer_predict_API():
                     abort(400)
 
             # if string_area == 'yearly' or string_area == 'daily' or string_area == 'monthly1' or string_area == 'monthly2':
-            # message = 'DONE_'+str(final_result[0])
+            message = 'DONE_'+str(final_result[0])
             #
-            # if not os.path.isdir(folder_detectkey_path):
-            #     os.mkdir(folder_detectkey_path)
-            # with open(folder_detectkey_path + message, 'w') as f:
-            #     f.write(message)
+            if not os.path.isdir(folder_detectkey_path):
+                os.mkdir(folder_detectkey_path)
+            with open(folder_detectkey_path + message, 'w') as f:
+                f.write(message)
 
 
         except Exception as e:
@@ -286,7 +295,6 @@ def api_infer_predicted_API():
     # print(limit)
     # print(page)
 
-    count = db_session.query(func.count('*')).select_from(ResultTable).scalar()
     result = []
     dict_result = {}
 
@@ -327,30 +335,23 @@ def api_infer_predicted_API():
                 get_finish_time = y
                 # print(y)
             elif x == 'location':
-                query = "select id, key, name, name_en from location where key=%d" % (y)
-                records1 = db_session.execute(query)
-                location_result = {}
-                for location_i in records1:
-                    location_result.update(dict(location_i))
-
-                value_dict.update({x: location_result})
-
+                query = "select id as location from location where key=%d" % (y)
+                records = db_session.execute(query)
+                for location_i in records:
+                    for x, y in location_i.items():
+                        value_dict.update({x: y})
             elif x == 'resource':
-                query = "select id, explain, key, name  from resource where key=%d" % (y)
-                records2 = db_session.execute(query)
-                resource_result = {}
-                for resource_i in records2:
-                    resource_result.update(dict(resource_i))
-
-                value_dict.update({x: resource_result})
+                query = "select id as resource from resource where key=%d" % (y)
+                records = db_session.execute(query)
+                for resource_i in records:
+                    for x, y in resource_i.items():
+                        value_dict.update({x: y})
             elif x == 'model':
-                query = "select id, key, name from model where key=%d" % (y)
-                records3 = db_session.execute(query)
-                model_result = {}
-                for model_i in records3:
-                    model_result.update(dict(model_i))
-
-                value_dict.update({x: model_result})
+                query = "select id as model from model where key=%d" % (y)
+                records = db_session.execute(query)
+                for model_i in records:
+                    for x, y in model_i.items():
+                        value_dict.update({x: y})
             else:
                 value_dict.update({x: y})
 
@@ -395,9 +396,8 @@ def api_infer_predicted_API():
     p3 - 10-15
     daily5,4,3,2,1/monthly1_1/monthly2_4,3,2,1/yearly5,4,3,2,1
     '''
-    final_result = {"data":result, "total":count}
 
-    return jsonify(final_result)
+    return response_json_list(result)
 
 @predic_apis.route('/infer/predicts/<int:key>', methods=['DELETE'])
 @crossdomain(origin='*')
@@ -458,30 +458,23 @@ def api_infer_predicted_API_detail(key):
                 get_finish_time = y
                 # print(y)
             elif x == 'location':
-                query = "select id, key, name, name_en from location where key=%d" % (y)
-                records1 = db_session.execute(query)
-                location_result = {}
-                for location_i in records1:
-                    location_result.update(dict(location_i))
-
-                value_dict.update({x: location_result})
-
+                query = "select id as location from location where key=%d" % (y)
+                records = db_session.execute(query)
+                for location_i in records:
+                    for x, y in location_i.items():
+                        value_dict.update({x: y})
             elif x == 'resource':
-                query = "select id, explain, key, name  from resource where key=%d" % (y)
-                records2 = db_session.execute(query)
-                resource_result = {}
-                for resource_i in records2:
-                    resource_result.update(dict(resource_i))
-
-                value_dict.update({x: resource_result})
+                query = "select id as resource from resource where key=%d" % (y)
+                records = db_session.execute(query)
+                for resource_i in records:
+                    for x, y in resource_i.items():
+                        value_dict.update({x: y})
             elif x == 'model':
-                query = "select id, key, name from model where key=%d" % (y)
-                records3 = db_session.execute(query)
-                model_result = {}
-                for model_i in records3:
-                    model_result.update(dict(model_i))
-
-                value_dict.update({x: model_result})
+                query = "select id as model from model where key=%d" % (y)
+                records = db_session.execute(query)
+                for model_i in records:
+                    for x, y in model_i.items():
+                        value_dict.update({x: y})
             else:
                 value_dict.update({x: y})
 
@@ -521,7 +514,6 @@ def api_infer_predicted_API_detail(key):
     p3 - 10-15
     daily5,4,3,2,1/monthly1_1/monthly2_4,3,2,1/yearly5,4,3,2,1
     '''
-
 
     return response_json_list(result)
 
@@ -623,13 +615,16 @@ def predict_daily(resource, area, model, start_date, user_key, name, descript):
     # ## insu, 30001.1
     # string_resource, mach_resource= resource_define(resource)
     ## naju
-    predictarea = area_define(area)
-    print("predictarea: ",predictarea)
+    area_name, area_key = area_define(area)
+    # print("predictarea: ",predictarea)
 
-    daily_output_file = folder_prediction_path + 'result/%s/predict_%s_%d_%d_%d_daily' % (user_key, predictarea, start_year, start_month, start_day)
-    print("outputfile: ", daily_output_file)
+    daily_output_file = folder_prediction_path + 'result/%s/predict_%s_%d_%d_%d_daily' % (user_key, area_name, start_year, start_month, start_day)
+    # print("outputfile: ", daily_output_file)
 
     try:
+        # print('-----------2---------------')
+        # print("200000: ",start_year, start_month, start_day)
+        # db_session.add(DailyTable(resource=sort, location=area, model=model, start_date=start_date, save_daily=daily_output_file))
         print(resource)
         print(type(resource))
         print(area)
@@ -646,23 +641,24 @@ def predict_daily(resource, area, model, start_date, user_key, name, descript):
         print(type(name))
         print(descript)
         print(type(descript))
-        print('-----------2---------------')
-        # print("200000: ",start_year, start_month, start_day)
-        # db_session.add(DailyTable(resource=sort, location=area, model=model, start_date=start_date, save_daily=daily_output_file))
+
         db_session.add(ResultTable(resource=resource, location=area, model=model, start_date=start_date, save_file1=daily_output_file, user_key=user_key, name=name, descript=descript))
         db_session.commit()
         print('-----------3---------------')
 
-        detectkey = db_session.query(ResultTable.key).order_by(ResultTable.key.desc())
-        print(detectkey[0][0])
-        print('-----------4---------------')
-
-        set_class = set_predic_data()
-        set_class.set_Daily_coming_30days(predictarea, start_year, start_month, start_day, user_key, detectkey[0][0])
-        final_reuslt = detectkey[0][0]
+        # detectkey = db_session.query(ResultTable.key).order_by(ResultTable.key.desc())
+        #
+        # print(detectkey[0][0])
+        # # print('-----------4---------------')
+        #
+        # set_class = set_predic_data()
+        # set_class.set_Daily_coming_30days(predictarea, start_year, start_month, start_day, user_key, detectkey[0][0])
+        # final_reuslt = detectkey[0][0]
+        final_reuslt = 1
         print('-----------5---------------')
         return final_reuslt
-    except:
+    except Exception as e:
+        print(e)
         final_reuslt = None
         return final_reuslt
 
@@ -826,37 +822,56 @@ def resource_define(resource):
         # todo: 현재 resource(2,3)은 인수량,검침량으로 이 두개는 name=insu값을 가짐(검침량도 인수량으로 대체하라는 오더).
         ## 그런데 나머지 resource(1,4)는 temp, sub 값을 가지는데, insu데이터와 파일 구조가 달라서 얻는 값들을 따로 정의 해줘야함.
         ## 현재는 1,4도 name을 insu로 지정해 주겠음.
-        if resource == 1 or resource == 4:
-            resource = 2
+        if resource == '3303.0' or resource == '30005.0':
+            resource = '30001.1'
 
-        quer = db_session.query(ResourceTable.name, ResourceTable.id).filter(ResourceTable.key == resource)
+        quer = db_session.query(ResourceTable.key, ResourceTable.name).filter(ResourceTable.id == resource)
         records = db_session.execute(quer)
         for i in records:
             for x, y in i.items():
                 ## insu
                 if x == 'resource_name':
-                    string_resource = y
+                    resource_name = y
                 ##30001.1
-                if x == 'resource_id':
-                    mach_resource = y
-        return string_resource, mach_resource
+                if x == 'resource_key':
+                    resource_key = y
+        return resource_name, resource_key
 
     except:
         ## resource(1,2,3,4)를 제외한 값도 일단은 가장 기본 값인 resource(1)의  insu, 30001.1 지정.
-        string_resource = 'insu'
-        mach_resource = '30001.1'
-        return string_resource, mach_resource
+        resource_key = 1
+        resource_name = '30001.1'
+        return resource_name, resource_key
 
 def area_define(area):
     try:
-        quer = db_session.query(LocationTable.id).filter(LocationTable.key == area)
+        quer = db_session.query(LocationTable.key, LocationTable.id).filter(LocationTable.id == area)
         records = db_session.execute(quer)
         for i in records:
             ## 'naju
             for x, y in i.items():
-                string_area = y
+                if x == 'area_name':
+                    area_name = y
+                ##30001.1
+                if x == 'area_key':
+                    area_key = y
 
-        return string_area
+        return area_name, area_key
     except:
-        string_area = 'naju'
-        return string_area
+        area_key = 1
+        area_name = 'naju'
+        return area_name, area_key
+
+def model_define(model):
+    try:
+        quer = db_session.query(ModelTable.key).filter(ModelTable.id == model)
+        records = db_session.execute(quer)
+        for i in records:
+            ## 'naju
+            for x, y in i.items():
+                model_key = y
+
+        return model_key
+    except:
+        model_key = 1
+        return model_key

@@ -31,12 +31,12 @@ class set_predic_data(object):
     def set_Daily_coming_30days(self, predicArea, start_year, start_month, start_day, user_key, detectkey):
         # set_Daily_coming_30day_short_trem_save, set_Daily_coming_30day_mid_trem_save 로 단기3일, 중기 8일 예측 저장하고
         # set_Daily_coming_30day 함수로 모델링 하는거 까지. (결과 불러오는 거는 중간에 계속 불러올 수 있으니 따로 함수)
-        print(predicArea)
-        print(start_year)
-        print(start_month)
-        print(start_day)
-        print(user_key)
-        print(detectkey)
+        # print(predicArea)
+        # print(start_year)
+        # print(start_month)
+        # print(start_day)
+        # print(user_key)
+        # print(detectkey)
 
         ## todo: 유민씨 API 받아오는 곳 아침 7시를 기준으로 그날 7시가 안되면 전날짜로 요청, 7시 넘으면 해당 날짜로.
         ## TODO: 수정해야함. start_day(20191007) 받으면 11일기록 받는 함수로 유민씨 API---------------------------
@@ -56,12 +56,12 @@ class set_predic_data(object):
 
 
 
-        print("json_data", json_data)
+        # print("json_data", json_data)
         # 데이터 저장.
         ## 받아온 json 값에서 short/mid로 나눈다.
 
         short_mid_folder = folder_prediction_path + 'data/forecast/%s/' % (date)
-        print("shomid_folder: ",short_mid_folder)
+        # print("shomid_folder: ",short_mid_folder)
 
         result_value = dict()
         max_dict= dict()
@@ -335,7 +335,6 @@ class set_weather_data(object):
             print("weather_error")
 
 
-        print('--2323232----')
         # print(r)
         # r = '[%s]' % (r)
         # json_data = pd.read_json(r)

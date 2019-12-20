@@ -5,7 +5,7 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>/api/files Testbed</title>
+    <title>/api/datasets Testbed</title>
     <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -121,7 +121,7 @@
     </style>
 </head>
 <body>
-<h1><code>/api/files</code> Testbed<sup>1.1.1</sup></h1>
+<h1><code>/api/datasets</code> Testbed<sup>1.1.1</sup></h1>
 <form id="configure">
     <fieldset>
         <legend>Configure</legend>
@@ -139,7 +139,7 @@
         </label>
         <label>
             <span>Create Path</span>
-            <input type="text" name="path-create" value="/api/files" required list="path">
+            <input type="text" name="path-create" value="/api/datasets" required list="path">
         </label>
 
         <datalist id="path">
@@ -157,7 +157,7 @@
         <legend>Uploader</legend>
         <label>
             <span>File</span>
-            <input type="file" name="file-key" required>
+            <input type="file" name="attach" required>
         </label>
         <div>
             <input type="submit">
@@ -170,7 +170,7 @@
         <legend>Creator</legend>
         <label>
             <span>File</span>
-            <input type="text" name="file-key" required>
+            <input type="text" name="attach" required>
         </label>
         <div>
             <input type="submit">
@@ -190,10 +190,10 @@
     [$server, $pathAttach, $pathCreate].forEach(input => input.ondblclick = dblclick);
 
     const $uploader = byId('uploader');
-    const $file = $uploader.elements['file-key'];
+    const $file = $uploader.elements['attach'];
 
     const $creator = byId('creator');
-    const $file2 = $creator.elements['file-key'];
+    const $file2 = $creator.elements['attach'];
 
     function dblclick(event) {
         event.target.value = '';
@@ -231,7 +231,7 @@
             })
             .then(json => {
                 console.info('ATTACH RESPONSE');
-                let attachId = json['file-key'];
+                let attachId = json['attach'];
 
                 if (attachId) {
                     console.info(`Response the Attach ID as ${attachId}`);
@@ -269,7 +269,7 @@
         }
 
         const body = {
-            'file-key': file
+            'attach': file
         };
 
         console.info('CREATE BODY:', body);

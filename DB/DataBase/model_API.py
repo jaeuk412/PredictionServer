@@ -166,9 +166,9 @@ def resource_get():
 
             # print(result_dict)
 
-        final_result = {"hygas": result1,"statics": result2, "other": result3}
+        # final_result = {"hygas": result1,"statics": result2, "other": result3}
 
-        return jsonify(final_result)
+        return response_json_list(result1)
 
         # return response_json_list(result)
     except:

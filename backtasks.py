@@ -2,9 +2,12 @@
 
 import sys, os
 import threading
+import datetime
 from multiprocessing import current_process
 from celery import Celery
 from API.api_helper.user_directory import root_path, folder_detectkey_path
+from DB.DataBase.models import ResultTable
+from DB.DataBase.database import db_session
 
 
 
@@ -119,6 +122,10 @@ def daily(predicArea, start_year, start_month, start_day, date, user_key, detect
                 w_break = 1
             time.sleep(1)
 
+    value = db_session.query(ResultTable).get(detectkey)
+    value.inserted = datetime.datetime.now()
+    db_session.commit()
+
 
     print('make_ING_file')
     with open(folder_detectkey_path + ING_message, 'w') as f:
@@ -185,6 +192,9 @@ def monthly1(predicArea, start_year, start_month, month_range, temp_mode, sub_mo
                 w_break = 1
             time.sleep(1)
 
+    value = db_session.query(ResultTable).get(detectkey)
+    value.inserted = datetime.datetime.now()
+    db_session.commit()
 
     print('make_ING_file')
     with open(folder_detectkey_path + ING_message, 'w') as f:
@@ -248,6 +258,10 @@ def monthly2(predicArea, start_year, start_month, month_range, start_date, user_
                 w_break = 1
             time.sleep(1)
 
+    value = db_session.query(ResultTable).get(detectkey)
+    value.inserted = datetime.datetime.now()
+    db_session.commit()
+
     print('make_ING_file')
     with open(folder_detectkey_path + ING_message, 'w') as f:
         f.write(str(detectkey))
@@ -309,6 +323,10 @@ def yearly(predicArea, start_year, date, user_key, detectkey):
                 print('w_break = 1')
                 w_break = 1
             time.sleep(1)
+
+    value = db_session.query(ResultTable).get(detectkey)
+    value.inserted = datetime.datetime.now()
+    db_session.commit()
 
     print('make_ING_file')
     with open(folder_detectkey_path + ING_message, 'w') as f:
