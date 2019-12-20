@@ -5,8 +5,97 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="997b5422-ce25-402f-99ae-daebf021415c" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/prediction/predict_daily.py" beforeDir="false" afterPath="$PROJECT_DIR$/prediction/predict_daily.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction/result/1/predict_naju_2019_10_30_daily" beforeDir="false" afterPath="$PROJECT_DIR$/prediction/result/1/predict_naju_2019_10_30_daily" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/API/Predict/predic_API.py" beforeDir="false" afterPath="$PROJECT_DIR$/API/Predict/predic_API.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/prediction/result/0/coming_naju_2019_10_24_daily" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/prediction/result/0/coming_naju_2019_10_24_monthly" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/prediction/result/0/past_naju_2018_10_12_T0_S0_daily" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/prediction/result/0/past_naju_2018_10_12_T0_S0_monthly" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/prediction/result/0/predict_naju_2019_10_10_daily" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/prediction/result/0/predict_naju_2019_10_28_daily" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/prediction/result/0/predict_naju_2019_10_29_daily" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/prediction/result/0/predict_naju_2019_10_3_daily" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/prediction/result/0/yearly/5years_Gas-insu_prediction.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/prediction/result/0/yearly/Data_Feature.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/prediction/result/0/yearly/Original_Data.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/prediction/result/0/yearly/coming_naju_2019_to_2024_monthly.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/prediction/result/1/coming_naju_2019_10_24_daily" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/prediction/result/1/coming_naju_2019_10_24_monthly" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/prediction/result/1/past_naju_2018_10_12_T0_S0_daily" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/prediction/result/1/past_naju_2018_10_12_T0_S0_monthly" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/prediction/result/1/predict_naju_2019_10_30_daily" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/prediction/result/1/predict_naju_2019_10_3_daily" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/prediction/result/1/predict_naju_2019_10_9_daily" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/prediction/result/1/predict_naju_2019_9_5_daily" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/prediction/result/1/yearly/5years_Gas-insu_prediction.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/prediction/result/1/yearly/Data_Feature.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/prediction/result/1/yearly/Original_Data.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/prediction/result/1/yearly/coming_naju_2019_to_2024_monthly.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/prediction/result/1/yearly/coming_naju_2019_to_2024_yearly.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/prediction/result/20190901/coming_naju_2019_9_24_daily" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/prediction/result/20190901/coming_naju_2019_9_24_monthly" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/prediction/result/20191001/coming_naju_2019_10_24_daily" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/prediction/result/20191001/coming_naju_2019_10_24_monthly" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/prediction/result/20191001/past_naju_2018_10_12_T0_S0_daily" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/prediction/result/20191001/past_naju_2018_10_12_T0_S0_monthly" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/prediction/result/20191001/predict_naju_2019_10_1_daily" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/prediction/result/20191003/coming_naju_2019_10_24_daily" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/prediction/result/20191003/coming_naju_2019_10_24_monthly" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/prediction/result/20191003/predict_naju_2019_10_3_daily" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/prediction/result/20191003/yearly1/5years_Gas-insu_prediction.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/prediction/result/20191003/yearly1/Data_Feature.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/prediction/result/20191003/yearly1/Original_Data.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/prediction/result/20191003/yearly1/coming_naju_2019_to_2024_monthly.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/prediction/result/20191003/yearly1/coming_naju_2019_to_2024_yearly.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/prediction/result/20191005/predict_naju_2019_10_5_daily" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/prediction/result/20191009/predict_naju_2019_10_9_daily" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/prediction/result/20191010/predict_naju_2019_9_5_daily" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/prediction/result/20191023/yearly/5years_Gas-insu_prediction.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/prediction/result/20191023/yearly/Data_Feature.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/prediction/result/20191023/yearly/Original_Data.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/prediction/result/20191023/yearly/coming_naju_2019_to_2024_monthly.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/prediction/result/20191023/yearly/coming_naju_2019_to_2024_yearly.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/prediction/result/coming_naju_2019_1_23_daily" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/prediction/result/coming_naju_2019_1_23_monthly" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/prediction/result/coming_naju_2019_1_24_daily" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/prediction/result/coming_naju_2019_1_24_monthly" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/prediction/result/past_naju_2018_1_12_T0_S0_daily" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/prediction/result/past_naju_2018_1_12_T0_S0_monthly" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/prediction/result/past_naju_2018_1_12_T1_S1_daily" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/prediction/result/past_naju_2018_1_12_T1_S1_monthly" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/prediction/result/past_naju_2018_1_1_T1_S1_daily" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/prediction/result/past_naju_2018_1_1_T1_S1_monthly" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/prediction/result/past_naju_2018_4_12_T0_S0_daily" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/prediction/result/past_naju_2018_4_12_T0_S0_monthly" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/prediction/result/past_naju_2018_4_12_T1_S0_daily" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/prediction/result/past_naju_2018_4_12_T1_S0_monthly" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/prediction/result/past_naju_2018_4_12_T1_S1_daily" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/prediction/result/past_naju_2018_4_12_T1_S1_monthly" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/prediction/result/predict_naju_2018_12_1_daily" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/prediction/result/predict_naju_2018_9_30_daily" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/prediction/result/predict_naju_2019_10_7_daily" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/prediction/result/predict_naju_2019_1_1_daily" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/prediction/result/predict_naju_2019_7_30_daily" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/prediction/result/predict_naju_2019_8_30_daily" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/prediction/result/predict_naju_2019_8_31_daily" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/prediction/result/predict_naju_2019_9_6_daily" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/prediction/result/result_yearly/5years_Gas-insu_prediction.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/prediction/result/result_yearly/Data_Feature.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/prediction/result/result_yearly/Original_Data.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/prediction/result/result_yearly/coming_naju_2019_to_2024_monthly.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/prediction/result/result_yearly/coming_naju_2019_to_2024_yearly.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/prediction/result/yearly/123/5years_Gas-insu_prediction.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/prediction/result/yearly/123/Data_Feature.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/prediction/result/yearly/123/Original_Data.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/prediction/result/yearly/123/coming_naju_2019_to_2024_monthly.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/prediction/result/yearly/123/coming_naju_2019_to_2024_yearly.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/prediction/result/yearly/123/coming_naju_2020_to_2025_monthly.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/prediction/result/yearly/123/coming_naju_2020_to_2025_yearly.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/prediction/result/yearly/5years_Gas-insu_prediction.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/prediction/result/yearly/Data_Feature.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/prediction/result/yearly/Original_Data.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/prediction/result/yearly/coming_naju_2019_to_2024_monthly.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/prediction/result/yearly/coming_naju_2019_to_2024_yearly.csv" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/static" beforeDir="false" afterPath="$PROJECT_DIR$/static" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/static/assets/development-environment.json" beforeDir="false" afterPath="$PROJECT_DIR$/static/assets/development-environment.json" afterDir="false" />
     </list>
@@ -27,8 +116,8 @@
     <SUITE FILE_PATH="coverage/PredictionServer$testtest1.coverage" NAME="testtest1 Coverage Results" MODIFIED="1576718961415" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/PredictionServer$data_API.coverage" NAME="data_API Coverage Results" MODIFIED="1573263499084" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/API/DataSet" />
     <SUITE FILE_PATH="coverage/PredictionServer$Jsonparsing.coverage" NAME="Jsonparsing Coverage Results" MODIFIED="1573709098494" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/prediction2/JSONparser/JSONparser" />
-    <SUITE FILE_PATH="coverage/PredictionServer$predict_daily__1_.coverage" NAME="predict_daily (1) Coverage Results" MODIFIED="1576735254783" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/prediction" />
-    <SUITE FILE_PATH="coverage/PredictionServer$PredictionServer.coverage" NAME="PredictionServer Coverage Results" MODIFIED="1576730535734" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/PredictionServer$predict_daily__1_.coverage" NAME="predict_daily (1) Coverage Results" MODIFIED="1576740870525" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/prediction" />
+    <SUITE FILE_PATH="coverage/PredictionServer$PredictionServer.coverage" NAME="PredictionServer Coverage Results" MODIFIED="1576802669118" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/PredictionServer$WebsocketServer.coverage" NAME="WebsocketServer Coverage Results" MODIFIED="1573129222616" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/PredictionServer$predict_daily.coverage" NAME="predict_daily Coverage Results" MODIFIED="1574641805606" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/prediction/prediction_ETRI" />
     <SUITE FILE_PATH="coverage/PredictionServer$backtasks1.coverage" NAME="backtasks1 Coverage Results" MODIFIED="1576657948089" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
@@ -38,7 +127,7 @@
     <SUITE FILE_PATH="coverage/PredictionServer$test.coverage" NAME="test Coverage Results" MODIFIED="1573387442470" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/API" />
     <SUITE FILE_PATH="coverage/PredictionServer$machbase.coverage" NAME="machbase Coverage Results" MODIFIED="1575248105336" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/DB/DataBase" />
     <SUITE FILE_PATH="coverage/PredictionServer$predict_common.coverage" NAME="predict_common Coverage Results" MODIFIED="1576657503283" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/prediction" />
-    <SUITE FILE_PATH="coverage/PredictionServer$ssocket.coverage" NAME="ssocket Coverage Results" MODIFIED="1576728218229" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/PredictionServer$ssocket.coverage" NAME="ssocket Coverage Results" MODIFIED="1576741772949" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/PredictionServer$socket.coverage" NAME="socket Coverage Results" MODIFIED="1573123793468" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
   <component name="DatabaseView">
@@ -57,59 +146,14 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/API/Predict/predic_API.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="494">
-              <caret line="621" column="18" selection-start-line="621" selection-start-column="18" selection-end-line="621" selection-end-column="18" />
+            <state relative-caret-position="200">
+              <caret line="67" selection-start-line="67" selection-end-line="78" selection-end-column="1" />
               <folding>
                 <element signature="e#63#74#0" expanded="true" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/prediction/predict_past_12months.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="383">
-              <caret line="719" column="29" selection-start-line="719" selection-start-column="29" selection-end-line="719" selection-end-column="29" />
-              <folding>
-                <element signature="e#0#19#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/ssocket.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="480">
-              <caret line="63" column="79" selection-start-line="63" selection-start-column="79" selection-end-line="63" selection-end-column="79" />
-              <folding>
-                <element signature="e#0#14#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/prediction/predict_daily.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="349">
-              <caret line="398" column="43" lean-forward="true" selection-start-line="398" selection-start-column="43" selection-end-line="398" selection-end-column="43" />
-              <folding>
-                <element signature="e#0#19#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/API/Predict/set_data_class.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="414">
-              <caret line="169" column="126" selection-start-line="169" selection-start-column="126" selection-end-line="169" selection-end-column="126" />
             </state>
           </provider>
         </entry>
@@ -208,19 +252,19 @@
         <option value="$PROJECT_DIR$/API/Login/login_API.py" />
         <option value="$PROJECT_DIR$/API/Predict/set_data_class.py" />
         <option value="$PROJECT_DIR$/testtest1.py" />
-        <option value="$PROJECT_DIR$/ssocket.py" />
         <option value="$PROJECT_DIR$/DB/DataBase/models.py" />
-        <option value="$PROJECT_DIR$/API/Predict/predic_API.py" />
         <option value="$PROJECT_DIR$/prediction/predict_coming_5years.py" />
         <option value="$PROJECT_DIR$/prediction/predict_past_12months.py" />
         <option value="$PROJECT_DIR$/backtasks.py" />
         <option value="$PROJECT_DIR$/prediction/predict_daily.py" />
+        <option value="$PROJECT_DIR$/ssocket.py" />
+        <option value="$PROJECT_DIR$/API/Predict/predic_API.py" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="2796" />
-    <option name="y" value="138" />
+    <option name="x" value="2311" />
+    <option name="y" value="210" />
     <option name="width" value="922" />
     <option name="height" value="833" />
   </component>
@@ -290,6 +334,12 @@
               <item name="PredictionServer" type="462c0819:PsiDirectoryNode" />
               <item name="prediction" type="462c0819:PsiDirectoryNode" />
             </path>
+            <path>
+              <item name="PredictionServer" type="b2602c69:ProjectViewProjectNode" />
+              <item name="PredictionServer" type="462c0819:PsiDirectoryNode" />
+              <item name="prediction" type="462c0819:PsiDirectoryNode" />
+              <item name="result" type="462c0819:PsiDirectoryNode" />
+            </path>
           </expand>
           <select />
         </subPane>
@@ -316,7 +366,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.predict_daily (1)">
+  <component name="RunManager" selected="Python.ssocket">
     <configuration name="backtasks1" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="PredictionServer" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -457,8 +507,8 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.predict_daily (1)" />
         <item itemvalue="Python.ssocket" />
+        <item itemvalue="Python.predict_daily (1)" />
         <item itemvalue="Python.testtest1" />
         <item itemvalue="Python.backtasks1" />
         <item itemvalue="Python.predict_common" />
@@ -488,16 +538,15 @@
       <workItem from="1574415674428" duration="6531000" />
       <workItem from="1574670199740" duration="146987000" />
       <workItem from="1575507271687" duration="108306000" />
-      <workItem from="1576474412586" duration="53437000" />
+      <workItem from="1576474412586" duration="60073000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="603244000" />
+    <option name="totallyTimeSpent" value="609880000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1975" y="-4" width="1865" height="1204" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.25591636" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
@@ -526,55 +575,6 @@
     <option name="version" value="1" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/prediction/Modeltest2.py">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/bin/lib/python3.5/site-packages/lightgbm/basic.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="205">
-          <caret line="1096" selection-start-line="1096" selection-end-line="1096" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/bin/lib/python3.5/site-packages/lightgbm/__init__.py">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/DB/DataBase/machbase.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1263">
-          <caret line="193" column="46" selection-start-line="193" selection-start-column="46" selection-end-line="193" selection-end-column="46" />
-          <folding>
-            <element signature="e#1806#1817#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/API/DataSet/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="300">
-          <caret line="15" lean-forward="true" selection-start-line="15" selection-end-line="15" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/__init__.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-780" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="100">
-          <caret line="5" column="26" selection-start-line="5" selection-start-column="26" selection-end-line="5" selection-end-column="26" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/DB/DataBase/database.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="100">
-          <caret line="5" selection-start-line="5" selection-end-line="5" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/bin/lib/python3.5/site-packages/flask/app.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="214">
@@ -637,16 +637,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="676">
           <caret line="1469" lean-forward="true" selection-start-line="1469" selection-end-line="1469" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/DB/DataBase/model_API.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2956">
-          <caret line="510" column="27" lean-forward="true" selection-start-line="510" selection-start-column="27" selection-end-line="510" selection-end-column="27" />
-          <folding>
-            <element signature="e#24#88#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -785,32 +775,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/prediction/result/2/coming_naju_2019_10_24_monthly">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/prediction/result/2/coming_naju_2019_10_24_daily">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/prediction/result/2/past_naju_2018_10_12_T0_S0_monthly">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/prediction/result/2/past_naju_2018_10_12_T0_S0_daily">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/prediction/result/1/yearly/coming_naju_2019_to_2024_yearly.csv">
       <provider selected="true" editor-type-id="csv-text-editor" />
       <provider editor-type-id="csv-table-editor">
         <state showInfoPanel="true" fixedHeaders="false" rowLines="3" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/ssocket.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="480">
-          <caret line="63" column="79" selection-start-line="63" selection-start-column="79" selection-end-line="63" selection-end-column="79" />
-          <folding>
-            <element signature="e#0#14#0" expanded="true" />
-          </folding>
-        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/prediction/predict_past_12months.py">
@@ -853,22 +821,89 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/API/Predict/predic_API.py">
+    <entry file="file://$PROJECT_DIR$/prediction/predict_daily.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="494">
-          <caret line="621" column="18" selection-start-line="621" selection-start-column="18" selection-end-line="621" selection-end-column="18" />
+        <state relative-caret-position="260">
+          <caret line="61" column="7" lean-forward="true" selection-start-line="61" selection-start-column="7" selection-end-line="61" selection-end-column="7" />
           <folding>
-            <element signature="e#63#74#0" expanded="true" />
+            <element signature="e#0#19#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/prediction/predict_daily.py">
+    <entry file="file://$PROJECT_DIR$/ssocket.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="349">
-          <caret line="398" column="43" lean-forward="true" selection-start-line="398" selection-start-column="43" selection-end-line="398" selection-end-column="43" />
+        <state relative-caret-position="1549">
+          <caret line="132" column="34" lean-forward="true" selection-start-line="132" selection-start-column="34" selection-end-line="132" selection-end-column="34" />
           <folding>
-            <element signature="e#0#19#0" expanded="true" />
+            <element signature="e#0#14#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/result/0/weather_energy_numeric_ismart_ismart_0330102552_usage.csv">
+      <provider selected="true" editor-type-id="csv-text-editor" />
+      <provider editor-type-id="csv-table-editor">
+        <state showInfoPanel="true" fixedHeaders="false" rowLines="3" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/prediction/result/0/coming_naju_2019_10_24_monthly">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/prediction/result/0/coming_naju_2019_10_24_daily">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/prediction/result/0/predict_naju_2019_10_3_daily">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/prediction/result/0/predict_naju_2019_10_10_daily">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/prediction/result/0/past_naju_2018_10_12_T0_S0_monthly">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/prediction/result/0/past_naju_2018_10_12_T0_S0_daily">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/prediction/result/2/past_naju_2018_10_12_T0_S0_monthly">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/prediction/result/2/predict_naju_2019_10_3_daily">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="140">
+          <caret line="7" column="33" lean-forward="true" selection-start-line="7" selection-start-column="33" selection-end-line="7" selection-end-column="33" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/prediction/result/2/past_naju_2018_10_12_T0_S0_daily">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-6712" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/prediction/result/2/coming_naju_2019_10_24_daily">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-14032" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/prediction/result/2/coming_naju_2019_10_24_monthly">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/DB/DataBase/model_API.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="248">
+          <caret line="479" column="25" lean-forward="true" selection-start-line="479" selection-start-column="25" selection-end-line="479" selection-end-column="25" />
+          <folding>
+            <element signature="e#24#88#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/API/Predict/predic_API.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="200">
+          <caret line="67" selection-start-line="67" selection-end-line="78" selection-end-column="1" />
+          <folding>
+            <element signature="e#63#74#0" expanded="true" />
           </folding>
         </state>
       </provider>

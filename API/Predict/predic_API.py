@@ -247,12 +247,12 @@ def api_infer_predict_API():
                     abort(400)
 
             # if string_area == 'yearly' or string_area == 'daily' or string_area == 'monthly1' or string_area == 'monthly2':
-            # message = str(final_result[0])
+            message = 'DONE_'+str(final_result[0])
             #
-            # if not os.path.isdir(folder_detectkey_path):
-            #     os.mkdir(folder_detectkey_path)
-            # with open(folder_detectkey_path + message, 'w') as f:
-            #     f.write(message)
+            if not os.path.isdir(folder_detectkey_path):
+                os.mkdir(folder_detectkey_path)
+            with open(folder_detectkey_path + message, 'w') as f:
+                f.write(message)
 
 
         except Exception as e:
@@ -370,6 +370,17 @@ def api_infer_predicted_API():
     '''
 
     return response_json_list(result)
+
+@predic_apis.route('/infer/predicts/<int:key>', methods=['DELETE'])
+@crossdomain(origin='*')
+def api_infer_predict_delete(key):
+    try:
+        db_session.query(ResultTable).filter(ResultTable.key == key).delete()
+        db_session.commit()
+        return jsonify(True)
+    except:
+        return jsonify(False)
+
 
 @predic_apis.route('/infer/predicts/<int:key>', methods=['GET'])
 @crossdomain(origin='*')
