@@ -75,7 +75,9 @@ def get_user_key():
         key = db_session.query(Login.key).filter(Login.id == str(key))
         login = db_session.query(Login).get(key)
     except:
-        key = 0
+        print(session)
+        print('---session(400)---')
+        abort(400)
     else:
         key = login.key
 

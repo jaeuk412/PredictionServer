@@ -272,6 +272,9 @@ def file_create():
 ## ReadAll files info
 @data_apis.route('/datasets', methods=['GET'])
 def api_file_search():
+    limit = request.args.get('limit', type=int)
+    page = request.args.get('page', type=int)
+
     # query = "select * from data ORDER BY key"
     query = "select key, inserted, location, purpose, resource, period, file_path from data ORDER BY key"
     records = db_session.execute(query)

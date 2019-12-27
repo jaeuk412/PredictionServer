@@ -5,7 +5,7 @@ import datetime
 import re
 
 # library
-from flask import Flask, send_from_directory, make_response
+from flask import Flask, send_from_directory, make_response, url_for
 from flask_sse import sse
 
 # directory
@@ -50,8 +50,19 @@ app.config["REDIS_URL"] = "redis://localhost"
 app.config['SESSION_TYPE'] = 'memcached'
 app.config['SECRET_KEY'] = 'super secret key'
 app.config['SESSION_COOKIE_AGE'] = 1500
-app.config['MAX_CONTENT_LENGTH'] = 20000000
+app.config['MAX_CONTENT_LENGTH'] = 200000
 app.permanent_session_lifetime = datetime.timedelta(days=1)
+
+# https://stackoverflow.com/questions/37325505/how-to-rewrite-static-url-about-flask
+app.url_map._rules.clear()
+app.url_map._rules_by_endpoint.clear()
+# app.url_map.host_matching = True
+# app.add_url_rule(app.static_url_path + '/<path:filename>',
+#                  endpoint='static',
+#                  view_func=app.send_static_file,
+#                  host='0.0.0.0')
+# with app.test_request_context():
+#     print(url_for('static', filename='index', _external=True))
 
 # print(app)
 # CSRF_ENABLED = True
@@ -69,20 +80,14 @@ webapp_index = 'index.html'
 def app_global_headers(response):
     return response
 
+
 @app.route('/')
 def app_webapp_index():
     return static_file(webapp_index)
-    # return static_file(webapp_index)
-##################################################
-# routing static files
 
 
 def static_file(filename):
     return send_from_directory(webapp_path, filename)
-
-
-
-
 
 
 @app.route('/<path:filename>')

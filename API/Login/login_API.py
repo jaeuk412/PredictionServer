@@ -253,7 +253,11 @@ def api_auth_restore():
 @user_apis.route('/users', methods=['GET','PUT'])
 @crossdomain(origin='*')
 def api_users():
+
     if request.method =='GET':
+
+        limit = request.args.get('limit', type=int)
+        page = request.args.get('page', type=int)
         # print session
         # query = db_session.query(Login).order_by(Login.id.asc())
         query = "select id, key, level, inserted from login ORDER BY key"
@@ -280,6 +284,24 @@ def api_users():
         result = []
         for i in records:
             result.append(dict(i))
+
+        if limit == None or limit == 0:
+            if page == None or page == 1:
+                result = result
+            else:
+                result = result[0:0]
+
+        else:
+            if page == None or page == 0:
+                page = 1
+
+            result_start = limit * page - limit
+            result_end = limit * page
+
+            # print("restart: ", result_start)
+            # print("reend: ", result_end)
+
+            result = result[result_start:result_end]
 
         fresult = {"data": result, "total": count}
         return jsonify(fresult)
@@ -344,6 +366,12 @@ def api_usersid(userid):
 
     return response_json_value(result)
 
+'''
+{
+  "id":"sys",
+  "password":"1234"
+}
+'''
 
 @user_apis.route('/users', methods=['POST'])
 @crossdomain(origin='*')

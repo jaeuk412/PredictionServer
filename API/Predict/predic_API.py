@@ -83,6 +83,7 @@ HYGAS.NAJU_C_HOUSE.30001.2 - 나주_하우스_가스검침량.
 @crossdomain(origin='*')
 def api_infer_predict_API():
     user_key = get_user_key()
+    print('----key----')
 
     req = request.get_json()
     jsonString = json.dumps(req)
@@ -100,6 +101,7 @@ def api_infer_predict_API():
     try:
         dataset = data['dataset']
     except:
+        print('dataset(400)')
         abort(400)
 
     try:
@@ -138,21 +140,21 @@ def api_infer_predict_API():
                 ##todo: key 값으로 추출.
                 area = argument['location']
                 # todo: 현재 폴더에 naju 데이터 뿐이기 때문에, 추후에 다른 지역 데이터 오면 해당 영역 open 여기 수정.
-                if not area == 1:
-                    area = 1
+                # if not area == 1:
+                #     area = 1
             except:
                 area = 1
 
             ## monthly1 경우에 temp, sub 모드.
             ## temp_mode (default = 0)
             try:
-                temp_mode = argument["temp_mode"]
+                temp_mode = argument["tempMode"]
             except:
                 temp_mode = 0
 
             ## sub_mode (default = 0)
             try:
-                sub_mode = argument["sub_mode"]
+                sub_mode = argument["subMode"]
             except:
                 sub_mode = 0
 
@@ -162,6 +164,7 @@ def api_infer_predict_API():
 
             # 현재 스마트경우 받은 모델이 없어서, 임시폴더로 이름 만들어서 임의 값 저장중. (filename)
             if isinstance(trained_model, str):
+                print('-----smart-----')
                 if isinstance(resource, int):
                     abort(400)
                 else:
@@ -178,7 +181,7 @@ def api_infer_predict_API():
                     final_result.append(value)
 
             elif isinstance(trained_model, int):
-                print('------------1----------------')
+                print('-----hy-----')
 
                 try:
                     quer = db_session.query(ModelTable.id).filter(ModelTable.key == trained_model)
@@ -283,6 +286,7 @@ def api_infer_predicted_API():
 
     limit = request.args.get('limit', type=int)
     page = request.args.get('page', type=int)
+    fields = request.args.get('fields', type=str)
     # print(limit)
     # print(page)
 
@@ -290,7 +294,7 @@ def api_infer_predicted_API():
     result = []
     dict_result = {}
 
-    query = "select key, resource, location, model ,start_date as period, inserted, finished, name, descript from result_save ORDER BY key desc"
+    query = "select key, resource, location, model ,start_date, inserted, finished, name, descript from result_save ORDER BY key desc"
     query_value = db_session.execute(query)
 
     for y1 in query_value:
@@ -311,7 +315,8 @@ def api_infer_predicted_API():
         get_finish_time = None
         for x, y in y1.items():
             ## start_date에 각 모델에 맞춰 기간 계산.
-            if 'period' in x:
+            if 'start_date' in x:
+                x = 'period'
                 if string_model == 'daily':
                     value_dict.update({x: datecount(y, 'daily') + ' ~ ' + datecount(y + 29, 'daily')})
                 elif string_model == 'monthly1':
@@ -322,6 +327,7 @@ def api_infer_predicted_API():
                     value_dict.update({x: datecount(y, 'yearly') + ' ~ ' + datecount(y + 50000, 'yearly')})
             elif 'inserted' == str(x):
                 get_insert_time = y
+                value_dict.update({x:y})
                 # print(y)
             elif 'finished' == str(x):
                 get_finish_time = y
@@ -362,8 +368,10 @@ def api_infer_predicted_API():
             exe_time = (get_finish_time-get_insert_time).seconds
             # print("time: ",exe_time)
             value_dict.update({"runningTime": exe_time})
+            value_dict.update({"running": True})
         except:
             value_dict.update({"runningTime": None})
+            value_dict.update({"running": False})
 
 
         result.append(value_dict)
@@ -453,6 +461,7 @@ def api_infer_predicted_API_detail(key):
                     value_dict.update({x: datecount(y, 'yearly') + ' ~ ' + datecount(y + 50000, 'yearly')})
             elif 'inserted' == str(x):
                 get_insert_time = y
+                value_dict.update({x: y})
                 # print(y)
             elif 'finished' == str(x):
                 get_finish_time = y
@@ -623,10 +632,11 @@ def predict_daily(resource, area, model, start_date, user_key, name, descript):
     # ## insu, 30001.1
     # string_resource, mach_resource= resource_define(resource)
     ## naju
-    predictarea = area_define(area)
+    predictarea, sub_area = area_define(area)
     print("predictarea: ",predictarea)
+    print("sub_area: ",sub_area)
 
-    daily_output_file = folder_prediction_path + 'result/%s/predict_%s_%d_%d_%d_daily' % (user_key, predictarea, start_year, start_month, start_day)
+    daily_output_file = folder_prediction_path + 'result/%s/predict_%s_%d_%d_%d_daily' % (user_key, sub_area, start_year, start_month, start_day)
     print("outputfile: ", daily_output_file)
 
     try:
@@ -658,7 +668,7 @@ def predict_daily(resource, area, model, start_date, user_key, name, descript):
         print('-----------4---------------')
 
         set_class = set_predic_data()
-        set_class.set_Daily_coming_30days(predictarea, start_year, start_month, start_day, user_key, detectkey[0][0])
+        set_class.set_Daily_coming_30days(sub_area, start_year, start_month, start_day, user_key, detectkey[0][0])
         final_reuslt = detectkey[0][0]
         print('-----------5---------------')
         return final_reuslt
@@ -686,10 +696,10 @@ def predict_monthly1(resource, area, model, start_date, temp_mode, sub_mode, use
         3-4 결론적으로 start_year에 -1로 시작했음.
         '''
 
-        predictarea = area_define(area)
+        predictarea, sub_area = area_define(area)
 
-        daily_output_file = folder_prediction_path + 'result/%d/past_%s_%d_%d_%d_T%d_S%d_daily' % (user_key, predictarea, start_year, start_month, 12, temp_mode, sub_mode)
-        monthly_output_file = folder_prediction_path + 'result/%d/past_%s_%d_%d_%d_T%d_S%d_monthly' % (user_key, predictarea, start_year, start_month, 12, temp_mode, sub_mode)
+        daily_output_file = folder_prediction_path + 'result/%d/past_%s_%d_%d_%d_T%d_S%d_daily' % (user_key, sub_area, start_year, start_month, 12, temp_mode, sub_mode)
+        monthly_output_file = folder_prediction_path + 'result/%d/past_%s_%d_%d_%d_T%d_S%d_monthly' % (user_key, sub_area, start_year, start_month, 12, temp_mode, sub_mode)
 
         # db_session.add(MonthlyTable1(resource=sort, location=area, model=model, start_date=start_date, temp_option=temp_mode, sub_option=sub_mode, save_daily=daily_output_file, save_monthly=monthly_output_file))
         db_session.add(ResultTable(resource=resource, location=area, model=model, start_date=start_date, temp_option=temp_mode, sub_option=sub_mode, save_file2=daily_output_file, save_file1=monthly_output_file, user_key=user_key, name=name, descript=descript))
@@ -699,7 +709,7 @@ def predict_monthly1(resource, area, model, start_date, temp_mode, sub_mode, use
         print(detectkey[0][0])
 
         set_class = set_predic_data()
-        set_class.set_Monthly_latest_12months(predictarea, start_year - 1, start_month, 12, temp_mode, sub_mode,
+        set_class.set_Monthly_latest_12months(sub_area, start_year - 1, start_month, 12, temp_mode, sub_mode,
                                               start_date, user_key, detectkey[0][0])
         final_result = detectkey[0][0]
         return final_result
@@ -720,10 +730,10 @@ def predict_monthly2(resource, area, model, start_date, user_key, name, descript
     ## DB에 키가 없을 경우. except로 넘어감.
     try:
 
-        predictarea = area_define(area)
+        predictarea, sub_area = area_define(area)
 
-        daily_output_file = folder_prediction_path + 'result/%d/coming_%s_%d_%d_%d_daily' % (user_key, predictarea, start_year, start_month, 24)
-        monthly_output_file = folder_prediction_path + 'result/%d/coming_%s_%d_%d_%d_monthly' % (user_key, predictarea, start_year, start_month, 24)
+        daily_output_file = folder_prediction_path + 'result/%d/coming_%s_%d_%d_%d_daily' % (user_key, sub_area, start_year, start_month, 24)
+        monthly_output_file = folder_prediction_path + 'result/%d/coming_%s_%d_%d_%d_monthly' % (user_key, sub_area, start_year, start_month, 24)
 
         db_session.add(ResultTable(resource=resource, location=area, model=model, start_date=start_date, save_file1=monthly_output_file, save_file2=daily_output_file, user_key=user_key, name=name, descript=descript))
         db_session.commit()
@@ -732,7 +742,7 @@ def predict_monthly2(resource, area, model, start_date, user_key, name, descript
         print(detectkey[0][0])
 
         set_class = set_predic_data()
-        set_class.set_Monthly_coming_24months(predictarea, start_year, start_month, 24, start_date, user_key, detectkey[0][0])
+        set_class.set_Monthly_coming_24months(sub_area, start_year, start_month, 24, start_date, user_key, detectkey[0][0])
 
         final_result = detectkey[0][0]
         return final_result
@@ -751,12 +761,12 @@ def predict_yearly(resource, area, model, start_date, user_key, name, descript):
 
     ## DB에 키가 없을 경우. except로 넘어감.
     try:
-        predictarea = area_define(area)
+        predictarea, sub_area = area_define(area)
 
         result_path = folder_prediction_path + 'result/%d/yearly/' % (user_key)
-        monthly_save = result_path + 'coming_' + predictarea + '_' + str(start_year) + '_to_' + str(
+        monthly_save = result_path + 'coming_' + sub_area + '_' + str(start_year) + '_to_' + str(
             start_year + 5) + '_monthly' + '.csv'
-        yearly_save = result_path + 'coming_' + predictarea + '_' + str(start_year) + '_to_' + str(
+        yearly_save = result_path + 'coming_' + sub_area + '_' + str(start_year) + '_to_' + str(
             start_year + 5) + '_yearly' + '.csv'
 
         # todo: 2.진행률 %로 가능한지. 3.스마트에너지(lwm2m) 체크
@@ -772,7 +782,7 @@ def predict_yearly(resource, area, model, start_date, user_key, name, descript):
         # print(detectkey[0][0])
 
         set_class = set_predic_data()
-        set_class.set_Yearly_coming_5years(predictarea, start_year, start_date, user_key, detectkey[0][0])
+        set_class.set_Yearly_coming_5years(sub_area, start_year, start_date, user_key, detectkey[0][0])
 
         final_result = detectkey[0][0]
         return final_result
@@ -856,7 +866,14 @@ def area_define(area):
             for x, y in i.items():
                 string_area = y
 
-        return string_area
+        ## todo: 실제 파일리스트에서 'gwanju' 파일이 없으면 'naju' 파일로 대체.
+
+        print("string_area: ",string_area)
+
+        if string_area != 'naju':
+            sub_area = 'naju'
+        return string_area, sub_area
     except:
         string_area = 'naju'
-        return string_area
+        sub_area = 'naju'
+        return string_area, sub_area

@@ -58,6 +58,8 @@ def db_query(data):
     location_value = db_session.query(LocationTable).get(key_area)
     area = location_value.id
 
+    area = 'naju'
+
     start_date = value[2]
     start_year, start_month, start_day = devide_date(start_date)
     user_key = value[3]
@@ -75,19 +77,17 @@ def db_query(data):
 
     if model_name == 'daily':
         # print("-------------------------")
-        # datass = get_class.get_Daily_coming_30days_vaule(area, start_date, user_key)
-        datass = get_class.get_Daily_coming_30days_vaule(area, 20191003, user_key)
+        datass = get_class.get_Daily_coming_30days_vaule(area, start_date, user_key)
+        # datass = get_class.get_Daily_coming_30days_vaule(area, 20191003, user_key)
     elif model_name == 'monthly1':
-        # datass = get_class.get_Monthly_latest_12months_monthly_value(area, start_year - 1, start_month, temp_option, sub_option, user_key)
-        datass = get_class.get_Monthly_latest_12months_monthly_value(area, 2018, 10,
-                                                                     0, 0, user_key)
+        datass = get_class.get_Monthly_latest_12months_monthly_value(area, start_year - 1, start_month, temp_option, sub_option, user_key)
+        # datass = get_class.get_Monthly_latest_12months_monthly_value(area, 2018, 10, 0, 0, user_key)
     elif model_name == 'monthly2':
-        # datass = get_class.get_Monthly_coming_24months_monthly_value(area, start_year, start_month, user_key)
-        datass = get_class.get_Monthly_coming_24months_monthly_value(area, 2019, 10,
-                                                                     user_key)
+        datass = get_class.get_Monthly_coming_24months_monthly_value(area, start_year, start_month, user_key)
+        # datass = get_class.get_Monthly_coming_24months_monthly_value(area, 2019, 10, user_key)
     elif model_name == 'yearly':
-        # datass = get_class.get_Yearly_coming_5years_month(area, start_year, user_key)
-        datass = get_class.get_Yearly_coming_5years_month(area, 2019, user_key)
+        datass = get_class.get_Yearly_coming_5years_month(area, start_year, user_key)
+        # datass = get_class.get_Yearly_coming_5years_month(area, 2019, user_key)
 
     return datass
 

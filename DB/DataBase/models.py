@@ -7,6 +7,7 @@ import datetime
 '''directory'''
 from sqlalchemy import Column, Integer, String, DateTime, ForeignKey
 from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.sql import func
 ''' '''
 
 Base = declarative_base()
@@ -14,7 +15,8 @@ Base = declarative_base()
 class Login(Base):
     __tablename__ = 'login'
     key = Column(Integer, primary_key=True, autoincrement=True)
-    inserted = Column(DateTime, default=datetime.datetime.now())
+    # inserted = Column(DateTime, default=datetime.datetime.now())
+    inserted = Column(DateTime(timezone=True), default=func.now())
     id = Column(String(100), unique=True, nullable=False)
     password = Column(String(100), nullable=False)
     level = Column(Integer, default=1)
@@ -92,65 +94,4 @@ class SmartcityTable(Base):
     icon = Column(String(100), nullable=True)
     title = Column(String(500), nullable=True)
     path = Column(String(500), unique=True, nullable=True)
-
-# class DailyTable(Base):
-#     __tablename__ = 'daily'
-#     pkey = Column(Integer, primary_key=True, autoincrement=True)
-#     inserted = Column(DateTime, default=datetime.datetime.now())
-#     resource = Column(String(30), nullable=False)
-#     location = Column(String(30), nullable=False)
-#     start_date = Column(Integer, nullable=True)
-#     # end_date = Column(Integer, nullable=True)
-#     model_name = Column(String(50), nullable=False)
-#     save_daily = Column(String(100), nullable=True)
-#
-
-# class MonthlyTable1(Base):
-#     __tablename__ = 'monthly1'
-#     pkey = Column(Integer, primary_key=True, autoincrement=True)
-#     inserted = Column(DateTime, default=datetime.datetime.now())
-#     resource = Column(String(30), nullable=False)
-#     location = Column(String(100), nullable=False)
-#     start_date = Column(Integer, nullable=True)
-#     # end_date = Column(Integer, nullable=True)
-#     model_name = Column(String(50), nullable=False)
-#     temp_option = Column(Integer, nullable=False)
-#     sub_option = Column(Integer, nullable=False)
-#     save_daily = Column(String(100), nullable=True)
-#     save_monthly = Column(String(100), nullable=True)
-#
-#
-# class MonthlyTable2(Base):
-#     __tablename__ = 'monthly2'
-#     pkey = Column(Integer, primary_key=True, autoincrement=True)
-#     inserted = Column(DateTime, default=datetime.datetime.now())
-#     resource = Column(String(30), nullable=False)
-#     location = Column(String(100), nullable=False)
-#     start_date = Column(Integer, nullable=True)
-#     # end_date = Column(Integer, nullable=True)
-#     model_name = Column(String(50), nullable=False)
-#     save_daily = Column(String(100), nullable=True)
-#     save_monthly = Column(String(100), nullable=True)
-#
-# class YearlyTable(Base):
-#     __tablename__ = 'yearly'
-#     pkey = Column(Integer, primary_key=True, autoincrement=True)
-#     inserted = Column(DateTime, default=datetime.datetime.now())
-#     resource = Column(String(30), nullable=False)
-#     location = Column(String(100), nullable=False)
-#     start_date = Column(Integer, nullable=True)
-#     # end_date = Column(Integer, nullable=True)
-#     model_name = Column(String(50), nullable=False)
-#     save_monthly = Column(String(200), nullable=True)
-#     save_yearly = Column(String(200), nullable=True)
-#     # year_range = Column(Integer, nullable=False)
-
-# class Testjeju(Base):
-#     __tablename__ = 'weather_jeju'
-#     pkey = Column(Integer, primary_key=True, autoincrement=True)
-
-
-# class DongEup(Base):
-#     __tablename__ = 'dong_eup'
-#     gong
 

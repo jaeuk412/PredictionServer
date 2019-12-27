@@ -5,6 +5,7 @@
     <mapping directory="$PROJECT_DIR$/bin/lib/python3.5/site-packages/LightGBM" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/bin/lib/python3.5/site-packages/LightGBM/compute" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/static" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/static1" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/templates" vcs="Git" />
   </component>
 </project>
