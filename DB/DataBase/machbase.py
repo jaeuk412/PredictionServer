@@ -44,6 +44,7 @@ $insert into tag values('HYGAS.NAJU_C_HOUSE.30001.1', now, 44);
 
 import json
 from machbaseAPI.machbaseAPI import machbase
+from API.api_helper.user_directory import folder_prediction_path
 import time
 import timeit
 start = timeit.default_timer()
@@ -94,7 +95,7 @@ $csvimport -t TAG -d data.csv -F "time YYYY-MM-DD HH24:MI:SS mmm:uuu:nnn" -l err
 ##---------------------------------------------------------------------------------------------------------
 ## todo: 마크베이스에 저장 할 때
 final_value_list = list()
-folder_path = '/home/uk/PredictionServer/prediction/'
+folder_path = folder_prediction_path
 area = 'naju'
 resource = 'insu' # or '30001.1
 ddstart=2015

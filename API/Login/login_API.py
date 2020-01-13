@@ -27,8 +27,13 @@ user_apis = Blueprint('user_apis', __name__, url_prefix='/api')
 wtforms_json.init()
 
 
-
-@user_apis.route('/users/<int:userid>/level', methods=['POST'])
+'''
+http://192.168.0.49:10300/api/users/sys/level
+{
+  "level":99
+}
+'''
+@user_apis.route('/users/<string:userid>/level', methods=['POST'])
 def api_login(userid):
     # login_level = AuthLevelForm.from_json(request.json)
     req = request.get_json()
@@ -36,8 +41,11 @@ def api_login(userid):
     data = json.loads(jsonString)
 
     login_level = data['level']
-    user = db_session.query(Login).get(str(userid))
-    user.level = login_level.level.data
+
+    key = db_session.query(Login.key).filter(Login.id == str(userid))
+    user = db_session.query(Login).get(key)
+
+    user.level = login_level
     db_session.commit()
 
     return jsonify(True)
@@ -253,9 +261,7 @@ def api_auth_restore():
 @user_apis.route('/users', methods=['GET','PUT'])
 @crossdomain(origin='*')
 def api_users():
-
     if request.method =='GET':
-
         limit = request.args.get('limit', type=int)
         page = request.args.get('page', type=int)
         # print session
@@ -366,12 +372,6 @@ def api_usersid(userid):
 
     return response_json_value(result)
 
-'''
-{
-  "id":"sys",
-  "password":"1234"
-}
-'''
 
 @user_apis.route('/users', methods=['POST'])
 @crossdomain(origin='*')

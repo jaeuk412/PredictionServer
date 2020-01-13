@@ -82,195 +82,222 @@ HYGAS.NAJU_C_HOUSE.30001.2 - 나주_하우스_가스검침량.
 @predic_apis.route('/infer/predicts', methods=['POST'])
 @crossdomain(origin='*')
 def api_infer_predict_API():
-    user_key = get_user_key()
-    print('----key----')
-
-    req = request.get_json()
-    jsonString = json.dumps(req)
-    data = json.loads(jsonString)
-
     try:
-        name = data['name']
-    except:
-        name = None
-    try:
-        descript = data['descript']
-    except:
-        descript = None
-
-    try:
-        dataset = data['dataset']
-    except:
-        print('dataset(400)')
-        abort(400)
-
-    try:
-        period = data['period']
-    except:
-        dt = datetime.datetime.now()
-        # start_date, start_year, start_month, start_day = date_time(dt)
-        period = str(dt.strftime('%Y-%m-%d'))
-
-    # print("period: ",period)
-
-    period_value = get_period_value(period)
-    # print(period_value)
-
-    period_start_date = '%04d%02d%02d' % (period_value[0], period_value[1], period_value[2])
-    period_start_time = '%02d:%02d:%02d' % (period_value[3], period_value[4], period_value[5])
-    period_end_date = '%04d%02d%02d' % (period_value[6], period_value[7], period_value[8])
-    period_end_time = '%02d:%02d:%02d' % (period_value[9], period_value[10], period_value[11])
-
-    final_result = list()
-    # dataset 안에 리스트 형태로
-    # print("dataset: ",dataset)
-    for data_value in dataset:
-        filename = str()
-        # print('--------------2---------------')
+        user_key = get_user_key()
+        req = request.get_json()
+        jsonString = json.dumps(req)
+        data = json.loads(jsonString)
 
         try:
-            # trainedmodel은 필수. <스마트:'water+temp'>,<해양:'daily','monthly'..>
-            trained_model = data_value['trainedModel']
-            argument = data_value['arguments']
+            name = data['name']
+        except:
+            name = None
+        try:
+            descript = data['descript']
+        except:
+            descript = None
 
-            # <스마트:'<numeric>ismart!ismart/0330102552/-/usage'>,<해양:'30001.1-인수','30001.2'-검침>
-            resource = argument['resource']
+        try:
+            dataset = data['dataset']
+        except:
+            print('dataset(400)')
+            abort(400)
+
+        try:
+            period = data['period']
+        except:
+            dt = datetime.datetime.now()
+            # start_date, start_year, start_month, start_day = date_time(dt)
+            period = str(dt.strftime('%Y-%m-%d'))
+        # print("period: ",period)
+
+        period_value = get_period_value(period)
+        # print(period_value)
+
+        period_start_date = '%04d%02d%02d' % (period_value[0], period_value[1], period_value[2])
+        period_start_time = '%02d:%02d:%02d' % (period_value[3], period_value[4], period_value[5])
+        period_end_date = '%04d%02d%02d' % (period_value[6], period_value[7], period_value[8])
+        period_end_time = '%02d:%02d:%02d' % (period_value[9], period_value[10], period_value[11])
+
+        final_result = list()
+        # dataset 안에 리스트 형태로
+        # print("dataset: ",dataset)
+        for data_value in dataset:
+            filename = str()
+            # print('--------------2---------------')
 
             try:
-                ##todo: key 값으로 추출.
-                area = argument['location']
-                # todo: 현재 폴더에 naju 데이터 뿐이기 때문에, 추후에 다른 지역 데이터 오면 해당 영역 open 여기 수정.
-                # if not area == 1:
-                #     area = 1
-            except:
-                area = 1
+                # trainedmodel은 필수. <스마트:'water+temp'>,<해양:'daily','monthly'..>
+                trained_model = data_value['trainedModel']
+                argument = data_value['arguments']
 
-            ## monthly1 경우에 temp, sub 모드.
-            ## temp_mode (default = 0)
-            try:
-                temp_mode = argument["tempMode"]
-            except:
-                temp_mode = 0
-
-            ## sub_mode (default = 0)
-            try:
-                sub_mode = argument["subMode"]
-            except:
-                sub_mode = 0
-
-            # print("resource: ", resource)
-            # print("area: ",area)
-
-
-            # 현재 스마트경우 받은 모델이 없어서, 임시폴더로 이름 만들어서 임의 값 저장중. (filename)
-            if isinstance(trained_model, str):
-                print('-----smart-----')
-                if isinstance(resource, int):
-                    abort(400)
-                else:
-                    file_name_get_model = trained_model.replace('+', '_')
-                    filename = '%s_%s' % (file_name_get_model, get_arguments_value(resource))
-
-                    model = get_train_model(user_key)
-                    model.train_model(filename, period_start_date, period_end_date, period_start_time,
-                                      period_end_time)
-                    value = model.train_model_result(filename)
-
-                    ## 최종 적으로 각 모델들의 결과 값들을 합해서 json 형태로 출력 or
-                    ## 출력이 long term 이면 결과 파일을 따로 읽는 API 새로 작성.
-                    final_result.append(value)
-
-            elif isinstance(trained_model, int):
-                print('-----hy-----')
+                # <스마트:'<numeric>ismart!ismart/0330102552/-/usage'>,<해양:'30001.1-인수','30001.2'-검침>
+                resource = argument['resource']
 
                 try:
-                    quer = db_session.query(ModelTable.id).filter(ModelTable.key == trained_model)
-                    records = db_session.execute(quer)
-                    for i in records:
-                        ## 'naju
-                        for x, y in i.items():
-                            string_model = y
+                    area = argument['location']
                 except:
-                    string_model = 'daily'
+                    # area 가 없는 지역이 올 경우 일단 기본 naju로.
+                    area = 1
 
-                ## resource가 해양가스 일 때.
-                # print("Hygas")
-                # print(sort)
-                # print(area)
-                # print(trained_model)
-                # print(period_start_date)
-                dt = datetime.datetime.now()
-                date_check = int(dt.strftime('%Y%m%d'))
-                if string_model == 'daily':
-                    ## todo: 인수, 검침량 데이터를 읽어서 해당 날짜에 가능한 모델링을 하도록 자동화.
-                    '''
-                    -오늘에 해당하는 달을 기준으로 한달전 데이터가 모두 있어여함.
-                    -insu가 10월6까지 있음 -> 10월30일 요청하면 insu 9.1~9.30까지 불러옴, 
-                     11월1일로 요청하면 insu 10.1~10.31일을 써야하는데 없어서 ERROR!
-                    -20191130요청시 -> -4년(2015)부터 가져옴 // 20181130년요청시-> -4년(2014)부터 가져옴.
-                    -예측 날짜 데이터 (10월 29일 12시 - 11월 6 일 19시) 비어있음.
-                    '''
+                ## monthly1 경우에 temp, sub 모드.
+                ## temp_mode (default = 0)
+                try:
+                    temp_mode = argument["tempMode"]
+                except:
+                    temp_mode = 0
+
+                ## sub_mode (default = 0)
+                try:
+                    sub_mode = argument["subMode"]
+                except:
+                    sub_mode = 0
+
+                # print("resource: ", resource)
+                # print("area: ",area)
+
+                # 현재 스마트경우 받은 모델이 없어서, 임시폴더로 이름 만들어서 임의 값 저장중. (filename)
+                if isinstance(trained_model, str):
+                    # print('-----smart-----')
+                    if isinstance(resource, int):
+                        abort(400)
+                    else:
+                        file_name_get_model = trained_model.replace('+', '_')
+                        filename = '%s_%s' % (file_name_get_model, get_arguments_value(resource))
+
+                        model = get_train_model(user_key)
+                        model.train_model(filename, period_start_date, period_end_date, period_start_time,
+                                          period_end_time)
+                        value = model.train_model_result(filename)
+
+                        ## 최종 적으로 각 모델들의 결과 값들을 합해서 json 형태로 출력 or
+                        ## 출력이 long term 이면 결과 파일을 따로 읽는 API 새로 작성.
+                        final_result.append(value)
+
+                elif isinstance(trained_model, int):
+                    # print('-----hy-----')
+
+                    try:
+                        quer = db_session.query(ModelTable.id).filter(ModelTable.key == trained_model)
+                        records = db_session.execute(quer)
+                        for i in records:
+                            ## 'naju
+                            for x, y in i.items():
+                                string_model = y
+                    except:
+                        string_model = 'daily'
+
+                    ## resource가 해양가스 일 때.
+                    # print("Hygas")
+                    # print(sort)
+                    # print(area)
+                    # print(trained_model)
                     # print(period_start_date)
-                    # print(date_check)
+                    dt = datetime.datetime.now()
+                    date_check = int(dt.strftime('%Y%m%d'))
 
-                    if int(period_start_date) > 20191030:
-                        period_start_date = 20191028
-                        # abort(400)
-                    result = predict_daily(resource, area, trained_model, int(period_start_date), user_key, name, descript)
-                    final_result.append(result)
-                elif string_model == 'monthly1':
-                    '''
-                    인수, 검침량 데이터를 읽어서 해당 날짜에 가능한 모델링을 하도록 자동화.  
-                    20191005 날짜로 실행 -> (2018-10-01 ~ 2019-09-30 얻음.) 
-                    '''
-                    ## todo: db에 유저 key 추가.
-                    ## todo: 어떤 날짜 ~ 날짜 데이터로 모델링 하는지 확인 필요.
-                    if int(period_start_date) > 20191005 or int(period_start_date) < 20150101:
-                        period_start_date = 20191005
-                        # abort(400)
-                    result = predict_monthly1(resource, area, trained_model, int(period_start_date), temp_mode,
-                                              sub_mode, user_key, name, descript)
-                    final_result.append(result)
-                elif string_model == 'monthly2':
-                    ## todo: 인수, 검침량 데이터를 읽어서 해당 날짜에 가능한 모델링을 하도록 자동화.
-                    if int(period_start_date) > 20191005 or int(period_start_date) < 20170101:
-                        period_start_date = 20191005
-                        # abort(400)
-                    result = predict_monthly2(resource, area, trained_model, int(period_start_date), user_key, name, descript)
-                    final_result.append(result)
-                elif string_model == 'yearly':
-                    ## todo: 인수, 검침량 데이터를 읽어서 해당 날짜에 가능한 모델링을 하도록 자동화.
-                    if int(period_start_date) > 20191005 or int(period_start_date) < 20190101:
-                        period_start_date = 20191005
-                        # abort(400)
-                    result = predict_yearly(resource, area, trained_model, int(period_start_date), user_key, name, descript)
-                    # print(result)
-                    final_result.append(result)
+                    import glob
+                    ## 저장된 데이터셋 개수(filecountvalue) , 가장작은 년도(file_start_year), filelist리스트=[2014,2015, .. ,2019]
+                    if resource == 2 or resource == 3:
+                        string_resource = 'insu'
+                    elif resource == 1:
+                        string_resource = 'temp'
+                    elif resource == 4:
+                        string_resource = 'sub'
 
-                else:
-                    abort(400)
+                    if area == 1:
+                        string_area = 'naju'
+                    elif resource == 2:
+                        string_area = 'gwangju'
+                    elif resource == 3:
+                        string_area = 'jangsung'
+                    elif resource == 4:
+                        string_area = 'damyang'
 
-            # if string_area == 'yearly' or string_area == 'daily' or string_area == 'monthly1' or string_area == 'monthly2':
-            # message = 'DONE_'+str(final_result[0])
-            #
-            # if not os.path.isdir(folder_detectkey_path):
-            #     os.mkdir(folder_detectkey_path)
-            # with open(folder_detectkey_path + message, 'w') as f:
-            #     f.write(message)
+                    ## string_resource=insu, string_area=naju
+                    filecount = folder_prediction_path + 'data/%s/' % (string_resource)
+                    file_start_year = sorted(glob.glob1(filecount, "%s_%s*" % (string_area, string_resource)))[0]
+                    with open(folder_prediction_path + 'data/%s/%s' % (string_resource, file_start_year), 'r') as read:
+                        start_year_date = read.readlines()[1:][0].split(' ')
+                        start_date = int(
+                            "%04d%02d%02d" % (
+                            int(start_year_date[0]), int(start_year_date[1]), int(start_year_date[2])))
+                        # print(start_date)
 
+                    file_last_year = sorted(glob.glob1(filecount, "%s_%s*" % (string_area, string_resource)))[-1]
+                    with open(folder_prediction_path + 'data/%s/%s' % (string_resource, file_last_year), 'r') as read:
+                        last_year_date = read.readlines()[-1:][0].split(' ')
+                        last_date = int(
+                            "%04d%02d%02d" % (int(last_year_date[0]), int(last_year_date[1]), int(last_year_date[2])))
+                        # print(last_date)
 
-        except Exception as e:
-            print(e)
-            print('----749--')
-            return abort(400)
+                    if string_model == 'daily':
+                        ## todo: 인수, 검침량 데이터를 부족한 부분.
+                        '''
+                        -오늘에 해당하는 달을 기준으로 한달전 데이터가 모두 있어여함.
+                        -insu가 10월6까지 있음 -> 10월30일 요청하면 insu 2019.9.1~9.30까지 불러옴, 
+                         11월1일로 요청하면 insu 2019.10.1~10.31일을 써야하는데 없어서 ERROR!
+                        -20191130요청시 -> -4년(2015)부터 가져옴 // 20181130년요청시-> -4년(2014)부터 가져옴.
+                        -예측 날짜 데이터 (10월 29일 12시 - 11월 6 일 19시) 비어있음.
+                        '''
+                        # print(period_start_date)
+                        # print(date_check)
+                        if int(period_start_date) > last_date:
+                            period_start_date = last_date - 1  # 마지막 데이터가 날짜는 있지만, 뒤쪽 데이터가 짤릴 경우가 있어서 -1일 기준으로 잡는다.
+                            ## 만약 20190101 일경우에는 20181231 로 가는 별도의 로직이 필요함.
+                        result = predict_daily(resource, area, trained_model, int(period_start_date), user_key, name,
+                                               descript)
+                        final_result.append(result)
+                    elif string_model == 'monthly1':
+                        '''
+                        인수, 검침량 데이터를 읽어서 해당 날짜에 가능한 모델링을 하도록 자동화.  
+                        20191005 날짜로 실행 -> (2018-10-01 ~ 2019-09-30 얻음.)
+                        과거 1년을 잡아야 하니. 적어도 처음 2014년도꺼 1년은 기간으로 잡으면 안됨(가능한 범위 20150101 ~ 20191005(마지막데이터))
+                        '''
+                        if int(period_start_date) >= last_date or int(period_start_date) < start_date + 10000:
+                            period_start_date = last_date - 1
+                        result = predict_monthly1(resource, area, trained_model, int(period_start_date), temp_mode,
+                                                  sub_mode, user_key, name, descript)
+                        final_result.append(result)
+                    elif string_model == 'monthly2':
+                        '''
+                        미래 24개월 예측은 현재2019년 기준으로 (2016,2017,2018)년 데이터를 쓰는거 같음.
+                        2016년도 범위는 2013년도 데이터 없으므로(현재 시작년도(20140101)) 모델링 불가.   
+                        20170101 ~ 20191005(현재마지막데이터)
+                        '''
+                        if int(period_start_date) > last_date or int(period_start_date) < start_date + 30000:
+                            period_start_date = last_date - 1
+                            # abort(400)
+                        result = predict_monthly2(resource, area, trained_model, int(period_start_date), user_key, name,
+                                                  descript)
+                        final_result.append(result)
+                    elif string_model == 'yearly':
+                        '''
+                        5년 예측은 현재 2019이면, 과거 5년(2014,2015,2016,2017,2018) 총 5개 년도가 필요함.
+                        20190101 ~ 20191005(현재마지막데이터) 
+                        '''
+                        if int(period_start_date) > last_date or int(period_start_date) < start_date + 50000:
+                            period_start_date = last_date - 1
+                        result = predict_yearly(resource, area, trained_model, int(period_start_date), user_key, name,
+                                                descript)
+                        final_result.append(result)
 
-        final_dict = {"dataset":final_result}
+                    else:
+                        abort(400)
 
-    return jsonify(final_dict)
-    # except Exception as e:
-    #     print('----------742----------')
-    #     print(e)
-    #     abort(400)
+            except Exception as e:
+                print(e)
+                print('----749--')
+                return abort(400)
+
+            time.sleep(1)
+            final_dict = {"dataset": final_result}
+
+        return jsonify(final_dict)
+    except Exception as e:
+        print('----------predicts_main_except----------')
+        print(e)
+        abort(400)
 
 
 @predic_apis.route('/infer/predicts/valuemake', methods=['GET'])
@@ -395,7 +422,6 @@ def api_infer_predicted_API():
 
         result = result[result_start:result_end]
 
-
     '''
     limit=5
     p1 - 0-5
@@ -449,7 +475,7 @@ def api_infer_predicted_API_detail(key):
         get_insert_time = None
         get_finish_time = None
         for x, y in y1.items():
-            ## start_date에 각 모델에 맞춰 기간 계산.
+            ## start_date에 각 모델에 맞춰 기간 계산(daily=30days, monthly1=1year, monthly2=2years, yearly 5years)
             if 'period' in x:
                 if string_model == 'daily':
                     value_dict.update({x: datecount(y, 'daily') + ' ~ ' + datecount(y + 29, 'daily')})
@@ -523,20 +549,9 @@ def api_infer_predicted_API_detail(key):
 
         result = result[result_start:result_end]
 
-    '''
-    limit=5
-    p1 - 0-5
-    p2 - 5-10
-    p3 - 10-15
-    daily5,4,3,2,1/monthly1_1/monthly2_4,3,2,1/yearly5,4,3,2,1
-    '''
-
-
     return response_json_list(result)
 
 def get_arguments_value(argument):
-    # argument = arguments.split('/')
-    # argument = argument[0]
     a=0
     value_str = str()
     value = str()
@@ -633,44 +648,22 @@ def predict_daily(resource, area, model, start_date, user_key, name, descript):
     # string_resource, mach_resource= resource_define(resource)
     ## naju
     predictarea, sub_area = area_define(area)
-    print("predictarea: ",predictarea)
-    print("sub_area: ",sub_area)
+    # print("predictarea: ",predictarea)
+    # print("sub_area: ",sub_area)
 
     daily_output_file = folder_prediction_path + 'result/%s/predict_%s_%d_%d_%d_daily' % (user_key, sub_area, start_year, start_month, start_day)
-    print("outputfile: ", daily_output_file)
+    # print("outputfile: ", daily_output_file)
 
     try:
-        print(resource)
-        print(type(resource))
-        print(area)
-        print(type(area))
-        print(model)
-        print(type(model))
-        print(start_date)
-        print(type(start_date))
-        print(daily_output_file)
-        print(type(daily_output_file))
-        print(user_key)
-        print(type(user_key))
-        print(name)
-        print(type(name))
-        print(descript)
-        print(type(descript))
-        print('-----------2---------------')
-        # print("200000: ",start_year, start_month, start_day)
         # db_session.add(DailyTable(resource=sort, location=area, model=model, start_date=start_date, save_daily=daily_output_file))
         db_session.add(ResultTable(resource=resource, location=area, model=model, start_date=start_date, save_file1=daily_output_file, user_key=user_key, name=name, descript=descript))
         db_session.commit()
-        print('-----------3---------------')
 
         detectkey = db_session.query(ResultTable.key).order_by(ResultTable.key.desc())
-        print(detectkey[0][0])
-        print('-----------4---------------')
 
         set_class = set_predic_data()
         set_class.set_Daily_coming_30days(sub_area, start_year, start_month, start_day, user_key, detectkey[0][0])
         final_reuslt = detectkey[0][0]
-        print('-----------5---------------')
         return final_reuslt
     except:
         final_reuslt = None
@@ -706,7 +699,7 @@ def predict_monthly1(resource, area, model, start_date, temp_mode, sub_mode, use
         db_session.commit()
 
         detectkey = db_session.query(ResultTable.key).order_by(ResultTable.key.desc())
-        print(detectkey[0][0])
+        # print(detectkey[0][0])
 
         set_class = set_predic_data()
         set_class.set_Monthly_latest_12months(sub_area, start_year - 1, start_month, 12, temp_mode, sub_mode,
@@ -769,9 +762,6 @@ def predict_yearly(resource, area, model, start_date, user_key, name, descript):
         yearly_save = result_path + 'coming_' + sub_area + '_' + str(start_year) + '_to_' + str(
             start_year + 5) + '_yearly' + '.csv'
 
-        # todo: 2.진행률 %로 가능한지. 3.스마트에너지(lwm2m) 체크
-        # todo: 5.마크베이스. 7.celery(cpu,gpu)제한, 2개이상이 구동 힘듬. 8. 유저폴더안에, 날짜폴더 추가 할 건지.
-
         # db_session.add(YearlyTable(resource=sort, location=area, model=model, start_date=start_date, save_monthly=monthly_save, save_yearly=yearly_save))
         db_session.add(
             ResultTable(resource=resource, location=area, model=model, start_date=start_date, save_file1=yearly_save,
@@ -786,9 +776,6 @@ def predict_yearly(resource, area, model, start_date, user_key, name, descript):
 
         final_result = detectkey[0][0]
         return final_result
-
-
-
 
     except:
 
@@ -833,9 +820,7 @@ def datecount(value, sort):
 
 def resource_define(resource):
     try:
-        # todo: 현재 resource(2,3)은 인수량,검침량으로 이 두개는 name=insu값을 가짐(검침량도 인수량으로 대체하라는 오더).
-        ## 그런데 나머지 resource(1,4)는 temp, sub 값을 가지는데, insu데이터와 파일 구조가 달라서 얻는 값들을 따로 정의 해줘야함.
-        ## 현재는 1,4도 name을 insu로 지정해 주겠음.
+
         if resource == 1 or resource == 4:
             resource = 2
 
@@ -866,13 +851,12 @@ def area_define(area):
             for x, y in i.items():
                 string_area = y
 
-        ## todo: 실제 파일리스트에서 'gwanju' 파일이 없으면 'naju' 파일로 대체.
-
-        print("string_area: ",string_area)
+        ## 실제 파일리스트에서 'gwanju' 파일이 없으면 기본 'naju' 파일로 대체.
 
         if string_area != 'naju':
             sub_area = 'naju'
         return string_area, sub_area
+
     except:
         string_area = 'naju'
         sub_area = 'naju'

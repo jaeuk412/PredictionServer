@@ -42,7 +42,7 @@ def mach_test():
 
     query = "SELECT TIME, VALUE FROM tag where name='HYGAS.NAJU_C_HOUSE.30001.1'"
     dblist = connect(query)
-    print(dblist)
+    # print(dblist)
     k = 0
     value_name = list()
     final_value = []
@@ -66,7 +66,7 @@ def mach_test():
 
 @data_apis.route('/attach', methods=['GET', 'POST'])
 def file_attach():
-    print("file_attach")
+    # print("file_attach")
     if request.method == 'POST':
 
         now = datetime.datetime.now()
@@ -100,12 +100,12 @@ def file_attach():
 
 @data_apis.route('/attach/<string:id>', methods=['DELETE'])
 def file_delete(id):
-    print(id)
+    # print(id)
 
     try:
         for name in [id]:
             tempfilepath = folder_dataupload_path + name
-            print(tempfilepath)
+            # print(tempfilepath)
 
             os.remove(tempfilepath)
 
@@ -113,8 +113,6 @@ def file_delete(id):
         return jsonify(True)
     except:
         return jsonify(False)
-
-
 
 
 @data_apis.route('/datasets', methods=['POST'])
@@ -131,7 +129,7 @@ def file_create():
             area = data['location']
         except:
             ## todo: 사용자 입력에러(400) 리턴을 원할 경우 abort(400)으로 바꾸면됨.
-            area = 1
+            area = 2
 
         try:
             ## todo: resource 값에 따라 저장되는 모델용 폴더명 확인.
@@ -255,7 +253,7 @@ def file_create():
                 # print(resource)
                 # print(area)
                 # print(model_save_path)
-
+                print(area)
                 ## DB에 저장.
                 db_session.add(DataTable(period=period, machbase_name=machbase_class_name, file_path=new_name, purpose=purpose, resource=resource, location=area, save_path=model_save_path))
                 db_session.commit()
@@ -268,15 +266,62 @@ def file_create():
     except Exception as e:
         return jsonify(False)
 
-
+'''
+http://192.168.0.49:10300/api/datasets?target=location&keyword=gwan
+'''
 ## ReadAll files info
 @data_apis.route('/datasets', methods=['GET'])
 def api_file_search():
     limit = request.args.get('limit', type=int)
     page = request.args.get('page', type=int)
 
-    # query = "select * from data ORDER BY key"
-    query = "select key, inserted, location, purpose, resource, period, file_path from data ORDER BY key"
+    # /api/datasets?target=location&keyword=naju
+    target = request.args.get('target', type=str)
+    keyword = request.args.get('keyword', type=str)
+
+    qs_location = request.args.get('location-name', type=str)
+    qs_resource = request.args.get('resource-name', type=str)
+
+    qs_key_location = request.args.get('location', type=str)
+    qs_key_resource = request.args.get('resource', type=str)
+
+    if qs_key_location:
+        try:
+            if '|' in qs_key_location:
+                list_qs_key_location = qs_key_location.split('|')
+                for i in list_qs_key_location:
+                    int(i)
+            else:
+                qs_key_location = int(qs_key_location)
+
+        except:
+            abort(400)
+
+    if qs_key_resource:
+        try:
+            if '|' in qs_key_resource:
+                list_qs_key_resource = qs_key_resource.split('|')
+                for i in list_qs_key_resource:
+                    int(i)
+            else:
+                qs_key_resource = int(qs_key_resource)
+        except:
+            abort(400)
+
+    normal_target_query = "select key, inserted, location, purpose, resource, period, file_path from data ORDER BY key"
+    if target:
+        # query = "select %s from data ORDER BY key"%(target)
+        if target == 'location' or target == 'resource':
+            query = normal_target_query
+        else:
+            if keyword:
+                query = "select key, inserted, location, purpose, resource, period, file_path from data WHERE %s LIKE '%%%s%%' ORDER BY key" % (target, keyword)
+            else:
+                query = normal_target_query
+    else:
+        # query = "select * from data ORDER BY key"
+        query = normal_target_query
+
     records = db_session.execute(query)
 
     count = db_session.query(func.count('*')).select_from(DataTable).scalar()
@@ -284,89 +329,206 @@ def api_file_search():
     result = []
 
     for i in records:
-        # print(i)
+        targetcheck = 0
         result_dict = dict()
         for x,y in i.items():
-            # print(x,y)
+            normal_location_query = "select id, key, name, name_en from location where key=%d" % (y)
+            normal_resource_query = "select id, explain, key, name from resource where key=%d" % (y)
             if x == 'file_path':
                 x = 'fileKey'
                 y = y.split('/')[-1]
                 result_dict.update({x: y})
             elif x == 'location':
-                query = "select id, key, name, name_en from location where key=%d" % (y)
-                records1 = db_session.execute(query)
-                location_result={}
-                for location_i in records1:
-                    location_result.update(dict(location_i))
+                if target == 'location':
+                    if keyword:
+                        # targetcheck = 1
+                        query2 = normal_location_query
+                        records1 = db_session.execute(query2)
+                        location_result = {}
+                        for location_i in records1:
+                            # print(dict(location_i).get('id'))
+                            if keyword in dict(location_i).get('id'):
+                                location_result.update(dict(location_i))
+                            else:
+                                targetcheck = 1
 
-                result_dict.update({x: location_result})
+                        result_dict.update({x: location_result})
+                    else:
+                        query2 = normal_location_query
+                        records1 = db_session.execute(query2)
+                        location_result = {}
+                        for location_i in records1:
+                            location_result.update(dict(location_i))
+
+                        result_dict.update({x: location_result})
+                else:
+                    if qs_location:
+                        query2 = normal_location_query
+                        records1 = db_session.execute(query2)
+                        location_result = {}
+                        for location_i in records1:
+                            # print(dict(location_i).get('id'))
+                            if qs_location in dict(location_i).get('id'):
+                                location_result.update(dict(location_i))
+                            else:
+                                targetcheck = 1
+
+                        result_dict.update({x: location_result})
+                    elif qs_key_location:
+                        if '|' in str(qs_key_location):
+                            list_qs_key_location = str(qs_key_location).split('|')
+                            for qs_key in list_qs_key_location:
+                                if int(qs_key) == y:
+                                    query2 = normal_location_query
+                                    records1 = db_session.execute(query2)
+                                    location_result = {}
+                                    for location_i in records1:
+                                        # print(dict(location_i).get('id'))
+                                        location_result.update(dict(location_i))
+                                        targetcheck = 0
+                                        result_dict.update({x: location_result})
+                                    break
+
+                                else:
+                                    targetcheck = 1
+
+                                # result_dict.update({x: location_result})
+
+                        else:
+                            query2 = normal_location_query
+                            records1 = db_session.execute(query2)
+                            location_result = {}
+                            for location_i in records1:
+                                # print(dict(location_i).get('id'))
+                                if qs_key_location == dict(location_i).get('key'):
+                                    location_result.update(dict(location_i))
+                                    targetcheck = 0
+                                else:
+                                    targetcheck = 1
+
+                            result_dict.update({x: location_result})
+
+
+                    else:
+                        query2 = normal_location_query
+                        records1 = db_session.execute(query2)
+                        location_result = {}
+                        for location_i in records1:
+                            location_result.update(dict(location_i))
+
+                        result_dict.update({x: location_result})
+
             elif x == 'resource':
-                query = "select id, explain, key, name from resource where key=%d" % (y)
-                records2 = db_session.execute(query)
-                resource_result = {}
-                for resource_i in records2:
-                    resource_result.update(dict(resource_i))
+                if target == 'resource':
+                    if keyword:
+                        query3 = normal_resource_query
+                        records2 = db_session.execute(query3)
+                        resource_result = {}
+                        for resource_i in records2:
+                            # a.get('name')
+                            if keyword in dict(resource_i).get('id'):
+                                resource_result.update(dict(resource_i))
+                            else:
+                                targetcheck = 1
 
-                result_dict.update({x: resource_result})
+                        result_dict.update({x: resource_result})
+                    else:
+                        query3 = normal_resource_query
+                        records2 = db_session.execute(query3)
+                        resource_result = {}
+                        for resource_i in records2:
+                            resource_result.update(dict(resource_i))
 
+                        result_dict.update({x: resource_result})
+                else:
+                    if qs_resource:
+                        query3 = normal_resource_query
+                        records2 = db_session.execute(query3)
+                        resource_result = {}
+                        for resource_i in records2:
+                            # a.get('name')
+                            if qs_resource in dict(resource_i).get('id'):
+                                resource_result.update(dict(resource_i))
+                            else:
+                                targetcheck = 1
+
+                        result_dict.update({x: resource_result})
+                    elif qs_key_resource:
+                        if '|' in str(qs_key_resource):
+                            list_qs_key_resource = str(qs_key_resource).split('|')
+                            for qs_key in list_qs_key_resource:
+                                if int(qs_key) == y:
+                                    query3 = normal_resource_query
+                                    records2 = db_session.execute(query3)
+                                    resource_result = {}
+                                    for resource_i in records2:
+                                        # print(dict(location_i).get('id'))
+                                        resource_result.update(dict(resource_i))
+                                        targetcheck = 0
+                                        result_dict.update({x: resource_result})
+                                    break
+
+                                else:
+                                    targetcheck = 1
+
+                        else:
+
+                            query3 = normal_resource_query
+                            records2 = db_session.execute(query3)
+                            resource_result = {}
+                            for resource_i in records2:
+                                # a.get('name')
+                                if qs_key_resource == dict(resource_i).get('key'):
+                                    resource_result.update(dict(resource_i))
+                                else:
+                                    targetcheck = 1
+
+                            result_dict.update({x: resource_result})
+
+                    else:
+                        query3 = normal_resource_query
+                        records2 = db_session.execute(query3)
+                        resource_result = {}
+                        for resource_i in records2:
+                            resource_result.update(dict(resource_i))
+
+                        result_dict.update({x: resource_result})
+            # elif x == 'key':
+            #     if qs_key:
+            #         if qs_key == y:
+            #             result_dict.update({x: y})
+            #         else:
+            #             targetcheck = 1
+            #
+            #     else:
+            #         result_dict.update({x: y})
             else:
                 result_dict.update({x: y})
+
         # print(result_dict)
 
-        result.append(result_dict)
-        # print(result)
+        if targetcheck == 1:
+            pass
+        else:
+            result.append(result_dict)
+
+    if limit == None or limit == 0:
+        if page == None or page == 1:
+            result = result
+        else:
+            result = result[0:0]
+
+    else:
+        if page == None or page == 0:
+            page = 1
+
+        result_start = limit * page - limit
+        result_end = limit * page
+
+        result = result[result_start:result_end]
 
     fresult = {"dataset": result, "total": count}
     return jsonify(fresult)
-
-# @data_apis.route('/datasets/statics', methods=['GET'])
-# def smartCity_datasetlist():
-#     print('---------------1----------')
-#     dlist = [name for name in dbsearch1.table_names() if name.startswith('dataset_')]
-#     result=list()
-#     for i in dlist:
-#         result.append("static/%s"%(i.replace("dataset_","")))
-#
-#     return jsonify({"resources": result})
-
-
-# @data_apis.route('/datasets/staticstest', methods=['GET'])
-# def smartCity_datasetlisttest():
-#     dlist = [name for name in dbsearch1.table_names() if name.startswith('dataset_')]
-#     result = list()
-#     for i in dlist:
-#         result.append("static/%s" % (i.replace("dataset_", "")))
-#
-#     # req = request.get_json()
-#     # jsonString = json.dumps(req)
-#     # data = json.loads(jsonString)
-#
-#     # datatable = data['resource']
-#
-#     total_value = dict()
-#     total_value2 = list()
-#
-#     query = "select * from %s" % ('dataset_acc_inflow')
-#
-#     # if datasetvalue == 'dataset_acc_inflow':
-#     #     query = "select	date, dow as week, sum(in_flow) as flow from dataset_acc_inflow " + datasetdate + " group by date, dow order by date"
-#     #
-#     # # query = "select	date, dow as week, sum(in_flow) as flow from "+datasetvalue+" group by date, dow order by date limit 100"
-#     # elif datasetvalue == 'dataset_acc_outflow':
-#     #     query = "select	date, dow as week, sum(out_flow) as flow from dataset_acc_outflow " + datasetdate + " group by date, dow order by date"
-#     records = dbsearch1.execute(query)
-#     result = []
-#     for i in records:
-#         # print(i)
-#         result_dict = dict()
-#         for x, y in i.items():
-#             result_dict.update({x: y})
-#         # print(result_dict)
-#
-#         result.append(result_dict)
-#
-#
-#     return response_json_list(result)
 
 ## Read
 @data_apis.route('/datasets/<int:key>', methods=['GET'])
@@ -563,7 +725,7 @@ def api_data_values():
                     else:
                         query = "select * from %s" % (datasetvalue)
 
-                    print("query: ", query)
+                    # print("query: ", query)
                     # if datasetvalue == 'dataset_acc_inflow':
                     #     query = "select	date, dow as week, sum(in_flow) as flow from dataset_acc_inflow " + datasetdate + " group by date, dow order by date"
                     #
@@ -660,9 +822,6 @@ def api_data_values():
                             if x == 'resource_id':
                                 mach_resource = y
 
-                    print(string_resource)
-                    print(mach_resource)
-
                 except:
                     ## resource(1,2,3,4)를 제외한 값도 일단은 가장 기본 값인 resource(1)의  insu, 30001.1 지정.
                     string_resource = 'insu'
@@ -684,7 +843,6 @@ def api_data_values():
                     source = 'HYGAS'
 
                 if not period:
-                    ## todo: 현재있는 data/insu의 파일내용 모두 출력인데, 나중에 기간에 따라 출력 바뀌게 될시 여기 수정.
                     datelist = []
                     import glob
                     ## 저장된 데이터셋 개수(filecountvalue) , 가장작은 년도(file_start_year), filelist리스트=[2014,2015, .. ,2019]
@@ -698,10 +856,7 @@ def api_data_values():
                         datelist.append(file_start_year)
                         file_start_year += 1
                 else:
-                    ## 해양도시 insu값 무조건 다 출력.
-                    # datestart_hy = 2014
-                    # dateend_hy = 2019
-                    # print(datestart)
+
                     datelist = []
                     import glob
                     ## 저장된 데이터셋 개수(filecountvalue) , 가장작은 년도(file_start_year), filelist리스트=[2014,2015, .. ,2019]

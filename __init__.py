@@ -5,7 +5,7 @@ import datetime
 import re
 
 # library
-from flask import Flask, send_from_directory, make_response, url_for
+from flask import Flask, send_from_directory, make_response, url_for, redirect
 from flask_sse import sse
 
 # directory
@@ -72,7 +72,7 @@ app.url_map._rules_by_endpoint.clear()
 webapp_path = 'static'
 webapp_index = 'index.html'
 
-
+redirect("0.0.0.0", code=392)
 ## 웹페이지 시작.
 @app.after_request
 ## origin=ip_path는 해당 컴터
@@ -81,10 +81,31 @@ def app_global_headers(response):
     return response
 
 
+# @app.route('/')
+# def app_webapp_index():
+#     return static_file(webapp_index)
+
+'''
+@app.route('/tv/<int:id>', defaults={'slug': None})
+@app.route('/tv/<int:id>-<slug>')
+def tv(id, slug):
+    # ...
+-----------
+@app.route('/', defaults={'path': ''})
+@app.route('/<path:path>')
+def get_dir(path):
+    return path
+'''
+'''
+@app.errorhandler(404)
+def notfound():
+    """Serve 404 template."""
+    return make_response(render_template("404.html"), 404)
+'''
 @app.route('/')
 def app_webapp_index():
     return static_file(webapp_index)
-
+    # return redirect(url_for(static_file(webapp_index)))
 
 def static_file(filename):
     return send_from_directory(webapp_path, filename)
@@ -92,9 +113,15 @@ def static_file(filename):
 
 @app.route('/<path:filename>')
 def app_webapp(filename):
-    if re.match(r'\/?[^.]+\..*$', filename) is None:
-        filename += '.html'
-    return static_file(filename)
+    try:
+
+        if re.match(r'\/?[^.]+\..*$', filename) is None:
+            filename += '.html'
+        return static_file(filename)
+    except:
+        filename = webapp_index
+        return static_file(filename)
+
 
 
 create_tables()

@@ -13,7 +13,6 @@ import time
 
 
 async def SendMsg1(websocket, path, result):
-    print('--------------22---------------')
     await websocket.send(json.dumps(result))
 
 async def SendMsg2(websocket, path, result):
@@ -66,9 +65,9 @@ def db_query(data):
     temp_option = value[4]
     sub_option = value[5]
 
-    print("model_name: ",model_name)
-    print("area: ",area)
-    print("user_key: ",user_key)
+    # print("model_name: ",model_name)
+    # print("area: ",area)
+    # print("user_key: ",user_key)
 
     datass = []
     from API.Predict.get_data_class import get_predic_data
@@ -78,16 +77,20 @@ def db_query(data):
     if model_name == 'daily':
         # print("-------------------------")
         datass = get_class.get_Daily_coming_30days_vaule(area, start_date, user_key)
-        # datass = get_class.get_Daily_coming_30days_vaule(area, 20191003, user_key)
+        if not datass:
+            datass = get_class.get_Daily_coming_30days_vaule(area, 20191003, 0)
     elif model_name == 'monthly1':
         datass = get_class.get_Monthly_latest_12months_monthly_value(area, start_year - 1, start_month, temp_option, sub_option, user_key)
-        # datass = get_class.get_Monthly_latest_12months_monthly_value(area, 2018, 10, 0, 0, user_key)
+        if not datass:
+            datass = get_class.get_Monthly_latest_12months_monthly_value(area, 2018, 10, 0, 0, 0)
     elif model_name == 'monthly2':
         datass = get_class.get_Monthly_coming_24months_monthly_value(area, start_year, start_month, user_key)
-        # datass = get_class.get_Monthly_coming_24months_monthly_value(area, 2019, 10, user_key)
+        if not datass:
+            datass = get_class.get_Monthly_coming_24months_monthly_value(area, 2019, 10, 0)
     elif model_name == 'yearly':
         datass = get_class.get_Yearly_coming_5years_month(area, start_year, user_key)
-        # datass = get_class.get_Yearly_coming_5years_month(area, 2019, user_key)
+        if not datass:
+            datass = get_class.get_Yearly_coming_5years_month(area, 2019, 0)
 
     return datass
 
@@ -157,10 +160,11 @@ async def main(websocket, path):
                 if isinstance(data, dict):
                     data = data['dataset']
                     data = data['id']
-                    # print("id: ", data)
+                    print("id: ", data)
 
                     ## 데이터 쿼리.
                     datass = db_query(data)
+                    print(datass)
 
                     # print(datass)
                     result = {"type": "predicted", "dataset": {"id": data, "dataset": datass}}

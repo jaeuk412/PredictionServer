@@ -54,45 +54,69 @@ in_queue = Queue()
 ## todo: 파일로 Ing_detectkey 만들어서 실행 시키고 종료될때 Ing 없애기.
 ### While문 돌려서 파일에 Ing가 있으면 실행 X 방식으로 1개씩 실행.
 
-def work(predicArea, start_year, start_month, start_day, date, user_key, detectkey):
-    print('--Start queue--')
-    ## 만약 큐에 값이 있으면 대기.
-    # count = 0
-    # while 1:
-    #     if count == 0:
-    #         print(in_queue.empty())
-    #
-    #     if in_queue.empty() == True:
-    #         break
-    #     else:
-    #         pass
-    #     count += 1
-    #
-    # print('--insert queue--')
-    # ## daily 큐를 넣는다.
-    # in_queue.put_nowait('daily')
-
-    # okok = daily.delay(predicArea, start_year, start_month, start_day, date, user_key, detectkey)
-    # print(okok)
-    sys.path.insert(0, root_path)
-    from prediction.predict_daily import main
-    main(str(predicArea), int(start_year), int(start_month), int(start_day), int(date), user_key, detectkey)
-
-    # print('--out queue--')
-    # ## 큐 완료되면 뺴냄.
-    # in_queue.get_nowait()
-    return 'okok'
-
-
 
 ###############################################################################
 
-'''
 
-'''
+@celery.task(name='predict')
+def predict(predicArea, start_year, start_month, start_day, month_range, temp_mode, sub_mode, start_date, user_key, detectkey, mode):
+    ING_message = "ING_"+str(detectkey)
+    # message = str(detectkey)
+
+    if not os.path.isdir(folder_detectkey_path):
+        os.mkdir(folder_detectkey_path)
+
+    print('celery_task')
+
+    w_break = 0
+    while 1:
+        if w_break == 1:
+            break
+
+        files = os.listdir(folder_detectkey_path)
+        print(files)
+
+        if not files:
+            w_break = 1
+        else:
+            if any('ING' in s for s in files):
+                print(mode)
+                time.sleep(1)
+                pass
+
+            else:
+                print('w_break = 1')
+                w_break = 1
+            time.sleep(1)
+
+    value = db_session.query(ResultTable).get(detectkey)
+    value.inserted = datetime.datetime.now()
+    db_session.commit()
+
+
+    print('make_ING_file')
+    with open(folder_detectkey_path + ING_message, 'w') as f:
+        f.write(str(detectkey))
+
+    if mode == 1:
+        Thread = threading.Thread(target=daily_exe, args=(
+        predicArea, start_year, start_month, start_day, start_date, user_key, detectkey))
+        Thread.start()
+    elif mode == 2:
+        Thread = threading.Thread(target=monthly1_exe, args=(predicArea, start_year, start_month, month_range, temp_mode, sub_mode, start_date, user_key, detectkey))
+        Thread.start()
+    elif mode == 3:
+        Thread = threading.Thread(target=monthly2_exe, args=(predicArea, start_year, start_month, month_range, start_date, user_key, detectkey))
+        Thread.start()
+    elif mode == 4:
+        Thread = threading.Thread(target=yearly_exe, args=(predicArea, start_year, start_date, user_key, detectkey))
+        Thread.start()
+
 
 @celery.task(name='daily')
 def daily(predicArea, start_year, start_month, start_day, date, user_key, detectkey):
+    print("---------------------------")
+    print(predicArea, start_year, start_month, start_day, date, user_key, detectkey)
     ING_message = "ING_"+str(detectkey)
     # message = str(detectkey)
 
@@ -140,6 +164,7 @@ def daily_exe(predicArea, start_year, start_month, start_day, date, user_key, de
     current_process()._config = {'semprefix': '/mp'}
     sys.path.insert(0, root_path)
     from prediction.predict_daily import main
+    print(predicArea, start_year, start_month, start_day, date, user_key, detectkey)
     main(str(predicArea), int(start_year), int(start_month), int(start_day), int(date), user_key, detectkey)
 
     ING_message = "ING_" + str(detectkey)
@@ -163,6 +188,8 @@ def daily_exe(predicArea, start_year, start_month, start_day, date, user_key, de
 
 @celery.task(name='monthly1')
 def monthly1(predicArea, start_year, start_month, month_range, temp_mode, sub_mode, start_date, user_key, detectkey):
+    print("---------------------------")
+    print(predicArea, start_year, start_month, month_range, temp_mode, sub_mode, start_date, user_key, detectkey)
     print('---------------------------monthly1----------------------------')
     print("detectkey: ", detectkey)
     ING_message = "ING_" + str(detectkey)
@@ -231,6 +258,7 @@ def monthly1_exe(predicArea, start_year, start_month, month_range, temp_mode, su
 @celery.task(name='monthly2')
 def monthly2(predicArea, start_year, start_month, month_range, start_date, user_key, detectkey):
     print('---------------------------monthly2----------------------------')
+    print(predicArea, start_year, start_month, month_range, start_date, user_key, detectkey)
     ING_message = "ING_" + str(detectkey)
     if not os.path.isdir(folder_detectkey_path):
         os.mkdir(folder_detectkey_path)
@@ -297,6 +325,7 @@ def monthly2_exe(predicArea, start_year, start_month, month_range, start_date, u
 @celery.task(name='yearly')
 def yearly(predicArea, start_year, date, user_key, detectkey):
     print('---------------------------yearly----------------------------')
+    print(predicArea, start_year, date, user_key, detectkey)
     ING_message = "ING_" + str(detectkey)
     if not os.path.isdir(folder_detectkey_path):
         os.mkdir(folder_detectkey_path)

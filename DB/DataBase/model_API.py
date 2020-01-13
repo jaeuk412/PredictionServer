@@ -141,38 +141,85 @@ def model_delete(key):
 
 @model_apis.route('/resources', methods=['GET'])
 def resource_get():
-    try:
-        query = "select * from resource ORDER BY key"
-        records = db_session.execute(query)
-        result1 = []
-        result2 = []
-        result3 = []
-        for i in records:
-            # print(i)
-            result_dict = dict()
-            for x, y in i.items():
+    # try:
+    qs_key = request.args.get('key', type=str)
+    qs_id = request.args.get('id', type=str)
+
+    query = "select * from resource ORDER BY key"
+    records = db_session.execute(query)
+    result1 = []
+    result2 = []
+    result3 = []
+    for i in records:
+        targetcheck = 0
+        # print(i)
+        result_dict = dict()
+        for x, y in i.items():
+            # print('-------------------')
+            # print("items: ",x, y)
+            if x == 'key':
+                if qs_key:
+                    if '|' in qs_key:
+                        list_qs_key = qs_key.split('|')
+                        for qs_x in list_qs_key:
+                            if int(qs_x) == y:
+                                result_dict.update({x: y})
+                                targetcheck = 0
+                                break
+                            else:
+                                targetcheck = 1
+                    else:
+                        if int(qs_key) == y:
+                            result_dict.update({x: y})
+                            targetcheck = 0
+                        else:
+                            targetcheck = 1
+                else:
+                    result_dict.update({x: y})
+            elif x == 'id':
+                if qs_id:
+                    if '|' in qs_id:
+                        list_qs_id = qs_id.split('|')
+                        for qs_x in list_qs_id:
+                            if qs_x in y:
+                                result_dict.update({x:y})
+                                targetcheck = 0
+                                break
+                            else:
+                                targetcheck = 1
+                    else:
+                        if qs_id in y:
+                            result_dict.update({x: y})
+                            targetcheck = 0
+                        else:
+                            targetcheck = 1
+                else:
+                    result_dict.update({x: y})
+            else:
                 result_dict.update({x: y})
-            # print(result_dict)
 
+        if not len(result_dict) == 5:
+            targetcheck = 1
+
+        if targetcheck == 1:
+            pass
+        else:
+            # print('==========.=============')
+            ## 분류할 때.
             if '.' in result_dict.get('id'):
-                # print(result_dict.get('id'))
+                # print(result_dict)
+                # print(len(result_dict))
                 result1.append(result_dict)
-
             elif 'static/' in result_dict.get('id'):
-                # print(result_dict.get('id'))
                 result2.append(result_dict)
             else:
                 result3.append(result_dict)
 
-            # print(result_dict)
-
-        # final_result = {"hygas": result1,"statics": result2, "other": result3}
-
-        return response_json_list(result1)
+    return response_json_list(result1)
 
         # return response_json_list(result)
-    except:
-        return jsonify(False)
+    # except:
+    #     return jsonify(False)
 
 @model_apis.route('/resources/<int:key>', methods=['GET'])
 def resource_get_detail(key):

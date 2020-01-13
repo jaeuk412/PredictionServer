@@ -29,37 +29,25 @@ class set_predic_data(object):
 
     ## 블러올 때, class 한번 선언후 각 함수(지역,값,값) 형태로
     def set_Daily_coming_30days(self, predicArea, start_year, start_month, start_day, user_key, detectkey):
-        # set_Daily_coming_30day_short_trem_save, set_Daily_coming_30day_mid_trem_save 로 단기3일, 중기 8일 예측 저장하고
-        # set_Daily_coming_30day 함수로 모델링 하는거 까지. (결과 불러오는 거는 중간에 계속 불러올 수 있으니 따로 함수)
-        # print(predicArea)
-        # print(start_year)
-        # print(start_month)
-        # print(start_day)
-        # print(user_key)
-        # print(detectkey)
 
-        ## todo: 유민씨 API 받아오는 곳 아침 7시를 기준으로 그날 7시가 안되면 전날짜로 요청, 7시 넘으면 해당 날짜로.
-        ## TODO: 수정해야함. start_day(20191007) 받으면 11일기록 받는 함수로 유민씨 API---------------------------
         '''
         1. 11일 예측 데이터 받아옴.
         2. short(3) / mid(8) 나눠서 forecast/ 에 저장.
         3. 모델 실행.
 
         '''
-        # start_day=20191004
         date = '%d%02d%02d' % (start_year, start_month, start_day)
-
 
         # 데이터 불러옴.
         weather = set_weather_data(predicArea)
         json_data = weather.set_predict_short_mid_term(date)
 
+        for i in json_data:
+            if not json_data.get(i):
+                json_data=r = {'taMin10': 1.0, 'taMax7': 7.0, 'taMin7': 5.0, 'ny': 74, 'taMax2': 9.0, 'taMin8': 0.0, 'taMax1': 10.0, 'taMin6': 8.0, 'nx': 58, 'taMax6': 11.0, 'taMin2': -2.0, 'taMax5': 10.0, 'taMax9': 8.0, 'taMin4': -1.0, 'taMin5': 3.0, 'taMax4': 9.0, 'taMin0': -5.0, 'taMin3': 1.0, 'taMax3': 10.0, 'taMin9': 0.0, 'taMax0': 6.0, 'taMax10': 7.0, 'taMax8': 8.0, 'taMin1': -1.0, 'baseDate': '2020.01.01'}
+                break
 
-
-        # print("json_data", json_data)
         # 데이터 저장.
-        ## 받아온 json 값에서 short/mid로 나눈다.
-
         short_mid_folder = folder_prediction_path + 'data/forecast/%s/' % (date)
         # print("shomid_folder: ",short_mid_folder)
 
@@ -93,7 +81,7 @@ class set_predic_data(object):
 
             if i == 2:
                 short_value = pd.DataFrame(result_value)
-                # print(short_value)
+                # print("short_value: ",short_value)
                 if not os.path.isdir(short_mid_folder):
                     os.makedirs(short_mid_folder)
                 with open(folder_prediction_path + 'data/forecast/%s/%s_short_term' % (date, predicArea), 'w') as s:
@@ -114,14 +102,12 @@ class set_predic_data(object):
             os.makedirs(short_mid_folder)
         with open(folder_prediction_path + 'data/forecast/%s/%s_mid_term' % (date, predicArea), 'w') as s:
             s.write(str(mid_value))
-        # ## todo : Date로 저장한곳 찾아서 실행.
-        #
-        # ## /data/weather, insu, sub에 오늘보다 이전 데이터가 있어야함.
-        # print("start backtask of api")
-        from backtasks import daily, work
+
+
+        from backtasks import predict
         # daily.apply_async((predicArea, start_year, start_month, start_day, date, user_key, detectkey), queue='lopri', countdown=10)
         ## lopri라는 큐에 task를 전송하고 10초 후 실행.
-        daily.delay(predicArea, start_year, start_month, start_day, date, user_key, detectkey)
+        predict.delay(predicArea, start_year, start_month, start_day, 0,0,0, date, user_key, detectkey,1)
         # work(predicArea, start_year, start_month, start_day, date, user_key, detectkey)
 
         # from prediction.prediction_ETRI.predict_daily import main
@@ -166,16 +152,16 @@ class set_predic_data(object):
         # from prediction.prediction_ETRI.predict_past_12months import conduct_prediction
         # conduct_prediction(predicArea,start_year, start_month, month_range, temp_mode, sub_mode, start_date)
 
-        from backtasks import monthly1
-        monthly1.delay(predicArea, start_year, start_month, month_range, temp_mode, sub_mode, start_date, user_key, detectkey)
+        from backtasks import predict
+        predict.delay(predicArea, start_year, start_month, 0, month_range, temp_mode, sub_mode, start_date, user_key, detectkey, 2)
         return
 
     def set_Monthly_coming_24months(self, predicArea, start_year, start_month, month_range, start_date, user_key, detectkey):
         # from prediction.prediction_ETRI.predict_coming_24months import conduct_prediction
         # conduct_prediction(predicArea, start_year, start_month, month_range, start_date)
         # 과거 -3년 있어야
-        from backtasks import monthly2
-        monthly2.delay(predicArea, start_year, start_month, month_range, start_date, user_key, detectkey)
+        from backtasks import predict
+        predict.delay(predicArea, start_year, start_month, 0, month_range, 0,0, start_date, user_key, detectkey, 3)
 
         return
 
@@ -183,8 +169,8 @@ class set_predic_data(object):
         # from prediction.prediction_ETRI.predict_coming_5years import main
         # main(predicArea,start_year, date)
 
-        from backtasks import yearly
-        yearly.delay(predicArea, start_year, date, user_key, detectkey)
+        from backtasks import predict
+        predict.delay(predicArea, start_year, 0,0,0,0,0, date, user_key, detectkey, 4)
 
         return
 
@@ -311,34 +297,39 @@ class set_weather_data(object):
         # print(json_data)
         return json_data
 
-
-
-    # TODO: 유민씨 API 받아오는 부분 새로운 버전.
     # 값 얻는 부분.
     def set_predict_short_mid_term(self, date):
-
-        start_date = str(date)
-        start_year = int(start_date[0:4])
-        start_month = int(start_date[4:6])
-        start_day = int(start_date[6:8])
-
-        Date = '%d.%d.%d' % (start_year, start_month, start_day)
-
         try:
 
-            # http://192.168.0.139:19480/api/weather/58,74/autoenergy?baseDate=2019.10.07
-            query = 'http://192.168.0.139:19480/api/weather/%s/autoenergy?baseDate=%s' % (
-                self._area_grid, Date)
-            r = requests.get(query).json()
-        except Exception as e:
-            print(e)
-            print("weather_error")
+            start_date = str(date)
+            start_year = int(start_date[0:4])
+            start_month = int(start_date[4:6])
+            start_day = int(start_date[6:8])
 
+            Date = '%d.%d.%d' % (start_year, start_month, start_day)
 
-        # print(r)
-        # r = '[%s]' % (r)
-        # json_data = pd.read_json(r)
-        return r
+            try:
+                # http://192.168.0.139:19480/api/weather/58,74/autoenergy?baseDate=2019.10.07
+                query = 'http://115.94.191.90:19480/api/weather/%s/autoenergy?baseDate=%s' % (
+                    self._area_grid, Date)
+                r = requests.get(query).json()
+            except Exception as e:
+                print(e)
+                print("weather_error")
+                query = 'http://115.94.191.90:19480/api/weather/%s/autoenergy?baseDate=%s' % (
+                    self._area_grid, '2020.01.01')
+                r = requests.get(query).json()
+
+            # print("r: ",r)
+            # print(type(r))
+            # r = '[%s]' % (r)
+            # json_data = pd.read_json(r)
+            return r
+        except:
+            # 2020.01.01
+            print("exect")
+            r = {'taMin10': 1.0, 'taMax7': 7.0, 'taMin7': 5.0, 'ny': 74, 'taMax2': 9.0, 'taMin8': 0.0, 'taMax1': 10.0, 'taMin6': 8.0, 'nx': 58, 'taMax6': 11.0, 'taMin2': -2.0, 'taMax5': 10.0, 'taMax9': 8.0, 'taMin4': -1.0, 'taMin5': 3.0, 'taMax4': 9.0, 'taMin0': -5.0, 'taMin3': 1.0, 'taMax3': 10.0, 'taMin9': 0.0, 'taMax0': 6.0, 'taMax10': 7.0, 'taMax8': 8.0, 'taMin1': -1.0, 'baseDate': '2020.01.01'}
+            return r
 
 
     def set_filter_helper(self, query, filter):
@@ -356,7 +347,8 @@ class set_weather_data(object):
 
 ## 해양
 # aa = set_predic_data()
-# aa.set_Daily_coming_30days('naju',2019,10,7)
+#predicArea, start_year, start_month, start_day, user_key, detectkey
+# aa.set_Daily_coming_30days('naju',2020,1,1,1,1)
 # aa.set_Daily_coming_30day_short_trem_save('naju',20191004,20191004)
 # aa.Monthly_latest_12months('naju',2018,1,1,1,1)
 # aa.set_Monthly_coming_24months('naju',2019,1,24)

@@ -21,7 +21,7 @@ def connect(user, password, db, host, port):
     # meta = sqlalchemy.MetaData(bind=con, reflect=True)
 
     return engine  # , meta
-
+# port: postgres, ?, PredictionServe, '0.0.0.0' ,25005
 dbsearch = connect('ServerAdmin','0000','PredictionServer','0.0.0.0','5432')
 
 dbsearch1 = connect('postgres','sp597886', 'smart-city', '220.90.81.106', '19415')
