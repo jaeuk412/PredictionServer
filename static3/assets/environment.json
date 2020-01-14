@@ -1,0 +1,6 @@
+{
+	"serverSuffix": "/api",
+	"ai": {
+		"ws": "10308/events"
+	}
+}

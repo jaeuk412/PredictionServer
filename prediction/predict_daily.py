@@ -17,8 +17,8 @@ import time
 import lightgbm as lgb
 from sklearn.model_selection import RandomizedSearchCV
 
-_, hard = resource.getrlimit(resource.RLIMIT_DATA)
-resource.setrlimit(resource.RLIMIT_DATA, (12000, hard))
+# _, hard = resource.getrlimit(resource.RLIMIT_DATA)
+# resource.setrlimit(resource.RLIMIT_DATA, (12000, hard))
 # resource.setrlimit(resource.RLIMIT_NPROC, (8,8))
 # resource.setrlimit(resource.RLIMIT_CPU, (1,2))
 # param = {

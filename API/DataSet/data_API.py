@@ -332,8 +332,10 @@ def api_file_search():
         targetcheck = 0
         result_dict = dict()
         for x,y in i.items():
-            normal_location_query = "select id, key, name, name_en from location where key=%d" % (y)
-            normal_resource_query = "select id, explain, key, name from resource where key=%d" % (y)
+            if x == 'location':
+                normal_location_query = "select id, key, name, name_en from location where key=%d" % (y)
+            if x == 'resource':
+                normal_resource_query = "select id, explain, key, name from resource where key=%d" % (y)
             if x == 'file_path':
                 x = 'fileKey'
                 y = y.split('/')[-1]
@@ -493,15 +495,6 @@ def api_file_search():
                             resource_result.update(dict(resource_i))
 
                         result_dict.update({x: resource_result})
-            # elif x == 'key':
-            #     if qs_key:
-            #         if qs_key == y:
-            #             result_dict.update({x: y})
-            #         else:
-            #             targetcheck = 1
-            #
-            #     else:
-            #         result_dict.update({x: y})
             else:
                 result_dict.update({x: y})
 
@@ -512,11 +505,14 @@ def api_file_search():
         else:
             result.append(result_dict)
 
+    result_count = len(result)
     if limit == None or limit == 0:
         if page == None or page == 1:
             result = result
         else:
             result = result[0:0]
+
+
 
     else:
         if page == None or page == 0:
@@ -527,7 +523,9 @@ def api_file_search():
 
         result = result[result_start:result_end]
 
-    fresult = {"dataset": result, "total": count}
+
+
+    fresult = {"dataset": result, "total": result_count}
     return jsonify(fresult)
 
 ## Read

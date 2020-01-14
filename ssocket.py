@@ -80,7 +80,7 @@ def db_query(data):
         if not datass:
             datass = get_class.get_Daily_coming_30days_vaule(area, 20191003, 0)
     elif model_name == 'monthly1':
-        datass = get_class.get_Monthly_latest_12months_monthly_value(area, start_year - 1, start_month, temp_option, sub_option, user_key)
+        datass = get_class.get_Monthly_latest_12months_monthly_value(area, start_year, start_month, temp_option, sub_option, user_key)
         if not datass:
             datass = get_class.get_Monthly_latest_12months_monthly_value(area, 2018, 10, 0, 0, 0)
     elif model_name == 'monthly2':

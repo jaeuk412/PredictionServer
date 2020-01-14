@@ -9,7 +9,8 @@ from flask import Flask, send_from_directory, make_response, url_for, redirect
 from flask_sse import sse
 
 # directory
-from DB.DataBase.database import create_tables
+from DB.DataBase.database import create_tables, db_session
+from DB.DataBase.models import DataTable
 from API.api_helper.api_helper import crossdomain
 
 
@@ -125,3 +126,31 @@ def app_webapp(filename):
 
 
 create_tables()
+
+'''
+    key = Column(Integer, primary_key=True, autoincrement=True)
+    inserted = Column(DateTime, default=datetime.datetime.now())
+    ## 실제 파일 저장.
+    file_path = Column(String(300), nullable=True)
+    ## 모델에 맞춰 파일명 저장.
+    save_path = Column(String(300), nullable=True)
+    ## 마크베이스 저장된 테이블 HYGAS.NAJU_C_HOUSE.30001.1
+    machbase_name = Column(String(100), nullable=True)
+    ## todo: 검침/예측, 인수, 지역
+    purpose = Column(String(100), nullable=True)
+    # resource = Column(String(100), nullable=True)
+    resource = Column(Integer, ForeignKey('resource.key'))
+    location = Column(Integer, ForeignKey('location.key'))
+    ## 해당 파일의 시작-끝 기간.
+    period = Column(String(100), nullable=True)
+'''
+
+@app.route('/datas/insert-records', methods=['GET'])
+def app_data_insert():
+
+    db_session.add_all([
+
+        # DataTable(file_path=,save_path=,machbase_name=,purpose=,resource=,location=,period=)
+
+
+    ])
