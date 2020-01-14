@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+# chmod 775 ./prediction_run
+# sudo -s rabbitmq-server start
+
+./bin/bin/python ./ssocket.py
+
+
+
