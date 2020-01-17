@@ -51,10 +51,14 @@ worker_max_memory_per_child = 3000  # 3000MB
 in_queue = Queue()
 
 # thread = Thread(target=work).start()
-## todo: 파일로 Ing_detectkey 만들어서 실행 시키고 종료될때 Ing 없애기.
-### While문 돌려서 파일에 Ing가 있으면 실행 X 방식으로 1개씩 실행.
+# 불필요하게 남은 작업이 있다면 제거.
+files = os.listdir(folder_detectkey_path)
 
-
+for i in files:
+    try:
+        os.remove(folder_detectkey_path + i)
+    except:
+        pass
 ###############################################################################
 
 

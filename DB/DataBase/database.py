@@ -21,7 +21,7 @@ def connect(user, password, db, host, port):
     # meta = sqlalchemy.MetaData(bind=con, reflect=True)
 
     return engine  # , meta
-# port: postgres, ?, PredictionServe, '0.0.0.0' ,25005
+# dbsearch = connect('predictuser','0000','PredictServer','0.0.0.0','25005')
 dbsearch = connect('postgres','0000','PredictionServer','0.0.0.0','5432')
 
 dbsearch1 = connect('postgres','sp597886', 'smart-city', '220.90.81.106', '19415')
@@ -30,7 +30,7 @@ dbsearch1 = connect('postgres','sp597886', 'smart-city', '220.90.81.106', '19415
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 
-# engine = create_engine(postgresql+psycopg2://username:password@host/database)
+# engine = create_engine('postgresql+psycopg2://predictuser:0000@localhost:25005/PredictServer',pool_size=800, max_overflow=800)
 engine = create_engine('postgresql+psycopg2://postgres:0000@localhost/PredictionServer',pool_size=800, max_overflow=800)
 
 metadata = MetaData()

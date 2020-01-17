@@ -93,6 +93,9 @@ def file_attach():
             f.save(tempfilepath + strtime + f.filename)
             file_list.append(strtime+f.filename)
 
+        if len(file_list) == 1:
+            file_list = file_list[0]
+
         result = {"attach":file_list}
 
         return jsonify(result)
@@ -863,7 +866,7 @@ def api_data_values():
                     # todo: 현재 resource(2,3)은 인수량,검침량으로 이 두개는 name=insu값을 가짐(검침량도 인수량으로 대체하라는 오더).
                     ## 그런데 나머지 resource(1,4)는 temp, sub 값을 가지는데, insu데이터와 파일 구조가 달라서 얻는 값들을 따로 정의 해줘야함.
                     ## 현재는 1,4도 name을 insu로 지정해 주겠음.
-                    if resource == 1 or resource == 4:
+                    if resource == 1 or resource == 3 or resource == 4:
                         resource = 2
 
                     quer = db_session.query(ResourceTable.name,ResourceTable.id).filter(ResourceTable.key == resource)
@@ -1220,7 +1223,6 @@ def api_analysis():
                     source = 'HYGAS'
 
                 if not period:
-                    ## todo: 현재있는 data/insu의 파일내용 모두 출력인데, 나중에 기간에 따라 출력 바뀌게 될시 여기 수정.
                     datelist = []
                     import glob
                     ## 저장된 데이터셋 개수(filecountvalue) , 가장작은 년도(file_start_year), filelist리스트=[2014,2015, .. ,2019]
