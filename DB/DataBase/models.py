@@ -63,6 +63,7 @@ class DataTable(Base):
     location = Column(Integer, ForeignKey('location.key'))
     ## 해당 파일의 시작-끝 기간.
     period = Column(String(100), nullable=True)
+    file_name = Column(String(300))
 
 class LocationTable(Base):
     __tablename__ = 'location'

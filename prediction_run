@@ -1,15 +1,12 @@
 #!/usr/bin/env bash
 
 # chmod 775 ./prediction_run
-# sudo -s rabbitmq-server start
 
 export PATH="./bin/bin:$PATH"
 source ./bin/bin/activate
 
 PORT_STAT=`fuser -n tcp 10300`
 if [ -z "$PORT_STAT" ]; then
-
-   celery -A backtasks worker --loglevel=info &
   ./bin/bin/python -m flask run --host=0.0.0.0 --port=10300
 else
   echo "Port 10300 is already in use."

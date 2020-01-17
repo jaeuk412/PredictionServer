@@ -529,6 +529,7 @@ def datasets_statc_get_key(key):
 @model_apis.route('/datasets/statics/<int:key>', methods=['DELETE'])
 def datasets_static_delete(key):
     try:
+
         db_session.query(SmartcityTable).filter(SmartcityTable.key == key).delete()
         db_session.commit()
         return jsonify(True)

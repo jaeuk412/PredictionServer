@@ -73,7 +73,7 @@ def file_attach():
         nowDate = now.strftime('%Y%m%d')
         nowTime = now.strftime('%H%M%S')
         # strtime = 'temp_'+ nowDate + nowTime+'_'
-        strtime = nowDate + nowTime + '_'
+        strtime = nowDate + nowTime + '_ll_'
         file_list = list()
 
         if not os.path.isdir(folder_dataupload_path):
@@ -117,154 +117,169 @@ def file_delete(id):
 
 @data_apis.route('/datasets', methods=['POST'])
 def file_create():
+    # try:
+    print("file_create")
+    req = request.get_json()
+    jsonString = json.dumps(req)
+    data = json.loads(jsonString)
+    # 한개만 받아올때 리스트 씌워서 작업.
+    file_key = [data['attach']]
+
     try:
-        print("file_create")
-        req = request.get_json()
-        jsonString = json.dumps(req)
-        data = json.loads(jsonString)
-        # 한개만 받아올때 리스트 씌워서 작업.
-        file_key = [data['attach']]
+        area = data['location']
+    except:
+        ## todo: 사용자 입력에러(400) 리턴을 원할 경우 abort(400)으로 바꾸면됨.
+        area = 2
+
+    try:
+        ## todo: resource 값에 따라 저장되는 모델용 폴더명 확인.
+        resource = data['resource']
+        # if resource == '13001.1':
+        #     resource = 'insu'
+        # elif resource == '30005.0':
+        #     resource = 'sub'
+        # elif resource =='3303.0':
+        #     resource = 'temp'
+        # else:
+        #     resource = 'insu'
+    except:
+        ## resource 값이 없으면 insu 데이터 자원
+        ## todo: 사용자 입력에러(400) 리턴을 원할 경우 abort(400)으로 바꾸면됨.
+        resource = 2
+
+    try:
+        purpose = data['purpose']
+    except:
+        ## purpose 값이 없으면 예측으로.
+        ## todo: 사용자 입력에러(400) 리턴을 원할 경우 abort(400)으로 바꾸면됨.
+        purpose = 'prediction'
+
+    # print("file_key: ",file_key)
+
+    for name in file_key:
+        print(name)
+        file_name = name.split('_ll_')[-1]
+        print(file_name)
+        tempfilepath = folder_dataupload_path + 'tempfile/' + name
+        new_name = folder_dataupload_path + name
+
+        # try:
+        # temp 에서 실 저장소로 이동.
+        shutil.copy(tempfilepath, new_name)
+        # print("name: ", name)
+        # print("new_name: ", new_name)
+
+        ## 파일 읽어서 년도 정보 2014 획득.
+        ## 첫날짜, 마지막 날짜 DB에 저장.
+        ##########################################################
+        with open(new_name, 'r') as f:
+            date_get = f.readlines()
+        # 파일 year 정보.
+        ## csv 파일에 따라 ',' or ' '로 구분되어있음.
+        if ',' in date_get[1]:
+            date_start_value = date_get[1].split(',')
+        else:
+            date_start_value = date_get[1].split(' ')
+        date_start_year = int(date_start_value[0])
+        date_start_month = int(date_start_value[1])
+
+        date_start_day = int(date_start_value[2])
+
+        if ',' in date_get[-1]:
+            date_end_value = date_get[-1].split(',')
+        else:
+            date_end_value = date_get[-1].split(' ')
+        date_end_year = int(date_end_value[0])
+        date_end_month = int(date_end_value[1])
+        date_end_day = int(date_end_value[2])
+
+        period = "%04d-%02d-%02d~%04d-%02d-%02d" % (
+            date_start_year, date_start_month, date_start_day, date_end_year, date_end_month, date_end_day)
+
+        ###########################################################
+        ## /home/uk/PredictionServer/prediction/data/insu/naju_insu_2014
+        ## 모델용에 맞춰 저장.
 
         try:
-            area = data['location']
+            quer = db_session.query(ResourceTable.name,ResourceTable.id).filter(ResourceTable.key == resource)
+            records = db_session.execute(quer)
+            for i in records:
+                for x, y in i.items():
+                    ## insu
+                    if x == 'resource_name':
+                        string_resource = y
+                    ##30001.1
+                    if x == 'resource_id':
+                        mach_resource = y
+
         except:
+            ## resource 테이블 이외의 key 값을 받을 경우 key=2인 insu 값 기본으로.
             ## todo: 사용자 입력에러(400) 리턴을 원할 경우 abort(400)으로 바꾸면됨.
-            area = 2
+            string_resource = 'insu'
+            mach_resource = '30001.1'
 
         try:
-            ## todo: resource 값에 따라 저장되는 모델용 폴더명 확인.
-            resource = data['resource']
-            # if resource == '13001.1':
-            #     resource = 'insu'
-            # elif resource == '30005.0':
-            #     resource = 'sub'
-            # elif resource =='3303.0':
-            #     resource = 'temp'
-            # else:
-            #     resource = 'insu'
+            quer = db_session.query(LocationTable.id).filter(LocationTable.key == area)
+            records = db_session.execute(quer)
+            for i in records:
+                ## 'naju
+                for x,y in i.items():
+                    string_area = y
         except:
-            ## resource 값이 없으면 insu 데이터 자원
+            ## location 테이블 이외의 key 값을 받을 경우 기본 key=1인 naju 지역을 기본으로.
             ## todo: 사용자 입력에러(400) 리턴을 원할 경우 abort(400)으로 바꾸면됨.
-            resource = 2
+            string_area = 'naju'
 
-        try:
-            purpose = data['purpose']
-        except:
-            ## purpose 값이 없으면 예측으로.
-            ## todo: 사용자 입력에러(400) 리턴을 원할 경우 abort(400)으로 바꾸면됨.
-            purpose = 'prediction'
+        # print("string_rr: ", string_resource)
+        # print(mach_resource)
+        # print(string_area)
 
-        # print("file_key: ",file_key)
+        ## todo: resource에 따라 해당 폴더로 들어감. (폴더명과 변수명 일치 여부 확인)
+        model_save_path = folder_prediction_path + "data/%s/%s_%s_%d" % (string_resource, string_area, string_resource, date_start_year)
+        ## DB 모델용 저장 파일. (파일복사)
+        ## shutil 사용.
+        # print(model_save_path)
+        shutil.copy(new_name,model_save_path)
+        # print("model_s_path: ",model_save_path)
 
-        for name in file_key:
-            tempfilepath = folder_dataupload_path + 'tempfile/' + name
-            new_name = folder_dataupload_path + name
+        # if resource == 'insu':
+        #     resource = '30001.1'
+        # elif resource == 'sub':
+        #     resource = '30005.0'
+        # elif resource == 'temp':
+        #     resource = '3303.0'
+        # else:
+        #     resource = '30001.1'
 
-            try:
-                # temp 에서 실 저장소로 이동.
-                shutil.copy(tempfilepath, new_name)
-                # print("name: ", name)
-                # print("new_name: ", new_name)
+        ## 마크 베이스 입력---------------------------
+        machbase_input(new_name, string_area, mach_resource, date_start_year)
+        ## 마크 베이스 입력 --------------------------
 
-                ## 파일 읽어서 년도 정보 2014 획득.
-                ## 첫날짜, 마지막 날짜 DB에 저장.
-                ##########################################################
-                with open(new_name, 'r') as f:
-                    date_get = f.readlines()
-                # 파일 year 정보.
-                date_start_value = date_get[1].split(' ')
-                date_start_year = int(date_start_value[0])
-                date_start_month = int(date_start_value[1])
-                date_start_day = int(date_start_value[2])
-                date_end_value = date_get[-1].split(' ')
-                date_end_year = int(date_end_value[0])
-                date_end_month = int(date_end_value[1])
-                date_end_day = int(date_end_value[2])
+        ## HYGAS.NAJU.30001.1
+        machbase_class_name = 'HYGAS.%s.%s'%(string_area.upper(), mach_resource)
 
-                period = "%04d-%02d-%02d~%04d-%02d-%02d" % (
-                date_start_year, date_start_month, date_start_day, date_end_year, date_end_month, date_end_day)
+        print(period)
+        print(machbase_class_name)
+        print(new_name)
+        print(purpose)
+        print(resource)
+        print(area)
+        print(model_save_path)
+        print(area)
+        ## DB에 저장.
+        db_session.add(DataTable(file_name=file_name, period=period, machbase_name=machbase_class_name, file_path=new_name, purpose=purpose, resource=resource, location=area, save_path=model_save_path))
+        db_session.commit()
 
-                ###########################################################
-                ## /home/uk/PredictionServer/prediction/data/insu/naju_insu_2014
-                ## 모델용에 맞춰 저장.
+        # except Exception as e:
+        #     print(e)
+        #     return jsonify(e)
 
-                try:
-                    quer = db_session.query(ResourceTable.name,ResourceTable.id).filter(ResourceTable.key == resource)
-                    records = db_session.execute(quer)
-                    for i in records:
-                        for x, y in i.items():
-                            ## insu
-                            if x == 'resource_name':
-                                string_resource = y
-                            ##30001.1
-                            if x == 'resource_id':
-                                mach_resource = y
+    return jsonify(True)
 
-                except:
-                    ## resource 테이블 이외의 key 값을 받을 경우 key=2인 insu 값 기본으로.
-                    ## todo: 사용자 입력에러(400) 리턴을 원할 경우 abort(400)으로 바꾸면됨.
-                    string_resource = 'insu'
-                    mach_resource = '30001.1'
-
-                try:
-                    quer = db_session.query(LocationTable.id).filter(LocationTable.key == area)
-                    records = db_session.execute(quer)
-                    for i in records:
-                        ## 'naju
-                        for x,y in i.items():
-                            string_area = y
-                except:
-                    ## location 테이블 이외의 key 값을 받을 경우 기본 key=1인 naju 지역을 기본으로.
-                    ## todo: 사용자 입력에러(400) 리턴을 원할 경우 abort(400)으로 바꾸면됨.
-                    string_area = 'naju'
-
-                # print("string_rr: ", string_resource)
-                # print(mach_resource)
-                # print(string_area)
-
-                ## todo: resource에 따라 해당 폴더로 들어감. (폴더명과 변수명 일치 여부 확인)
-                model_save_path = folder_prediction_path + "data/%s/%s_%s_%d" % (string_resource, string_area, string_resource, date_start_year)
-                ## DB 모델용 저장 파일. (파일복사)
-                ## shutil 사용.
-                # print(model_save_path)
-                shutil.copy(new_name,model_save_path)
-                # print("model_s_path: ",model_save_path)
-
-                # if resource == 'insu':
-                #     resource = '30001.1'
-                # elif resource == 'sub':
-                #     resource = '30005.0'
-                # elif resource == 'temp':
-                #     resource = '3303.0'
-                # else:
-                #     resource = '30001.1'
-
-                ## 마크 베이스 입력---------------------------
-                machbase_input(new_name, string_area, mach_resource, date_start_year)
-                ## 마크 베이스 입력 --------------------------
-
-                ## HYGAS.NAJU.30001.1
-                machbase_class_name = 'HYGAS.%s.%s'%(string_area.upper(), mach_resource)
-
-                # print(period)
-                # print(machbase_class_name)
-                # print(new_name)
-                # print(purpose)
-                # print(resource)
-                # print(area)
-                # print(model_save_path)
-                print(area)
-                ## DB에 저장.
-                db_session.add(DataTable(period=period, machbase_name=machbase_class_name, file_path=new_name, purpose=purpose, resource=resource, location=area, save_path=model_save_path))
-                db_session.commit()
-
-            except Exception as e:
-                return jsonify(e)
-
-        return jsonify(True)
-
-    except Exception as e:
-        return jsonify(False)
+    # except Exception as e:
+    #     print(e)
+    #
+    #     return jsonify(False)
 
 '''
 http://192.168.0.49:10300/api/datasets?target=location&keyword=gwan
@@ -308,14 +323,14 @@ def api_file_search():
         except:
             abort(400)
 
-    normal_target_query = "select key, inserted, location, purpose, resource, period, file_path from data ORDER BY key"
+    normal_target_query = "select key, inserted, location, purpose, resource, period, file_name from data ORDER BY key"
     if target:
         # query = "select %s from data ORDER BY key"%(target)
         if target == 'location' or target == 'resource':
             query = normal_target_query
         else:
             if keyword:
-                query = "select key, inserted, location, purpose, resource, period, file_path from data WHERE %s LIKE '%%%s%%' ORDER BY key" % (target, keyword)
+                query = "select key, inserted, location, purpose, resource, period, file_name from data WHERE %s LIKE '%%%s%%' ORDER BY key" % (target, keyword)
             else:
                 query = normal_target_query
     else:
@@ -336,7 +351,7 @@ def api_file_search():
                 normal_location_query = "select id, key, name, name_en from location where key=%d" % (y)
             if x == 'resource':
                 normal_resource_query = "select id, explain, key, name from resource where key=%d" % (y)
-            if x == 'file_path':
+            if x == 'file_name':
                 x = 'fileKey'
                 y = y.split('/')[-1]
                 result_dict.update({x: y})
@@ -523,6 +538,8 @@ def api_file_search():
 
         result = result[result_start:result_end]
 
+    print(result)
+
 
 
     fresult = {"dataset": result, "total": result_count}
@@ -576,6 +593,46 @@ def api_data_search(key):
 @data_apis.route('/datasets/<int:key>', methods=['DELETE'])
 def api_data_delete(key):
     try:
+        query = "select key, file_path, save_path, location from data where key=%d" % (key)
+        records = db_session.execute(query)
+
+        result = []
+        file_path = str()
+        save_path = str()
+        location_value = int
+        for i in records:
+            for x, y in i.items():
+                if x == 'file_path':
+                    file_path = y
+                if x == 'save_path':
+                    save_path = y
+                if x == 'location':
+                    location_value = y
+
+
+        query1 = "select location from data"
+        records1 = db_session.execute(query1)
+
+        count = 0
+        for i in records1:
+            if i[0] == location_value:
+                count +=1
+
+            result.append(i[0])
+
+        if count >= 2:
+            try:
+                os.remove(file_path)
+            except:
+                pass
+
+        else:
+            try:
+                os.remove(file_path)
+                os.remove(save_path)
+            except:
+                pass
+
         ## todo: 삭제시에 저장된 파일 같이 삭제.(fileupload)
         db_session.query(DataTable).filter(DataTable.key == key).delete()
         db_session.commit()
@@ -795,8 +852,8 @@ def api_data_values():
                 resource = i['resource']
                 area = i['location']
                 ## todo: 현재 폴더에 naju 데이터 뿐이기 때문에, 일단 테스트에서는 naju만 되게끔, 나중 지우면됨.
-                if not area == 1:
-                    area = 1
+                # if not area == 1:
+                #     area = 1
                 '''
                 "location": "naju",
                 "resource": "30001.1"
@@ -846,13 +903,22 @@ def api_data_values():
                     ## 저장된 데이터셋 개수(filecountvalue) , 가장작은 년도(file_start_year), filelist리스트=[2014,2015, .. ,2019]
                     filecount = folder_prediction_path + 'data/%s/' % (string_resource)
                     filecountvalue = len(glob.glob1(filecount, "%s_%s*"%(string_area,string_resource)))
-                    file_start_year = sorted(glob.glob1(filecount, "%s_%s*"%(string_area,string_resource)))[0]
-                    file_start_year = int(file_start_year.split("_")[-1])
-                    # for i in range(dateend - datestart + 1):
-                    ## range=6 (2014_2019)
-                    for i in range(filecountvalue):
-                        datelist.append(file_start_year)
-                        file_start_year += 1
+                    file_year = sorted(glob.glob1(filecount, "%s_%s*"%(string_area,string_resource)))
+                    print("file_year: ",file_year)
+                    for i in file_year:
+                        datelist.append(int(i.split("_")[-1]))
+
+                    print("datelist: ",datelist)
+
+                    # file_start_year = int(file_year.split("_")[-1])
+                    # print('-------------------------')
+                    # print(file_year)
+                    # print(file_start_year)
+                    # # for i in range(dateend - datestart + 1):
+                    # ## range=6 (2014_2019)
+                    # for i in range(filecountvalue):
+                    #     datelist.append(file_start_year)
+                    #     file_start_year += 1
                 else:
 
                     datelist = []
@@ -860,13 +926,23 @@ def api_data_values():
                     ## 저장된 데이터셋 개수(filecountvalue) , 가장작은 년도(file_start_year), filelist리스트=[2014,2015, .. ,2019]
                     filecount = folder_prediction_path + 'data/%s/' % (string_resource)
                     filecountvalue = len(glob.glob1(filecount, "%s_%s*" % (string_area, string_resource)))
-                    file_start_year = sorted(glob.glob1(filecount, "%s_%s*" % (string_area, string_resource)))[0]
-                    file_start_year = int(file_start_year.split("_")[-1])
-                    # for i in range(dateend - datestart + 1):
-                    ## range=6 (2014_2019)
-                    for i in range(filecountvalue):
-                        datelist.append(file_start_year)
-                        file_start_year += 1
+                    # file_start_year = sorted(glob.glob1(filecount, "%s_%s*" % (string_area, string_resource)))[0]
+                    # file_start_year = int(file_start_year.split("_")[-1])
+
+                    # file_year = sorted(glob.glob1(filecount, "%s_%s*" % (string_area, string_resource)))[0]
+                    file_year = sorted(glob.glob1(filecount, "%s_%s*" % (string_area, string_resource)))
+                    for i in file_year:
+                        datelist.append(int(i.split("_")[-1]))
+                    # print('-------------------------')
+                    # print(file_year)
+                    # file1_year = int(file_year.split("_")[-1])
+                    # print(file1_year)
+                    # print()
+                    # # for i in range(dateend - datestart + 1):
+                    # ## range=6 (2014_2019)
+                    # for i in range(filecountvalue):
+                    #     datelist.append(file_start_year)
+                    #     file_start_year += 1
 
 
             except Exception as e:
@@ -875,6 +951,9 @@ def api_data_values():
 
                 # pandas->csv 파일로 가져왔을때, 문제가 있는거 같다. 같은 값인데, 에러가 난다. open()으로 읽어서 처리.
             else:
+                print("datelist", datelist)
+
+
                 dataname = str()
                 # print(resource.count('.'))
                 if mach_resource.count('.') == 1:
@@ -885,7 +964,7 @@ def api_data_values():
                         # print("ddstart: ",ddstart)
 
                         path = folder_prediction_path + 'data/%s/%s_%s_%d' % (string_resource, string_area.lower(), string_resource, ddstart)
-                        # print(path)
+                        print(path)
                         dataname = 'insu_sum'
                         ## '/home/uk/PredictionServer/prediction/prediction_ETRI/data/insu/naju_insu_2019'
                         # with open(path, 'r') as f:
@@ -918,7 +997,7 @@ def api_data_values():
                                     data_t_value = 0
                                     data_t_month_check += 1
 
-                            if count == 1 and ddstart == 2014:
+                            if count == 1 and ddstart == datelist[0]:
                                 ## 처음꺼 몇월 몇일 인지.
                                 data_start_date = ii[:-1].replace('\t', ' ').split(' ')[0:3]
 
@@ -1438,8 +1517,8 @@ def machbase_input(path, area, resource, startyear):
                 value = ii.replace('\t', ' ').split(' ')[3 + k]
                 # print(value)
                 ## 2. 정보 입력.
-                query1 = "insert into tag values('HYGAS.%s_C_%s.%s', '%s', %d)" % (
-                area.upper(), usekind, resource_value, date_value, int(value))
+                query1 = "insert into tag values('HYGAS.%s_C_%s.%s', '%s', %s)" % (
+                area.upper(), usekind, resource_value, date_value, str(value))
                 # print(query1)
                 ## todo: 아래 주석 해제.
                 # dblist2 = connect(query1)

@@ -22,7 +22,7 @@ def connect(user, password, db, host, port):
 
     return engine  # , meta
 # port: postgres, ?, PredictionServe, '0.0.0.0' ,25005
-dbsearch = connect('ServerAdmin','0000','PredictionServer','0.0.0.0','5432')
+dbsearch = connect('postgres','0000','PredictionServer','0.0.0.0','5432')
 
 dbsearch1 = connect('postgres','sp597886', 'smart-city', '220.90.81.106', '19415')
 
@@ -31,7 +31,7 @@ dbsearch1 = connect('postgres','sp597886', 'smart-city', '220.90.81.106', '19415
 basedir = os.path.abspath(os.path.dirname(__file__))
 
 # engine = create_engine(postgresql+psycopg2://username:password@host/database)
-engine = create_engine('postgresql+psycopg2://ServerAdmin:0000@localhost/PredictionServer',pool_size=800, max_overflow=800)
+engine = create_engine('postgresql+psycopg2://postgres:0000@localhost/PredictionServer',pool_size=800, max_overflow=800)
 
 metadata = MetaData()
 db_session = scoped_session(sessionmaker(autocommit=False,

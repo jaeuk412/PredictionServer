@@ -3,7 +3,35 @@
 # chmod 775 ./prediction_run
 # sudo -s rabbitmq-server start
 
-./bin/bin/python ./ssocket.py
+export PATH="./bin/bin:$PATH"
+source ./bin/bin/activate
+
+# 소켓 기존꺼 있으면 kill
+SCnt=`ps -ex|grep "ssocket"|grep -v grep|wc -l`
+PROCESS=`ps -ex|grep "ssocket"|grep -v grep|awk '{print $1}'`
+if [ $SCnt -ne 0 ]
+then
+#   echo "$DATE : socket 서버(PID : $PROCESS)가 이미 동작하고 있습니다." >> $Log
+   echo "$DATE : socket 서버(PID : $PROCESS)가 이미 동작하고 있습니다."
+#   echo "$DATE : 프로세스를 종료합니다." >> $Log
+   kill -9 $PROCESS
+fi
+echo "$DATE : socket 서버 시작."
+./bin/bin/python ./ssocket.py &
+
+
+CCnt=`ps -ex|grep "backtasks"|grep -v grep|wc -l`
+CPROCESS=`ps -ex|grep "backtasks"|grep -v grep|awk '{print $1}'`
+# celery 기존꺼 있으므로 현재꺼 종료.
+if [ $CCnt -ne 0 ]
+then
+   echo "$DATE : backtask worker (PID : $PROCESS)가 이미 동작하고 있습니다."
+   exit 0
+fi
+
+celery -A backtasks worker --loglevel=info
+
+
 
 
 
